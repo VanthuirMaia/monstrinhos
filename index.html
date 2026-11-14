@@ -3528,6 +3528,13 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       function botTick() {
         if (!net.host || !G || botT) return;
         let job = null;
+        if (L.fxShow) {
+          botT = setTimeout(() => {
+            botT = null;
+            botTick();
+          }, 400);
+          return;
+        } // espera a janela do ataque fechar
         if (G.phase === "draft") {
           const j = G.pl.findIndex((p) => isBot(p.mid) && !p.ready);
           if (j >= 0) {
@@ -4002,7 +4009,7 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
       }
 
       function fxHtml(m) {
-        return `<div class=ov><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
+        return `<div class=ov data-a=fxClose><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
     <div style="text-align:center;font-weight:700;font-size:19px">${esc(G.pl[m.by] ? G.pl[m.by].name : "")} ➜ ${esc(G.pl[m.tg] ? G.pl[m.tg].name : "")}: ${esc(m.an)}!</div>
     ${m.coin != null ? `<div class=coin style="width:90px;height:90px;font-size:16px">${m.coin ? "CARA" : "COROA"}</div>` : ""}
     <div class="big dmg">−${m.v}</div>
@@ -4193,6 +4200,16 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
               sfx("hit");
               buzz(150);
               if (f.ko) setTimeout(() => sfx("ko"), 500);
+              const seq = f.seq;
+              setTimeout(
+                () => {
+                  if (L.fxShow && L.fxShow.seq === seq) {
+                    L.fxShow = null;
+                    render();
+                  }
+                },
+                f.ko ? 4200 : 2800,
+              );
             } else {
               showTicker(f);
               tone(220, 0.12, "triangle");

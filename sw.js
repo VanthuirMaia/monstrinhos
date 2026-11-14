@@ -1,6 +1,6 @@
 // Service worker da Arena dos Monstrinhos.
 // Ao publicar uma versão nova, troque o número abaixo para os celulares baixarem tudo de novo.
-const VERSAO = "monstrinhos-v3";
+const VERSAO = "monstrinhos-v4";
 const BASE = [
   "./",
   "./index.html",
