@@ -1084,6 +1084,26 @@
           font-size: 16px;
         }
       }
+      .givb {
+        display: block;
+        width: 100%;
+        font: inherit;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 8px;
+        margin: 6px 0 2px;
+        border: 0;
+        border-radius: 12px;
+        background: #ffcb05;
+        color: #1a1a40;
+        box-shadow: 0 3px 0 #b8920a;
+      }
+      .givb:disabled {
+        opacity: 0.35;
+      }
+      .givb:active {
+        transform: translateY(2px);
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   </head>
@@ -1838,7 +1858,7 @@
       };
       const HD = {
         en: "Liga 1 energia no seu monstrinho (até 2 energias por turno).",
-        sup: "Liga 2 energias de uma vez (usa as 2 energias do turno).",
+        sup: "Dá 2 energias extras para um monstrinho, além das 3 do turno.",
         pot: "Cura 30 de vida do seu monstrinho.",
         swap: "Troca seu monstrinho pelo do banco, de graça.",
         shd: "Seu monstrinho ganha um escudo: o próximo golpe tira 20 a menos.",
@@ -1904,16 +1924,15 @@
         );
       const coin = () => Math.random() < 0.5;
       const DECK = [
-        ["en", 42],
         ["sup", 12],
-        ["pot", 12],
-        ["swap", 8],
-        ["shd", 8],
-        ["bomb", 8],
-        ["spot", 5],
-        ["mag", 6],
-        ["wake", 7],
-      ];
+        ["pot", 18],
+        ["swap", 12],
+        ["shd", 14],
+        ["bomb", 14],
+        ["spot", 8],
+        ["mag", 10],
+        ["wake", 12],
+      ]; // sem cartas de Energia: ela vem sozinha todo turno
       function randCard() {
         let x = Math.random() * 100;
         for (const [k, w] of DECK) {
@@ -1945,9 +1964,14 @@
         "👽",
         "🎃",
       ];
+      // ?perfil=nome usa um cadastro separado neste navegador
+      const PROF = (new URLSearchParams(location.search).get("perfil") || "")
+        .replace(/[^a-z0-9]/gi, "")
+        .slice(0, 12);
+      const K = (k) => (PROF ? k + "@" + PROF : k);
       function ls(k, d) {
         try {
-          const x = JSON.parse(localStorage.getItem(k));
+          const x = JSON.parse(localStorage.getItem(K(k)));
           return x == null ? d : x;
         } catch (e) {
           return d;
@@ -1955,7 +1979,7 @@
       }
       function lsSet(k, v) {
         try {
-          localStorage.setItem(k, JSON.stringify(v));
+          localStorage.setItem(K(k), JSON.stringify(v));
         } catch (e) {}
       }
       let me = ls("arena-on-me", { name: "", av: "🧒" });
@@ -2011,9 +2035,8 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       const MAXP = 8,
         TEAM = 5,
         MAXLG = 2,
-        ELIM = 2,
         SLOTS = 2,
-        AUTO_EN = 1,
+        PER_TURN = 3,
         DEF_MS = 15000,
         NEED_MS = 15000;
       const REACT = ["👏", "😮", "😂", "🔥", "😱", "💪"];
@@ -2073,7 +2096,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           cards: [],
           act: [null, null],
           hand: [],
-          eN: 0,
+          eLeft: 0,
           used: [],
           ret: false,
           toast: "",
@@ -2144,8 +2167,8 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           st: {},
         }));
         p.act = [p.cards[0].id, p.cards[1] ? p.cards[1].id : null];
-        p.hand = ["en", "en", randCard()];
-        p.eN = 0;
+        p.hand = [randCard(), randCard(), randCard()];
+        p.eLeft = 0;
         p.used = [];
         p.ret = false;
         p.toast = "";
@@ -2178,13 +2201,12 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
       function startTurn() {
         const n = G.pl[G.cur];
-        n.eN = 0;
+        n.eLeft = PER_TURN;
         n.used = [];
         n.ret = false;
-        for (const c of actives(n)) if (c) c.en += AUTO_EN; // recarga automática
         const c = draw(n);
         n.toast =
-          `⚡ +${AUTO_EN} energia em cada monstrinho em campo! ` +
+          `⚡ Você tem ${PER_TURN} energias para distribuir! ` +
           (c
             ? `Você comprou: ${H[c][0]} ${H[c][1]}`
             : "Mão cheia, não comprou carta.");
@@ -2463,6 +2485,15 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           endTurn();
           return;
         }
+        if (a.t === "give") {
+          const mc = myA[+a.s];
+          if (mc && p.eLeft > 0) {
+            mc.en++;
+            p.eLeft--;
+            if (!p.eLeft) log(`${p.name} distribuiu as energias do turno`);
+          }
+          return;
+        }
         if (a.t === "atk") {
           const s = +a.s,
             i = +a.i,
@@ -2545,15 +2576,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           const r = R[mc.k];
           if (c === "en" || c === "sup") {
             const add = c === "sup" ? 2 : 1;
-            if (p.eN + add > ELIM) {
-              p.toast =
-                c === "sup"
-                  ? "A Super Energia precisa das 2 energias do turno livres."
-                  : "Já ligou as 2 energias deste turno.";
-              return;
-            }
             mc.en += add;
-            p.eN += add;
             log(
               `${p.name} ligou ${add} energia${add > 1 ? "s" : ""} em ${r.n}`,
             );
@@ -2696,7 +2719,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       function saveHost() {
         try {
           localStorage.setItem(
-            "arena-host",
+            K("arena-host"),
             JSON.stringify({ code: net.code, G, ts: Date.now() }),
           );
         } catch (e) {}
@@ -2706,8 +2729,8 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
       function clearSaved() {
         try {
-          localStorage.removeItem("arena-host");
-          localStorage.removeItem("arena-guest");
+          localStorage.removeItem(K("arena-host"));
+          localStorage.removeItem(K("arena-guest"));
         } catch (e) {}
       }
       function broadcast() {
@@ -3173,10 +3196,10 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
 <li>Um celular <b>cria a sala</b> e manda o código ou o link. Até ${MAXP} pessoas na mesma sala.</li>
 <li>Dois modos: <b>todos contra todos</b> ou <b>um contra um com fila</b> (quem ganha fica).</li>
 <li>Cada um monta um time de <b>${TEAM} monstrinhos</b> (no máximo ${MAXLG} ⭐ lendários). <b>2 lutam ao mesmo tempo</b>, os outros ficam no banco.</li>
-<li>Na sua vez: cada monstrinho em campo <b>ganha 1 energia sozinho</b>, você compra 1 carta e ainda pode ligar até <b>2 energias</b> das suas cartas e <b>cada um dos seus 2 monstrinhos pode atacar uma vez</b>.</li>
+<li>Na sua vez: você ganha <b>${PER_TURN} energias para distribuir</b> (toque em +⚡ no monstrinho que quiser), compra 1 carta de apoio e <b>cada um dos seus 2 monstrinhos pode atacar uma vez</b>.</li>
 <li>Ao atacar, você escolhe <b>qual jogador</b> atacar. Quem é atacado escolhe <b>qual monstrinho defende</b> (tem ${DEF_MS / 1000} segundos).</li>
 <li><b>Fraqueza</b> dá +30 de dano: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮.</li>
-<li>Cartas de apoio: 🧪 Poção, 💖 Super Poção, 🔄 Troca Rápida, 🛡️ Escudo, 💣 Bomba, 🧲 Ímã, ⏰ Despertador.</li>
+<li>Cartas de apoio: ⭐ Super Energia (+2), 🧪 Poção, 💖 Super Poção, 🔄 Troca Rápida, 🛡️ Escudo, 💣 Bomba, 🧲 Ímã, ⏰ Despertador.</li>
 <li>Quem começa não ataca no primeiro turno. Quem perde os ${TEAM} monstrinhos sai. O último que sobrar vence!</li></ul></details>`;
       }
       function vHome() {
@@ -3344,6 +3367,7 @@ ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
                 c,
                 s,
               ) => `<div class=slot>${monCard(c, true, c && p.used.includes(c.id) ? "done" : "")}
+      ${c && my ? `<button class="givb" data-a=give data-s=${s} ${can && p.eLeft ? "" : "disabled"}>+🟡 Energia${p.eLeft ? ` <span class=small>(${p.eLeft})</span>` : ""}</button>` : ""}
       ${
         c
           ? R[c.k].a
@@ -3357,7 +3381,7 @@ ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
       }</div>`,
             )
             .join("")}</div>
-      ${my ? `<div class="enbar ${p.eN >= ELIM ? "full" : ""}">${p.eN >= ELIM ? "✅ Energias do turno já usadas" : `🟡 Energias para ligar neste turno: <b>${ELIM - p.eN}</b> de ${ELIM}`} · ⚔️ Ataques: <b>${p.used.length}</b> de ${SLOTS}</div>` : ""}`;
+      ${my ? `<div class="enbar ${p.eLeft ? "" : "full"}">${p.eLeft ? `⚡ Energias para distribuir: <b>${p.eLeft}</b> de ${PER_TURN} (toque em +⚡ no monstrinho)` : "✅ Energias do turno distribuídas"} · ⚔️ Ataques: <b>${p.used.length}</b> de ${SLOTS}</div>` : ""}`;
         }
         const side = spec
           ? `${mi >= 0 ? "<div class=msg>❌ Você foi eliminado. Assistindo até o fim!</div>" : ""}${queueBox()}${reactBar()}`
@@ -3365,11 +3389,7 @@ ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
     <div class=hand>${
       p.hand
         .map((h, i) => {
-          const dis =
-            !can ||
-            (h === "en" && p.eN >= ELIM) ||
-            (h === "sup" && p.eN > 0) ||
-            (h === "swap" && !bench(p).length);
+          const dis = !can || (h === "swap" && !bench(p).length);
           return `<button class=hc data-a=use data-i=${i} ${dis ? "disabled" : ""}><b>${H[h][0]}</b>${H[h][1]}</button>`;
         })
         .join("") || "<span class=small>sem cartas</span>"
@@ -3862,6 +3882,11 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           send({ t: "def", slot: +d.s });
         },
         end: () => send({ t: "end" }),
+        give: (d) => {
+          sfx("en");
+          buzz(30);
+          send({ t: "give", s: +d.s });
+        },
         pickA: (d) => {
           sfx();
           send({ t: "pickA", s: +d.s, id: +d.id });
