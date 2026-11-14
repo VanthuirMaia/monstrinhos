@@ -1109,6 +1109,15 @@
       .givb:active {
         transform: translateY(2px);
       }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .grid3 .modeb {
+        align-items: center;
+        text-align: center;
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   </head>
@@ -2622,6 +2631,15 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       function apply(a, mid) {
         if (!G || !a) return;
         const host = mid === me.tok;
+        if (a.t === "addBot") {
+          if (host && !inMatch()) addBot(a.lv);
+          return broadcast();
+        }
+        if (a.t === "rmBot") {
+          if (host && !(inMatch() && G.pl.some((p) => p.mid === a.mid)))
+            rmBot(a.mid);
+          return broadcast();
+        }
         if (a.t === "mode") {
           if (host && G.phase === "lobby" && ["ffa", "queue"].includes(a.m))
             G.mode = a.m;
@@ -2751,6 +2769,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
             }
         }
         render();
+        if (net.host && G) botTick();
       }
       function send(a) {
         if (net.host) apply(a, me.tok);
@@ -2857,6 +2876,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
       net.seen = new Map();
       function createRoom() {
+        net.local = false;
         net.host = true;
         net.code = mkCode();
         net.resuming = false;
@@ -2876,8 +2896,9 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         net.tries = 0;
         G = sv.G;
         G.members.forEach((m) => {
-          m.on = m.mid === me.tok;
+          m.on = m.mid === me.tok || !!m.bot;
         });
+        net.local = !!G.local;
         const mm = member(me.tok);
         if (mm) {
           mm.name = me.name || mm.name;
@@ -2885,6 +2906,10 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         L.seenFx = G.fx ? G.fx.seq : 0;
         L.connected = true;
         L.screen = "game";
+        if (net.local) {
+          broadcast();
+          return;
+        }
         log("🔄 A sala foi reaberta");
         render();
         startHost();
@@ -3052,6 +3077,9 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
       function leave() {
         net.leaving = true;
+        net.local = false;
+        clearTimeout(botT);
+        botT = null;
         clearSaved();
         clearTimeout(net.retryT);
         net.retryT = null;
@@ -3185,6 +3213,411 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         if (G.pl.some((q) => q.mid === me.tok)) sfx("win");
       }
 
+      // ================= ROBÔ (roda no celular do dono da sala) =================
+      const BOT_LV = {
+        easy: ["🟢", "Fácil"],
+        med: ["🟡", "Médio"],
+        hard: ["🔴", "Difícil"],
+      };
+      const isBot = (mid) => {
+        const m = G && member(mid);
+        return !!(m && m.bot);
+      };
+      const botLv = (mid) => {
+        const m = member(mid);
+        return (m && m.bot) || "easy";
+      };
+      const rpick = (a) => a[Math.floor(Math.random() * a.length)];
+      function addBot(lv) {
+        if (!BOT_LV[lv] || G.members.length >= MAXP) return;
+        const base = "Robô " + BOT_LV[lv][1];
+        let n = base,
+          i = 2;
+        while (G.members.some((x) => x.name === n)) n = base + " " + i++;
+        const mid = "bot-" + Math.random().toString(36).slice(2, 8);
+        G.members.push({ mid, name: n, av: "🤖", on: true, bot: lv });
+        G.order.push(mid);
+        log(`🤖 ${n} entrou na sala`);
+      }
+      function rmBot(mid) {
+        if (!isBot(mid)) return;
+        G.members = G.members.filter((m) => m.mid !== mid);
+        G.order = G.order.filter((x) => x !== mid);
+      }
+      // monta o time: fácil sorteia; médio e difícil escolhem os mais fortes, variando os tipos
+      function botPicks(lv) {
+        const lgOk = (out) => out.filter((x) => R[x].lg).length < MAXLG;
+        if (lv === "easy") {
+          const out = [];
+          for (const k of [...RK].sort(() => Math.random() - 0.5)) {
+            if (out.length === TEAM) break;
+            if (R[k].lg && !lgOk(out)) continue;
+            out.push(k);
+          }
+          return out;
+        }
+        const score = (k) => {
+          const r = R[k];
+          return (
+            r.hp +
+            Math.max(...r.a.map((a) => a.d)) * 1.3 +
+            (r.a.some((a) => a.fx) ? 10 : 0) -
+            r.a[r.a.length - 1].c * 8
+          );
+        };
+        const sorted = [...RK].sort(
+          (a, b) =>
+            score(b) -
+            score(a) +
+            (Math.random() - 0.5) * (lv === "hard" ? 25 : 70),
+        );
+        const out = [],
+          types = new Set();
+        for (const k of sorted) {
+          if (out.length === TEAM) break;
+          if (R[k].lg && !lgOk(out)) continue;
+          if (types.has(R[k].t) && types.size < 4) continue;
+          out.push(k);
+          types.add(R[k].t);
+        }
+        for (const k of sorted) {
+          if (out.length === TEAM) break;
+          if (!out.includes(k) && !(R[k].lg && !lgOk(out))) out.push(k);
+        }
+        return out;
+      }
+      // dano esperado de um ataque num alvo
+      function expDmg(mc, i, oc) {
+        const a = R[mc.k].a[i];
+        let v = a.d;
+        if (W[R[oc.k].t] === R[mc.k].t) v += 30;
+        if (a.fx === "coin2x") v *= 1.5;
+        if (mc.st.boost) v += 30;
+        if (oc.st.shield) v = Math.max(0, v - 20);
+        return v;
+      }
+      const worth = (c) =>
+        R[c.k].hp +
+        (R[c.k].lg ? 120 : 0) +
+        Math.max(...R[c.k].a.map((a) => a.d));
+      // defesa: quem perde menos
+      function botDef(j, lv) {
+        const pd = G.pend,
+          att = actives(G.pl[pd.att])[pd.s],
+          mine = actives(G.pl[j]);
+        const opts = mine.map((c, s) => (c ? s : -1)).filter((s) => s >= 0);
+        if (opts.length < 2 || lv === "easy") return rpick(opts);
+        const cost = (s) => {
+          const c = mine[s],
+            d = expDmg(att, pd.i, c);
+          if (d >= left(c))
+            return lv === "hard" && left(c) < R[c.k].hp * 0.3
+              ? worth(c) * 0.3
+              : worth(c);
+          return d * (lv === "hard" ? 0.6 : 0.8);
+        };
+        return opts.sort((a, b) => cost(a) - cost(b))[0];
+      }
+      // quem entra no lugar de quem desmaiou
+      function botSub(j, lv) {
+        const b = bench(G.pl[j]);
+        if (lv === "easy") return rpick(b).id;
+        return b.sort(
+          (x, y) =>
+            left(y) +
+            Math.max(...R[y.k].a.map((a) => a.d)) -
+            (left(x) + Math.max(...R[x.k].a.map((a) => a.d))),
+        )[0].id;
+      }
+      // quanto falta para o melhor ataque
+      const needFor = (c) => {
+        const best = R[c.k].a.length - 1;
+        return Math.max(0, R[c.k].a[best].c - c.en);
+      };
+      const BM = {};
+      function botMem(j) {
+        const k = G.gid + "-" + G.turn + "-" + j;
+        if (!BM[k]) BM[k] = { tried: new Set() };
+        return BM[k];
+      }
+      function cardPlan(p, j, c, i, lv, A, opps) {
+        const mine = A.map((x, s) => (x ? s : -1)).filter((s) => s >= 0);
+        if (!mine.length) return null;
+        const oppAct = [];
+        opps.forEach((tj) =>
+          actives(G.pl[tj]).forEach((oc, ts) => {
+            if (oc) oppAct.push({ tj, ts, oc });
+          }),
+        );
+        const by = (arr, f) => arr.slice().sort((a, b) => f(b) - f(a))[0];
+        if (c === "pot") {
+          const s = mine.find((s) => A[s].dmg >= 30);
+          return s != null ? { t: "play", i, s } : null;
+        }
+        if (c === "spot") {
+          const s = mine.find((s) => A[s].dmg >= 50 || bad(A[s]));
+          return s != null ? { t: "play", i, s } : null;
+        }
+        if (c === "wake") {
+          const s = mine.find((s) => bad(A[s]));
+          return s != null ? { t: "play", i, s } : null;
+        }
+        if (c === "shd") {
+          const s = by(
+            mine.filter((s) => !A[s].st.shield),
+            (s) => worth(A[s]),
+          );
+          return s != null ? { t: "play", i, s } : null;
+        }
+        if (c === "sup") {
+          const s = by(
+            mine,
+            (s) =>
+              needFor(A[s]) * 10 + R[A[s].k].a[R[A[s].k].a.length - 1].d / 10,
+          );
+          return { t: "play", i, s };
+        }
+        if (c === "swap") {
+          const b = bench(p);
+          if (!b.length) return null;
+          const s = mine.find(
+            (s) =>
+              A[s].st.para || A[s].st.sleep || left(A[s]) < R[A[s].k].hp * 0.25,
+          );
+          if (s == null) return null;
+          const inc = by(b, (x) => left(x));
+          return left(inc) > left(A[s])
+            ? { t: "ret", s, id: inc.id, free: true, hi: i }
+            : null;
+        }
+        if (c === "bomb") {
+          if (!oppAct.length) return null;
+          const ko = oppAct.find((o) => left(o.oc) <= 20);
+          const t =
+            ko ||
+            (lv === "easy"
+              ? rpick(oppAct)
+              : by(oppAct, (o) => o.oc.en * 10 - left(o.oc) / 10));
+          return { t: "play", i, tj: t.tj, ts: t.ts };
+        }
+        if (c === "mag") {
+          const w = oppAct.filter((o) => o.oc.en > 0);
+          if (!w.length) return null;
+          const t = by(w, (o) => o.oc.en);
+          const s = by(mine, (s) => needFor(A[s]));
+          return { t: "play", i, tj: t.tj, ts: t.ts, s };
+        }
+        return null;
+      }
+      // uma ação por vez, para quem está assistindo acompanhar
+      function botTurn(j, lv) {
+        const p = G.pl[j],
+          A = actives(p),
+          mem = botMem(j);
+        const opps = G.pl
+          .map((q, k) => k)
+          .filter((k) => k !== j && alive(G.pl[k]));
+        const mine = A.map((c, s) => (c ? s : -1)).filter((s) => s >= 0);
+        if (p.eLeft > 0 && mine.length) {
+          const s =
+            lv === "easy"
+              ? rpick(mine)
+              : mine
+                  .map((s) => {
+                    const c = A[s],
+                      n = needFor(c);
+                    return [
+                      s,
+                      (n > 0 ? 20 - n * 3 : 0) +
+                        R[c.k].a[R[c.k].a.length - 1].d / 20 -
+                        (c.st.para || c.st.sleep ? 8 : 0),
+                    ];
+                  })
+                  .sort((a, b) => b[1] - a[1])[0][0];
+          return { t: "give", s };
+        }
+        for (let i = 0; i < p.hand.length; i++) {
+          const c = p.hand[i];
+          if (mem.tried.has(c)) continue;
+          mem.tried.add(c);
+          if (lv === "easy") continue; // o fácil não usa cartas de apoio
+          const a = cardPlan(p, j, c, i, lv, A, opps);
+          if (a) return a;
+        }
+        for (const s of mine) {
+          const c = A[s],
+            atks = R[c.k].a.map((a, i) => i).filter((i) => !canAtk(p, s, i));
+          if (!atks.length) continue;
+          if (lv === "easy" && !mem["skip" + s]) {
+            mem["skip" + s] = 1;
+            if (Math.random() < 0.3) {
+              mem.tried.add("atk" + s);
+              continue;
+            }
+          }
+          if (mem.tried.has("atk" + s)) continue; // o fácil às vezes se distrai
+          let best = null;
+          for (const i of atks)
+            for (const tj of opps) {
+              const defs = actives(G.pl[tj]).filter(Boolean);
+              if (!defs.length) continue;
+              const ds = defs.map((oc) => {
+                const d = expDmg(c, i, oc);
+                return { d, ko: d >= left(oc) };
+              });
+              let sc;
+              if (lv === "easy") sc = Math.random() * 10 + i * 5;
+              else if (lv === "med")
+                sc =
+                  Math.max(...ds.map((x) => x.d)) +
+                  (ds.some((x) => x.ko) ? 40 : 0) +
+                  Math.random() * 10;
+              else {
+                const worst = ds.reduce((a, b) => (a.d < b.d ? a : b));
+                sc =
+                  worst.d +
+                  (ds.every((x) => x.ko) ? 90 : 0) +
+                  (G.pl[tj].cards.length <= 2 ? 25 : 0) +
+                  Math.random() * 4;
+              }
+              if (!best || sc > best.sc) best = { sc, i, tj };
+            }
+          if (best) return { t: "atk", s, i: best.i, tgt: best.tj };
+        }
+        return { t: "end" };
+      }
+      let botT = null,
+        botSig = "",
+        botRep = 0;
+      function botTick() {
+        if (!net.host || !G || botT) return;
+        let job = null;
+        if (G.phase === "draft") {
+          const j = G.pl.findIndex((p) => isBot(p.mid) && !p.ready);
+          if (j >= 0) {
+            const mid = G.pl[j].mid;
+            job = [
+              400,
+              () => {
+                const p = G.pl.find((q) => q.mid === mid);
+                if (!p || p.ready) return;
+                p.picks = botPicks(botLv(mid));
+                apply({ t: "ready" }, mid);
+              },
+            ];
+          }
+        } else if (G.phase === "flip" && G.pl.every((p) => isBot(p.mid)))
+          job = [
+            2500,
+            () => {
+              if (G.phase === "flip") apply({ t: "begin" }, G.pl[0].mid);
+            },
+          ];
+        else if (G.phase === "battle") {
+          if (G.pend) {
+            const t = G.pl[G.pend.tgt];
+            if (isBot(t.mid)) {
+              const seq = G.pend.seq;
+              job = [
+                1300,
+                () => {
+                  if (G.pend && G.pend.seq === seq)
+                    apply(
+                      { t: "def", slot: botDef(G.pend.tgt, botLv(t.mid)) },
+                      t.mid,
+                    );
+                },
+              ];
+            }
+          } else {
+            const j = G.pl.findIndex((p, k) => isBot(p.mid) && needSlot(k));
+            if (j >= 0) {
+              const mid = G.pl[j].mid;
+              job = [
+                900,
+                () => {
+                  const k = G.pl.findIndex((q) => q.mid === mid);
+                  if (k < 0 || !needSlot(k)) return;
+                  const p = G.pl[k];
+                  apply(
+                    {
+                      t: "pickA",
+                      s: p.act.findIndex((x) => x == null),
+                      id: botSub(k, botLv(mid)),
+                    },
+                    mid,
+                  );
+                },
+              ];
+            } else if (!anyNeed()) {
+              const cp = G.pl[G.cur];
+              if (isBot(cp.mid) && alive(cp)) {
+                const peek = botTurn(G.cur, botLv(cp.mid));
+                job = [
+                  peek.t === "give"
+                    ? 450
+                    : peek.t === "end"
+                      ? 800
+                      : peek.t === "atk"
+                        ? 1200
+                        : 900,
+                  () => {
+                    if (
+                      G.phase !== "battle" ||
+                      G.pend ||
+                      anyNeed() ||
+                      G.pl[G.cur] !== cp
+                    )
+                      return;
+                    let a = botTurn(G.cur, botLv(cp.mid));
+                    const sig =
+                      JSON.stringify(a) +
+                      G.turn +
+                      "|" +
+                      G.log.length +
+                      "|" +
+                      cp.eLeft;
+                    botRep = sig === botSig ? botRep + 1 : 0;
+                    botSig = sig;
+                    if (botRep > 2) a = { t: "end" }; // trava de segurança
+                    apply(a, cp.mid);
+                  },
+                ];
+              }
+            }
+          }
+        }
+        if (job)
+          botT = setTimeout(() => {
+            botT = null;
+            try {
+              job[1]();
+            } catch (e) {
+              console.error(e);
+              botT = null;
+            } finally {
+              botTick();
+            }
+          }, job[0]);
+      }
+      // treino sem internet: sala só neste celular
+      function createLocal(lv, n) {
+        if (needName()) return;
+        net.host = true;
+        net.local = true;
+        net.code = "";
+        net.resuming = false;
+        G = newRoom();
+        G.local = true;
+        for (let i = 0; i < n; i++) addBot(lv);
+        newMatch();
+        L.seenFx = 0;
+        L.connected = true;
+        L.screen = "game";
+        L.modal = null;
+        broadcast();
+      }
+
       // ---------- telas ----------
       const MODES = {
         ffa: [
@@ -3205,6 +3638,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
 <li>Ao atacar, você escolhe <b>qual jogador</b> atacar. Quem é atacado escolhe <b>qual monstrinho defende</b> (tem ${DEF_MS / 1000} segundos).</li>
 <li><b>Fraqueza</b> dá +30 de dano: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮.</li>
 <li>Cartas de apoio: ⭐ Super Energia (+2), 🧪 Poção, 💖 Super Poção, 🔄 Troca Rápida, 🛡️ Escudo, 💣 Bomba, 🧲 Ímã, ⏰ Despertador.</li>
+<li>🤖 Sem ninguém para jogar? Use <b>Treinar contra o robô</b> (funciona sem internet) ou adicione robôs na sala. Níveis: 🟢 Fácil, 🟡 Médio, 🔴 Difícil.</li>
 <li>Quem começa não ataca no primeiro turno. Quem perde os ${TEAM} monstrinhos sai. O último que sobrar vence!</li></ul></details>`;
       }
       function vHome() {
@@ -3212,13 +3646,14 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
 <label>Seu nome<input id=myname maxlength=16 value="${esc(me.name)}" placeholder="Como você quer ser chamado?"></label>
 <div class=lbl>Seu avatar</div><div class=avs>${AV.map((a) => `<button class="avb ${me.av === a ? "on" : ""}" data-a=avSel data-v="${a}">${a}</button>`).join("")}</div>
 ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
-<button class=btn data-a=create>🏠 Criar sala</button><button class="btn sec" data-a=toJoin>🔑 Entrar numa sala</button>
+<button class=btn data-a=create>🏠 Criar sala</button><button class="btn sec" data-a=train>🤖 Treinar contra o robô</button><button class="btn sec" data-a=toJoin>🔑 Entrar numa sala</button>
 ${installBox()}<button class="btn sec sm" data-a=rank>🏆 Ranking</button>${help()}`;
       }
       // instalação como app (PWA)
       let installEvt = null;
       const standalone = () =>
-        matchMedia("(display-mode: standalone)").matches ||
+        (window.matchMedia &&
+          matchMedia("(display-mode: standalone)").matches) ||
         navigator.standalone === true;
       const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
       window.addEventListener("beforeinstallprompt", (e) => {
@@ -3260,7 +3695,7 @@ ${installBox()}<button class="btn sec sm" data-a=rank>🏆 Ranking</button>${hel
                   : "👀 assistindo";
             } else if (G.mode === "queue" && nx.includes(mid))
               tag = "⏭️ próxima";
-            return `<div class="qi ${mid === me.tok ? "me" : ""} ${m.on ? "" : "off"}"><span class=qn>${G.mode === "queue" ? i + 1 : ""}</span><span class=av>${m.av}</span><span class=f>${esc(m.name)}${mid === me.tok ? " (você)" : ""}${mid === G.members[0].mid ? " 👑" : ""}</span><span class=small>${m.on ? tag : "📡 caiu"}</span></div>`;
+            return `<div class="qi ${mid === me.tok ? "me" : ""} ${m.on ? "" : "off"}"><span class=qn>${G.mode === "queue" ? i + 1 : ""}</span><span class=av>${m.av}</span><span class=f>${esc(m.name)}${mid === me.tok ? " (você)" : ""}${mid === G.members[0].mid ? " 👑" : ""}</span><span class=small>${m.on ? tag : "📡 caiu"}</span>${m.bot && net.host && !(inMatch() && pi >= 0) ? `<button class=mini data-a=rmBot data-mid="${m.mid}">✖</button>` : ""}</div>`;
           })
           .join("")}</div>`;
       }
@@ -3270,7 +3705,7 @@ ${installBox()}<button class="btn sec sm" data-a=rank>🏆 Ranking</button>${hel
       function connBar() {
         if (!L.connected && !net.host)
           return `<div class="msg alert">📡 Conexão caiu. Reconectando sozinho… <button class=mini data-a=reconnect>Tentar agora</button></div>`;
-        if (net.host && !(net.peer && net.peer.open))
+        if (net.host && !net.local && !(net.peer && net.peer.open))
           return `<div class="msg alert">📡 ${net.resuming ? "Reabrindo a sala" : "Reconectando a sala"}… não feche esta página</div>`;
         if (G && inMatch()) {
           const off = G.pl
@@ -3304,6 +3739,18 @@ ${installBox()}<button class="btn sec sm" data-a=rank>🏆 Ranking</button>${hel
           )
           .join("")}</div>`
       : `<div class=msg><b>${MODES[G.mode][0]}</b><br><span class=small>${MODES[G.mode][1]}</span></div>`
+  }
+  ${
+    host
+      ? `<div class=lbl>🤖 Adicionar robô</div><div class=grid3>${Object.keys(
+          BOT_LV,
+        )
+          .map(
+            (k) =>
+              `<button class="btn sec sm" data-a=addBot data-lv=${k} ${G.members.length >= MAXP ? "disabled" : ""}>${BOT_LV[k][0]} ${BOT_LV[k][1]}</button>`,
+          )
+          .join("")}</div>`
+      : ""
   }
   ${queueBox()}
   ${n < 2 ? '<div class=msg style="text-align:center">⏳ Esperando mais gente entrar…</div>' : ""}
@@ -3565,6 +4012,18 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         let h = "";
         const opps = () =>
           G.pl.map((q, j) => j).filter((j) => j !== mi && alive(G.pl[j]));
+        if (m.k === "train") {
+          h = `<h2>🤖 Treinar contra o robô</h2><p class=small>Funciona sem internet. Todo mundo contra todo mundo.</p>
+    <div class=lbl>Nível</div><div class=grid3>${Object.keys(BOT_LV)
+      .map(
+        (k) =>
+          `<button class="modeb ${m.lv === k ? "on" : ""}" data-a=trLv data-lv=${k}><b>${BOT_LV[k][0]} ${BOT_LV[k][1]}</b></button>`,
+      )
+      .join("")}</div>
+    <div class=lbl>Quantos robôs?</div><div class=grid3>${[1, 2, 3].map((n) => `<button class="modeb ${m.n === n ? "on" : ""}" data-a=trN data-n=${n}><b>${"🤖".repeat(n)}</b></button>`).join("")}</div>
+    <button class=btn data-a=trGo>Começar ⚔️</button><button class="btn sec sm" data-a=close>Cancelar</button>`;
+          return `<div class=ov><div class=md>${h}</div></div>`;
+        }
         if (m.k === "card") {
           const c = p && p.hand[m.i];
           if (!c) {
@@ -3679,7 +4138,7 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
               .join("") +
             '<button class="btn sec sm" data-a=close>Cancelar</button>';
         } else if (m.k === "menu")
-          h = `<h2>Menu</h2><p class=small>Sala ${esc(net.code)} · ${L.connected ? "🟢 conectado" : "🔴 sem conexão"}</p>${shareBox()}${help()}<button class="btn sec" data-a=rank>🏆 Ranking</button><button class="btn red" data-a=leave>🚪 Sair da sala</button><button class=btn data-a=close>Voltar pro jogo</button>`;
+          h = `<h2>Menu</h2>${net.local ? "<p class=small>🤖 Treino contra robô (sem internet)</p>" : `<p class=small>Sala ${esc(net.code)} · ${L.connected ? "🟢 conectado" : "🔴 sem conexão"}</p>${shareBox()}`}${help()}<button class="btn sec" data-a=rank>🏆 Ranking</button><button class="btn red" data-a=leave>🚪 Sair da sala</button><button class=btn data-a=close>Voltar pro jogo</button>`;
         else if (m.k === "resetRank")
           h = `<h2>Zerar o ranking?</h2><p>Todas as vitórias e derrotas deste celular voltam para zero.</p><button class="btn red" data-a=doReset>Zerar</button><button class="btn sec sm" data-a=close>Cancelar</button>`;
         return `<div class=ov><div class=md>${h}</div></div>`;
@@ -3910,6 +4369,34 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           send({ t: "def", slot: +d.s });
         },
         end: () => send({ t: "end" }),
+        train: () => {
+          const el = $("myname");
+          if (el) {
+            me.name = el.value.trim().slice(0, 16);
+            lsSet("arena-on-me", me);
+          }
+          if (!me.name) {
+            L.err = "Escreva seu nome primeiro.";
+            render();
+            return;
+          }
+          L.modal = { k: "train", lv: "easy", n: 1 };
+          render();
+        },
+        trLv: (d) => {
+          L.modal.lv = d.lv;
+          render();
+        },
+        trN: (d) => {
+          L.modal.n = +d.n;
+          render();
+        },
+        trGo: () => {
+          const m = L.modal;
+          createLocal(m.lv, m.n);
+        },
+        addBot: (d) => send({ t: "addBot", lv: d.lv }),
+        rmBot: (d) => send({ t: "rmBot", mid: d.mid }),
         install: () => {
           if (!installEvt) return;
           installEvt.prompt();
