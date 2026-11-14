@@ -824,6 +824,266 @@
         margin: 6px 0 10px;
         font-size: 15px;
       }
+      .enbar {
+        background: #141b45;
+        border-radius: 12px;
+        padding: 8px 12px;
+        margin: 6px 0;
+        font-size: 15px;
+      }
+      .enbar.full {
+        background: #1f4d2b;
+      }
+      .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .mc {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: linear-gradient(135deg, var(--tc), #1b2150 85%);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 14px;
+        padding: 6px 8px;
+        min-width: 0;
+        text-align: left;
+        color: #fff;
+      }
+      .mc .me {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 40% 35%,
+          rgba(255, 255, 255, 0.55),
+          rgba(255, 255, 255, 0.08)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+      }
+      .mc .mi {
+        flex: 1;
+        min-width: 0;
+      }
+      .mc .mt {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+        font-size: 14px;
+      }
+      .mc .mt b {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .mc .bar {
+        height: 8px;
+        margin: 3px 0;
+      }
+      .mc .small {
+        font-size: 12px;
+      }
+      .mc .badge {
+        font-size: 11px;
+        padding: 0 5px;
+      }
+      .mc.big {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px 8px;
+        border-radius: 18px;
+      }
+      .mc.big .me {
+        width: 82px;
+        height: 82px;
+        flex-basis: 82px;
+        font-size: 54px;
+        animation: bob 2.4s ease-in-out infinite;
+      }
+      .mc.big .mi {
+        width: 100%;
+      }
+      .mc.big .mt {
+        font-size: 17px;
+      }
+      .mc.big .small {
+        font-size: 13px;
+      }
+      .mc.lg {
+        border-color: #ffd54a;
+        box-shadow: 0 0 14px rgba(255, 213, 74, 0.4);
+      }
+      .mc.done {
+        opacity: 0.7;
+      }
+      .mc.weak {
+        outline: 3px solid #ff5252;
+      }
+      .mc.empty {
+        justify-content: center;
+        opacity: 0.5;
+        min-height: 58px;
+        background: #141b45;
+      }
+      .opps {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .opp {
+        background: rgba(20, 27, 69, 0.6);
+        border-radius: 16px;
+        padding: 8px;
+        border: 2px solid transparent;
+      }
+      .opp.turnnow {
+        border-color: #9fb0ff;
+      }
+      .opp.target {
+        border-color: #ff5252;
+        box-shadow: 0 0 16px rgba(255, 82, 82, 0.5);
+      }
+      .opp.dead {
+        opacity: 0.45;
+      }
+      .oh {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+      .tag {
+        background: #9fb0ff;
+        color: #1a1a40;
+        border-radius: 8px;
+        padding: 1px 6px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .tag.red {
+        background: #ff5252;
+        color: #fff;
+      }
+      .benchline {
+        margin-top: 4px;
+      }
+      .mine {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .slot {
+        min-width: 0;
+      }
+      .slot .atk {
+        font-size: 14px;
+        padding: 8px 10px;
+        margin: 5px 0;
+        gap: 6px;
+      }
+      .slot .atk .d {
+        font-size: 20px;
+      }
+      .slot .atk .small {
+        font-size: 11px;
+      }
+      .tgtb,
+      .defb {
+        display: block;
+        width: 100%;
+        font: inherit;
+        color: #fff;
+        text-align: left;
+        background: #141b45;
+        border: 2px solid #3d4aa0;
+        border-radius: 16px;
+        padding: 8px;
+        margin: 8px 0;
+      }
+      .defb {
+        border-color: #ffcb05;
+        padding: 6px;
+        text-align: center;
+      }
+      .defb .prev {
+        display: block;
+        font-weight: 700;
+        color: #ffcb05;
+        margin-top: 4px;
+      }
+      .pendbar {
+        background: #5a1d1d;
+      }
+      .alert {
+        background: #8e1c1a;
+      }
+      .modeb {
+        font: inherit;
+        color: #fff;
+        text-align: left;
+        background: #141b45;
+        border: 3px solid #3d4aa0;
+        border-radius: 14px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .modeb.on {
+        border-color: #ffcb05;
+        background: #2a2f63;
+      }
+      .spin {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 44px;
+        margin: 16px 0;
+      }
+      .sp {
+        animation: pop 0.6s both;
+      }
+      .sp.win {
+        animation: pop 0.6s 0.9s both;
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 12px #ffcb05);
+      }
+      .stickybar {
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(transparent, #0b1030 30%);
+        padding-top: 14px;
+      }
+      @media (min-width: 900px) {
+        .opps.many {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .mc .me {
+          width: 56px;
+          height: 56px;
+          flex-basis: 56px;
+          font-size: 36px;
+        }
+        .mc.big .me {
+          width: 110px;
+          height: 110px;
+          flex-basis: 110px;
+          font-size: 74px;
+        }
+        .slot .atk {
+          font-size: 16px;
+        }
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   </head>
@@ -1335,6 +1595,210 @@
             { n: "Supernova", c: 4, d: 150, fx: "discard" },
           ],
         },
+        galofogo: {
+          n: "Galofogo",
+          e: "🐓",
+          t: "fogo",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Bicada Quente", c: 1, d: 20, fx: "drawcard" },
+            { n: "Canto do Sol", c: 2, d: 50, fx: "boost" },
+          ],
+        },
+        chamaleopardo: {
+          n: "Chamaleopardo",
+          e: "🐆",
+          t: "fogo",
+          hp: 80,
+          r: 0,
+          a: [
+            { n: "Corrida Ardente", c: 1, d: 30 },
+            { n: "Salto de Fogo", c: 3, d: 80, fx: "burn" },
+          ],
+        },
+        pinguimar: {
+          n: "Pinguimar",
+          e: "🐧",
+          t: "agua",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Escorregão", c: 1, d: 20, fx: "para" },
+            { n: "Nevasca", c: 2, d: 50, fx: "sleep" },
+          ],
+        },
+        lagostao: {
+          n: "Lagostão",
+          e: "🦞",
+          t: "agua",
+          hp: 100,
+          r: 2,
+          a: [
+            { n: "Pinçada", c: 2, d: 40, fx: "shield" },
+            { n: "Martelo de Garra", c: 3, d: 80 },
+          ],
+        },
+        coalafolha: {
+          n: "Coalafolha",
+          e: "🐨",
+          t: "planta",
+          hp: 90,
+          r: 1,
+          a: [
+            { n: "Soneca", c: 1, d: 10, fx: "cleanse" },
+            { n: "Galhada", c: 2, d: 50, fx: "sleep" },
+          ],
+        },
+        trevinho: {
+          n: "Trevinho",
+          e: "🍀",
+          t: "planta",
+          hp: 50,
+          r: 0,
+          a: [
+            { n: "Sorte Grande", c: 1, d: 20, fx: "coin2x" },
+            { n: "Folha da Fortuna", c: 2, d: 30, fx: "drawcard" },
+          ],
+        },
+        lhamaraio: {
+          n: "Lhamaraio",
+          e: "🦙",
+          t: "eletrico",
+          hp: 90,
+          r: 1,
+          a: [
+            { n: "Cuspe Elétrico", c: 1, d: 20, fx: "para" },
+            { n: "Lã Estática", c: 2, d: 50, fx: "shield" },
+          ],
+        },
+        raiopeixe: {
+          n: "Raiopeixe",
+          e: "🐠",
+          t: "eletrico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Faisquinha", c: 1, d: 20, fx: "charge" },
+            { n: "Descarga", c: 2, d: 60, fx: "self20" },
+          ],
+        },
+        javalirocha: {
+          n: "Javalirocha",
+          e: "🐗",
+          t: "pedra",
+          hp: 100,
+          r: 2,
+          a: [
+            { n: "Investida", c: 2, d: 40, fx: "boost" },
+            { n: "Presas de Granito", c: 3, d: 80 },
+          ],
+        },
+        castorocha: {
+          n: "Castorocha",
+          e: "🦫",
+          t: "pedra",
+          hp: 80,
+          r: 1,
+          a: [
+            { n: "Dente Duro", c: 1, d: 20, fx: "steal" },
+            { n: "Represa", c: 2, d: 40, fx: "shield" },
+          ],
+        },
+        morcelua: {
+          n: "Morcelua",
+          e: "🦇",
+          t: "mistico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Chiado", c: 1, d: 10, fx: "discard" },
+            { n: "Voo Noturno", c: 2, d: 50, fx: "steal" },
+          ],
+        },
+        coelhunar: {
+          n: "Coelhunar",
+          e: "🐇",
+          t: "mistico",
+          hp: 70,
+          r: 0,
+          a: [
+            { n: "Pulo Mágico", c: 1, d: 20, fx: "drawcard" },
+            { n: "Cartola Surpresa", c: 2, d: 40, fx: "coin2x" },
+          ],
+        },
+        vulcanius: {
+          n: "Vulcanius",
+          e: "🌋",
+          t: "fogo",
+          hp: 180,
+          r: 3,
+          lg: 1,
+          a: [
+            { n: "Chuva de Lava", c: 2, d: 40, fx: "bench10" },
+            { n: "Erupção Suprema", c: 4, d: 130, fx: "burn" },
+          ],
+        },
+        krakenzao: {
+          n: "Krakenzão",
+          e: "🦑",
+          t: "agua",
+          hp: 180,
+          r: 3,
+          lg: 1,
+          a: [
+            { n: "Tentáculos", c: 2, d: 50, fx: "steal" },
+            { n: "Redemoinho Gigante", c: 4, d: 130, fx: "discard" },
+          ],
+        },
+        elefloresta: {
+          n: "Elefloresta",
+          e: "🐘",
+          t: "planta",
+          hp: 200,
+          r: 3,
+          lg: 1,
+          a: [
+            { n: "Tromba de Cipó", c: 2, d: 40, fx: "heal20" },
+            { n: "Estouro da Selva", c: 4, d: 130, fx: "boost" },
+          ],
+        },
+        trovotigre: {
+          n: "Trovotigre",
+          e: "🐅",
+          t: "eletrico",
+          hp: 160,
+          r: 2,
+          lg: 1,
+          a: [
+            { n: "Garra Relâmpago", c: 2, d: 60, fx: "coin2x" },
+            { n: "Rugido Trovão", c: 4, d: 130, fx: "para" },
+          ],
+        },
+        ursomontanha: {
+          n: "Ursomontanha",
+          e: "🐻",
+          t: "pedra",
+          hp: 190,
+          r: 3,
+          lg: 1,
+          a: [
+            { n: "Abraço de Pedra", c: 2, d: 50, fx: "para" },
+            { n: "Avalanche Real", c: 4, d: 140, fx: "bench10" },
+          ],
+        },
+        galaxiel: {
+          n: "Galaxiel",
+          e: "👽",
+          t: "mistico",
+          hp: 160,
+          r: 2,
+          lg: 1,
+          a: [
+            { n: "Raio Abdutor", c: 2, d: 40, fx: "discard" },
+            { n: "Buraco Negro", c: 4, d: 140, fx: "steal" },
+          ],
+        },
       };
       // distribui os novos poderes nos ataques
       const PW = {
@@ -1373,8 +1837,8 @@
         wake: ["⏰", "Despertador"],
       };
       const HD = {
-        en: "Liga 1 energia no seu monstrinho (1 energia por turno).",
-        sup: "Liga 2 energias de uma vez (conta como a energia do turno).",
+        en: "Liga 1 energia no seu monstrinho (até 2 energias por turno).",
+        sup: "Liga 2 energias de uma vez (usa as 2 energias do turno).",
         pot: "Cura 30 de vida do seu monstrinho.",
         swap: "Troca seu monstrinho pelo do banco, de graça.",
         shd: "Seu monstrinho ganha um escudo: o próximo golpe tira 20 a menos.",
@@ -1519,55 +1983,157 @@
         L.screen = "join";
       }
 
-      // ---------- regras do jogo (rodam no celular que criou a sala) ----------
-      const act = (p) => p.cards.find((c) => c.id === p.active);
-      const bench = (p) => p.cards.filter((c) => c.id !== p.active);
-      const left = (c) => Math.max(0, R[c.k].hp - c.dmg);
-      const need = (j) => {
-        const p = G.pl[j];
-        return !act(p) && p.cards.length > 0;
-      };
-      function mkPl(name, av) {
-        return {
-          name,
-          av,
-          picks: [],
-          ready: false,
-          cards: [],
-          active: null,
-          hand: [],
-          eUsed: false,
-          ret: false,
-          toast: "",
-        };
+      function vJoin() {
+        return `<h2 style="text-align:center;margin-top:20px">Entrar numa sala</h2>
+${!me.name ? `<label>Seu nome<input id=myname maxlength=16 value="" placeholder="Como você quer ser chamado?"></label>` : `<p style="text-align:center">Você é ${me.av} <b>${esc(me.name)}</b></p>`}
+<label>Código da sala<input id=jc inputmode=numeric maxlength=4 value="${esc(L.joinCode)}" placeholder="4 números" style="font-size:32px;text-align:center;letter-spacing:8px"></label>
+${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
+<button class=btn data-a=doJoin>Entrar ▶️</button><button class="btn sec sm" data-a=home>← Voltar</button>`;
       }
-      function newGame(n0, a0, n1, a1) {
-        return {
-          phase: "draft",
-          pl: [mkPl(n0, a0), mkPl(n1, a1)],
-          cur: 0,
-          first: 0,
-          turn: 1,
-          flip: 0,
-          log: [],
-          msgs: [],
-          fx: null,
-          fxSeq: 0,
-          winner: 0,
-          gid: 0,
-          uid: 1,
-        };
+      function vJoining() {
+        return `<div style="text-align:center;margin-top:60px"><div class="big" style="animation:bob 1s infinite">🔌</div><h2>Conectando na sala ${esc(net.code)}…</h2></div><button class="btn sec sm" data-a=leave>Cancelar</button>`;
+      }
+      function vRank() {
+        const ps = Object.entries(RANK.ps)
+          .map(([n, x]) => ({ n, ...x }))
+          .sort((a, b) => b.w - a.w || a.l - b.l);
+        return `<h2 style="text-align:center;margin-top:10px">🏆 Ranking de vitórias</h2>
+${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] || i + 1 + "º"}</span><span class=av>${x.av}</span><span class=f><b>${esc(x.n)}</b><br><span class=small>${x.w} vitórias · ${x.l} derrotas${x.w + x.l ? " · " + Math.round((x.w / (x.w + x.l)) * 100) + "%" : ""}</span></span><span class=wins>${x.w}</span></div>`).join("") || '<p class=small style="text-align:center">Ninguém jogou ainda.</p>'}
+<p class=small style="text-align:center">O ranking fica salvo neste celular.</p>
+<button class=btn data-a=back>← Voltar</button>${ps.length ? '<button class="btn sec sm" data-a=resetRank>Zerar ranking</button>' : ""}`;
+      }
+
+      // ================= MOTOR: 2 MONSTRINHOS EM CAMPO, VÁRIOS JOGADORES =================
+      if (!me.tok) {
+        me.tok = Math.random().toString(36).slice(2, 10);
+        lsSet("arena-on-me", me);
+      }
+      const MAXP = 8,
+        TEAM = 5,
+        MAXLG = 2,
+        ELIM = 2,
+        SLOTS = 2,
+        DEF_MS = 15000,
+        NEED_MS = 15000;
+      const REACT = ["👏", "😮", "😂", "🔥", "😱", "💪"];
+      net.conns = new Map(); // só no dono da sala: conexão -> id do membro
+      const timers = {};
+
+      // ---------- ajudantes ----------
+      const cardOf = (p, id) => p.cards.find((c) => c.id === id);
+      const actives = (p) =>
+        p.act.map((id) => (id == null ? null : cardOf(p, id) || null));
+      const bench = (p) => p.cards.filter((c) => !p.act.includes(c.id));
+      const left = (c) => Math.max(0, R[c.k].hp - c.dmg);
+      const alive = (p) => p.cards.length > 0;
+      const needSlot = (j) => {
+        const p = G.pl[j];
+        return alive(p) && p.act.some((x) => x == null) && bench(p).length > 0;
+      };
+      const anyNeed = () => G.pl.some((p, j) => needSlot(j));
+      const bad = (c) => c.st.poison || c.st.burn || c.st.para || c.st.sleep;
+      function clearBad(c) {
+        delete c.st.poison;
+        delete c.st.burn;
+        delete c.st.para;
+        delete c.st.sleep;
       }
       function log(t) {
         G.log.push(t);
-        if (G.log.length > 40) G.log.shift();
+        if (G.log.length > 50) G.log.shift();
       }
       function draw(p) {
-        if (p.hand.length >= 6) return null;
+        if (p.hand.length >= 7) return null;
         const c = randCard();
         p.hand.push(c);
         return c;
       }
+      const member = (mid) => G.members.find((m) => m.mid === mid);
+      const isOn = (mid) => {
+        const m = member(mid);
+        return !!(m && m.on);
+      };
+      const online = () => G.members.filter((m) => m.on);
+      const nextTwo = () => G.order.filter(isOn).slice(0, 2);
+      const inMatch = () => ["draft", "flip", "battle"].includes(G.phase);
+      const myIdx_ = () =>
+        G && G.pl ? G.pl.findIndex((p) => p.mid === me.tok) : -1;
+      const aliveIdx = () =>
+        G.pl.map((p, i) => (alive(p) ? i : -1)).filter((i) => i >= 0);
+
+      // ---------- sala ----------
+      function mkPl(m) {
+        return {
+          mid: m.mid,
+          name: m.name,
+          av: m.av,
+          picks: [],
+          ready: false,
+          cards: [],
+          act: [null, null],
+          hand: [],
+          eN: 0,
+          used: [],
+          ret: false,
+          toast: "",
+        };
+      }
+      function newRoom() {
+        return {
+          mode: "ffa",
+          members: [{ mid: me.tok, name: me.name, av: me.av, on: true }],
+          order: [me.tok],
+          phase: "lobby",
+          pl: [],
+          cur: 0,
+          first: 0,
+          turn: 1,
+          log: [],
+          msgs: [],
+          fx: null,
+          fxSeq: 0,
+          pend: null,
+          pendSeq: 0,
+          winner: 0,
+          gid: 0,
+          uid: 1,
+          wo: false,
+          reordered: false,
+        };
+      }
+      function newMatch() {
+        const mids =
+          G.mode === "queue"
+            ? nextTwo()
+            : online()
+                .map((m) => m.mid)
+                .slice(0, MAXP);
+        G.pl = mids.map(member).map(mkPl);
+        Object.assign(G, {
+          phase: "draft",
+          cur: 0,
+          first: 0,
+          turn: 1,
+          log: [],
+          msgs: [],
+          fx: null,
+          pend: null,
+          winner: 0,
+          gid: 0,
+          wo: false,
+          reordered: false,
+        });
+      }
+      function afterWin() {
+        if (G.phase !== "win" || G.reordered) return;
+        G.reordered = true;
+        if (G.mode !== "queue" || G.pl.length !== 2) return;
+        const w = G.pl[G.winner].mid,
+          l = G.pl[1 - G.winner].mid;
+        G.order = [w, ...G.order.filter((x) => x !== w && x !== l), l];
+      }
+
+      // ---------- batalha ----------
       function build(p) {
         p.cards = p.picks.map((k) => ({
           id: G.uid++,
@@ -1576,104 +2142,416 @@
           en: 0,
           st: {},
         }));
-        p.active = p.cards[0].id;
-        p.hand = ["en", randCard(), randCard()];
-        p.eUsed = false;
+        p.act = [p.cards[0].id, p.cards[1] ? p.cards[1].id : null];
+        p.hand = ["en", "en", randCard()];
+        p.eN = 0;
+        p.used = [];
         p.ret = false;
         p.toast = "";
       }
-      const bad = (c) => c.st.poison || c.st.burn || c.st.para || c.st.sleep;
-      function clearBad(c) {
-        delete c.st.poison;
-        delete c.st.burn;
-        delete c.st.para;
-        delete c.st.sleep;
-      }
-      function knock(vi) {
-        const v = G.pl[vi],
-          c = act(v),
-          r = R[c.k];
-        v.cards = v.cards.filter((x) => x !== c);
-        v.active = null;
-        const t = `💥 ${r.n} desmaiou! Ponto para ${G.pl[1 - vi].name}.`;
+      function knock(j, c) {
+        const p = G.pl[j];
+        p.cards = p.cards.filter((x) => x !== c);
+        p.act = p.act.map((id) => (id === c.id ? null : id));
+        let t = `💥 ${R[c.k].n} de ${p.name} desmaiou!`;
+        if (!alive(p)) t += ` ${p.name} foi eliminado!`;
         log(t);
         return t;
       }
       function checkWin() {
-        for (const i of [0, 1])
-          if (!G.pl[i].cards.length) {
-            G.winner = 1 - i;
-            G.phase = "win";
-            return true;
-          }
+        const a = aliveIdx();
+        if (a.length <= 1) {
+          G.winner = a.length ? a[0] : G.cur;
+          G.phase = "win";
+          G.pend = null;
+          return true;
+        }
         return false;
+      }
+      function nextAlive(i) {
+        for (let k = 1; k <= G.pl.length; k++) {
+          const j = (i + k) % G.pl.length;
+          if (alive(G.pl[j])) return j;
+        }
+        return i;
       }
       function startTurn() {
         const n = G.pl[G.cur];
-        n.eUsed = false;
+        n.eN = 0;
+        n.used = [];
         n.ret = false;
         const c = draw(n);
         n.toast = c
           ? `Você comprou: ${H[c][0]} ${H[c][1]}`
           : "Mão cheia, não comprou carta.";
       }
+      // condições: aplicadas no fim do turno do dono do monstrinho
       function endTurn() {
-        const msgs = [];
-        for (const j of [0, 1]) {
-          const c = act(G.pl[j]);
+        const j = G.cur,
+          p = G.pl[j],
+          msgs = [];
+        for (const c of actives(p)) {
           if (!c) continue;
           const n = R[c.k].n;
           if (c.st.poison) {
             c.dmg += 10;
-            msgs.push(`☠️ ${n} perdeu 10 de vida pelo veneno.`);
+            msgs.push(`☠️ ${n} perdeu 10 pelo veneno.`);
           }
           if (c.st.burn) {
             c.dmg += 20;
             const h = coin();
             msgs.push(
-              `🔥 ${n} perdeu 20 queimando. Moeda: ${h ? "CARA, o fogo apagou!" : "COROA, continua queimando."}`,
+              `🔥 ${n} perdeu 20 queimando. ${h ? "Moeda CARA: apagou!" : "Moeda COROA: continua."}`,
             );
-            if (h) c.st.burn = false;
+            if (h) delete c.st.burn;
           }
           if (c.st.sleep) {
             const h = coin();
             msgs.push(
-              `💤 ${n}: moeda deu ${h ? "CARA, acordou!" : "COROA, continua dormindo."}`,
+              `💤 ${n}: ${h ? "CARA, acordou!" : "COROA, continua dormindo."}`,
             );
             if (h) delete c.st.sleep;
           }
-          if (c.st.para && j === G.cur) {
-            c.st.para = false;
+          if (c.st.para) {
+            delete c.st.para;
             msgs.push(`⚡ ${n} não está mais paralisado.`);
           }
-          if (c.dmg >= R[c.k].hp) msgs.push(knock(j));
+          if (c.dmg >= R[c.k].hp) msgs.push(knock(j, c));
         }
         msgs.forEach((m) => {
           if (!m.startsWith("💥")) log(m);
         });
         G.msgs = msgs;
         if (checkWin()) return;
-        G.cur = 1 - G.cur;
+        G.cur = nextAlive(j);
         G.turn++;
         startTurn();
       }
+      function canAtk(p, s, i) {
+        const c = actives(p)[s];
+        if (!c) return "none";
+        const a = R[c.k].a[i];
+        if (!a) return "none";
+        if (p.used.includes(c.id)) return "used";
+        if (p.used.length >= SLOTS) return "used";
+        if (c.st.para) return "para";
+        if (c.st.sleep) return "sleep";
+        if (G.turn === 1) return "first";
+        if (c.en < a.c) return "en";
+        return "";
+      }
+      // previsão do dano para o defensor escolher
+      function preview(att, s, i, tgt, slot) {
+        const mc = actives(G.pl[att])[s],
+          oc = actives(G.pl[tgt])[slot];
+        if (!mc || !oc) return 0;
+        let v = R[mc.k].a[i].d;
+        if (W[R[oc.k].t] === R[mc.k].t) v += 30;
+        if (mc.st.boost) v += 30;
+        if (oc.st.shield) v = Math.max(0, v - 20);
+        return v;
+      }
+      function resolve(att, s, i, tgt, slot, auto) {
+        const p = G.pl[att],
+          mc = actives(p)[s],
+          o = G.pl[tgt],
+          oc = actives(o)[slot];
+        if (!mc || !oc) return;
+        const r = R[mc.k],
+          at = r.a[i],
+          or = R[oc.k];
+        let v = at.d,
+          cn = null;
+        const notes = [];
+        notes.push(
+          auto
+            ? `⏱️ ${o.name} demorou: ${or.n} defendeu`
+            : `🛡️ ${o.name} colocou ${or.n} para defender`,
+        );
+        if (W[or.t] === r.t) {
+          v += 30;
+          notes.push("💥 Super efetivo! +30 (fraqueza)");
+        }
+        if (at.fx === "coin2x") {
+          cn = coin();
+          if (cn) {
+            v *= 2;
+            notes.push("🪙 CARA! Dano em dobro!");
+          } else notes.push("🪙 COROA, dano normal.");
+        }
+        if (mc.st.boost) {
+          v += 30;
+          delete mc.st.boost;
+          notes.push("💪 Ataque turbinado: +30!");
+        }
+        if (oc.st.shield) {
+          v = Math.max(0, v - 20);
+          delete oc.st.shield;
+          notes.push(`🛡️ O escudo de ${or.n} segurou 20!`);
+        }
+        oc.dmg += v;
+        if (at.fx === "para") {
+          cn = coin();
+          if (cn) {
+            oc.st.para = true;
+            delete oc.st.sleep;
+            notes.push(`🪙 CARA! ${or.n} ficou paralisado!`);
+          } else notes.push("🪙 COROA, não paralisou.");
+        }
+        if (at.fx === "sleep") {
+          cn = coin();
+          if (cn) {
+            oc.st.sleep = true;
+            delete oc.st.para;
+            notes.push(`🪙 CARA! ${or.n} dormiu 💤`);
+          } else notes.push("🪙 COROA, não dormiu.");
+        }
+        if (at.fx === "burn") {
+          oc.st.burn = true;
+          notes.push(`🔥 ${or.n} está queimando!`);
+        }
+        if (at.fx === "poison") {
+          oc.st.poison = true;
+          notes.push(`☠️ ${or.n} foi envenenado!`);
+        }
+        if (at.fx === "shield") {
+          mc.st.shield = true;
+          notes.push(`🛡️ ${r.n} ganhou um escudo!`);
+        }
+        if (at.fx === "boost") {
+          mc.st.boost = true;
+          notes.push(`💪 O próximo ataque de ${r.n} terá +30!`);
+        }
+        if (at.fx === "steal" && oc.en > 0) {
+          oc.en--;
+          notes.push(`🧲 Roubou 1 energia de ${or.n}!`);
+        }
+        if (at.fx === "discard" && o.hand.length) {
+          o.hand.splice(Math.floor(Math.random() * o.hand.length), 1);
+          notes.push(`🃏 ${o.name} perdeu 1 carta!`);
+        }
+        if (at.fx === "cleanse") {
+          mc.dmg = Math.max(0, mc.dmg - 30);
+          clearBad(mc);
+          notes.push(`✨ ${r.n} curou 30 e ficou limpinho!`);
+        }
+        if (at.fx === "heal20" && mc.dmg) {
+          mc.dmg = Math.max(0, mc.dmg - 20);
+          notes.push(`💚 ${r.n} curou 20.`);
+        }
+        if (at.fx === "charge") {
+          mc.en++;
+          notes.push(`🟡 ${r.n} ganhou +1 energia!`);
+        }
+        if (at.fx === "drawcard") {
+          const dc = draw(p);
+          notes.push(dc ? `🃏 ${p.name} comprou uma carta` : "🃏 Mão cheia.");
+        }
+        if (at.fx === "bench10") {
+          const bb = bench(o);
+          for (const b of bb) {
+            b.dmg += 10;
+            if (b.dmg >= R[b.k].hp) notes.push(knock(tgt, b));
+          }
+          if (bb.length) notes.push(`💫 Banco de ${o.name} levou 10 cada!`);
+        }
+        if (at.fx === "self20") {
+          mc.dmg += 20;
+          notes.push(`😵 ${r.n} levou 20 de tranco.`);
+        }
+        p.used.push(mc.id);
+        log(`${r.n} (${p.name}) usou ${at.n}: ${v} em ${or.n} (${o.name})`);
+        const fx = {
+          seq: ++G.fxSeq,
+          by: att,
+          tg: tgt,
+          ae: r.e,
+          te: or.e,
+          an: at.n,
+          v,
+          notes,
+          coin: cn,
+          ko: null,
+        };
+        if (oc.dmg >= or.hp) fx.ko = knock(tgt, oc);
+        if (mc.dmg >= r.hp && p.cards.includes(mc))
+          fx.notes.push(knock(att, mc));
+        G.fx = fx;
+        if (checkWin()) return;
+        if (
+          !alive(p) ||
+          !actives(p).some((c) => c && !p.used.includes(c.id)) ||
+          p.used.length >= SLOTS
+        )
+          endTurn();
+      }
+      function autoDef() {
+        const pd = G.pend;
+        if (!pd) return;
+        const t = G.pl[pd.tgt];
+        const best = actives(t)
+          .map((c, k) => [c ? left(c) : -1, k])
+          .sort((a, b) => b[0] - a[0])[0][1];
+        G.pend = null;
+        resolve(pd.att, pd.s, pd.i, pd.tgt, best, true);
+      }
+      function autoFill(j) {
+        const p = G.pl[j];
+        p.act = p.act.map((id) => {
+          if (id != null) return id;
+          const b = bench(p)[0];
+          return b ? b.id : null;
+        });
+        log(`⏱️ ${p.name} demorou: o jogo escolheu quem entra`);
+      }
+      // timers do dono: defesa e escolha de substituto não travam a mesa
+      function hostTimers() {
+        if (!net.host || !G || G.phase !== "battle") return;
+        if (G.pend) {
+          const k = "def" + G.pend.seq;
+          if (!timers[k]) {
+            const seq = G.pend.seq,
+              ms = isOn(G.pl[G.pend.tgt].mid) ? DEF_MS + 400 : 300;
+            timers[k] = setTimeout(() => {
+              if (G.pend && G.pend.seq === seq) {
+                autoDef();
+                broadcast();
+              }
+            }, ms);
+          }
+        }
+        G.pl.forEach((p, j) => {
+          if (!needSlot(j)) return;
+          const k = "need" + j + "-" + G.turn + "-" + G.fxSeq;
+          if (!timers[k]) {
+            const ms = isOn(p.mid) ? NEED_MS : 300;
+            timers[k] = setTimeout(() => {
+              if (G.phase === "battle" && needSlot(j)) {
+                autoFill(j);
+                broadcast();
+              }
+            }, ms);
+          }
+        });
+      }
 
-      function battle(a, p) {
-        const mc = act(p);
-        if (!mc) return;
-        const r = R[mc.k];
+      function battle(a, from) {
+        const p = G.pl[from];
+        if (a.t === "pickA") {
+          const s = +a.s;
+          if (p.act[s] == null && bench(p).some((c) => c.id === a.id)) {
+            p.act[s] = a.id;
+            log(`${p.name} mandou ${R[cardOf(p, a.id).k].n} pra luta`);
+          }
+          return;
+        }
+        if (a.t === "def") {
+          const pd = G.pend;
+          if (pd && pd.tgt === from && actives(p)[+a.slot]) {
+            G.pend = null;
+            resolve(pd.att, pd.s, pd.i, pd.tgt, +a.slot, false);
+          }
+          return;
+        }
+        if (from !== G.cur || G.pend || anyNeed()) return;
+        const myA = actives(p);
+        if (a.t === "end") {
+          endTurn();
+          return;
+        }
+        if (a.t === "atk") {
+          const s = +a.s,
+            i = +a.i,
+            tg = +a.tgt;
+          if (canAtk(p, s, i)) return;
+          const o = G.pl[tg];
+          if (!o || tg === from || !alive(o)) return;
+          const defs = actives(o)
+            .map((c, k) => (c ? k : -1))
+            .filter((k) => k >= 0);
+          if (!defs.length) return;
+          if (defs.length === 1) resolve(from, s, i, tg, defs[0], false);
+          else {
+            G.pend = { seq: ++G.pendSeq, att: from, s, i, tgt: tg, ms: DEF_MS };
+            log(`${R[myA[s].k].n} vai atacar ${o.name}!`);
+          }
+          return;
+        }
+        if (a.t === "ret") {
+          const s = +a.s,
+            mc = myA[s],
+            tgt = bench(p).find((c) => c.id === a.id);
+          if (!mc || !tgt) return;
+          const r = R[mc.k];
+          if (a.free) {
+            if (p.hand[a.hi] !== "swap") return;
+            p.hand.splice(a.hi, 1);
+          } else {
+            if (mc.st.para || mc.st.sleep || p.ret || mc.en < r.r) return;
+            mc.en -= r.r;
+            p.ret = true;
+          }
+          clearBad(mc);
+          p.act[s] = tgt.id;
+          log(`${p.name} trocou ${r.n} por ${R[tgt.k].n}`);
+          return;
+        }
         if (a.t === "play") {
           const c = p.hand[a.i];
           if (!c) return;
-          if (c === "en" || c === "sup") {
-            if (p.eUsed) {
-              p.toast = "Já ligou energia neste turno.";
+          if (c === "bomb" || c === "mag") {
+            const o = G.pl[+a.tj];
+            if (!o || +a.tj === from) return;
+            const oc = actives(o)[+a.ts];
+            if (!oc) return;
+            const on = R[oc.k].n;
+            if (c === "mag") {
+              if (!oc.en) {
+                p.toast = "Esse monstrinho não tem energia.";
+                return;
+              }
+              const mc = myA[+a.s];
+              if (!mc) return;
+              oc.en--;
+              mc.en++;
+              log(`🧲 ${p.name} puxou 1 energia de ${on} para ${R[mc.k].n}`);
+              p.hand.splice(a.i, 1);
               return;
             }
-            mc.en += c === "sup" ? 2 : 1;
-            p.eUsed = true;
+            p.hand.splice(a.i, 1);
+            oc.dmg += 20;
+            log(`💣 ${p.name} jogou uma Bomba em ${on}`);
+            G.fx = {
+              seq: ++G.fxSeq,
+              by: from,
+              tg: +a.tj,
+              ae: "💣",
+              te: R[oc.k].e,
+              an: "Bomba",
+              v: 20,
+              notes: [],
+              coin: null,
+              ko: oc.dmg >= R[oc.k].hp ? knock(+a.tj, oc) : null,
+            };
+            checkWin();
+            return;
+          }
+          const mc = myA[+a.s];
+          if (!mc) return;
+          const r = R[mc.k];
+          if (c === "en" || c === "sup") {
+            const add = c === "sup" ? 2 : 1;
+            if (p.eN + add > ELIM) {
+              p.toast =
+                c === "sup"
+                  ? "A Super Energia precisa das 2 energias do turno livres."
+                  : "Já ligou as 2 energias deste turno.";
+              return;
+            }
+            mc.en += add;
+            p.eN += add;
             log(
-              `${p.name} ligou ${c === "sup" ? "2 energias" : "1 energia"} em ${r.n}`,
+              `${p.name} ligou ${add} energia${add > 1 ? "s" : ""} em ${r.n}`,
             );
           } else if (c === "pot") {
             if (!mc.dmg) {
@@ -1704,335 +2582,60 @@
             }
             mc.st.shield = true;
             log(`${r.n} ganhou um escudo 🛡️`);
-          } else if (c === "mag") {
-            const oc = act(G.pl[1 - G.cur]);
-            if (!oc || !oc.en) {
-              p.toast = "O adversário não tem energia para puxar.";
-              return;
-            }
-            oc.en--;
-            mc.en++;
-            log(`${p.name} puxou 1 energia de ${R[oc.k].n} 🧲`);
-          } else if (c === "bomb") {
-            const vi = 1 - G.cur,
-              oc = act(G.pl[vi]);
-            if (!oc) return;
-            p.hand.splice(a.i, 1);
-            oc.dmg += 20;
-            log(`💣 Bomba! ${R[oc.k].n} levou 20`);
-            G.fx = {
-              seq: ++G.fxSeq,
-              by: G.cur,
-              ae: "💣",
-              te: R[oc.k].e,
-              an: "Bomba",
-              v: 20,
-              notes: [],
-              coin: null,
-              ko: oc.dmg >= R[oc.k].hp ? knock(vi) : null,
-            };
-            checkWin();
-            return;
           } else return;
           p.hand.splice(a.i, 1);
-        } else if (a.t === "ret") {
-          const tgt = p.cards.find((c) => c.id === a.id);
-          if (!tgt || tgt === mc) return;
-          if (a.free) {
-            if (p.hand[a.hi] !== "swap") return;
-            p.hand.splice(a.hi, 1);
-          } else {
-            if (mc.st.para || mc.st.sleep || p.ret || mc.en < r.r) return;
-            mc.en -= r.r;
-            p.ret = true;
-          }
-          clearBad(mc);
-          p.active = tgt.id;
-          log(`${p.name} trocou ${r.n} por ${R[tgt.k].n}`);
-        } else if (a.t === "atk") {
-          const o = G.pl[1 - G.cur],
-            oc = act(o),
-            at = r.a[a.i];
-          if (
-            !oc ||
-            !at ||
-            mc.en < at.c ||
-            mc.st.para ||
-            mc.st.sleep ||
-            G.turn === 1
-          )
-            return;
-          const or = R[oc.k];
-          let v = at.d,
-            notes = [],
-            cn = null;
-          if (W[or.t] === r.t) {
-            v *= 2;
-            notes.push("💥 Super efetivo! Dano em dobro (fraqueza)");
-          }
-          if (at.fx === "coin2x") {
-            cn = coin();
-            if (cn) {
-              v *= 2;
-              notes.push("🪙 CARA! Dano em dobro!");
-            } else notes.push("🪙 COROA, dano normal.");
-          }
-          if (mc.st.boost) {
-            v += 30;
-            delete mc.st.boost;
-            notes.push("💪 Ataque turbinado: +30!");
-          }
-          if (oc.st.shield) {
-            v = Math.max(0, v - 20);
-            delete oc.st.shield;
-            notes.push(`🛡️ O escudo de ${or.n} segurou 20!`);
-          }
-          oc.dmg += v;
-          if (at.fx === "sleep") {
-            cn = coin();
-            if (cn) {
-              oc.st.sleep = true;
-              delete oc.st.para;
-              notes.push(`🪙 CARA! ${or.n} dormiu 💤`);
-            } else notes.push("🪙 COROA, não dormiu.");
-          }
-          if (at.fx === "shield") {
-            mc.st.shield = true;
-            notes.push(`🛡️ ${r.n} ganhou um escudo!`);
-          }
-          if (at.fx === "boost") {
-            mc.st.boost = true;
-            notes.push(`💪 O próximo ataque de ${r.n} vai ter +30!`);
-          }
-          if (at.fx === "steal" && oc.en > 0) {
-            oc.en--;
-            notes.push(`🧲 Roubou 1 energia de ${or.n}!`);
-          }
-          if (at.fx === "discard" && o.hand.length) {
-            o.hand.splice(Math.floor(Math.random() * o.hand.length), 1);
-            notes.push(`🃏 ${o.name} perdeu 1 carta!`);
-          }
-          if (at.fx === "cleanse") {
-            mc.dmg = Math.max(0, mc.dmg - 30);
-            clearBad(mc);
-            notes.push(`✨ ${r.n} curou 30 e ficou limpinho!`);
-          }
-          if (at.fx === "bench10") {
-            const nb = bench(o).length;
-            for (const b of bench(o)) {
-              b.dmg += 10;
-              if (b.dmg >= R[b.k].hp) {
-                o.cards = o.cards.filter((x) => x !== b);
-                const t = `💥 ${R[b.k].n} (no banco) desmaiou!`;
-                log(t);
-                notes.push(t);
-              }
-            }
-            if (nb) notes.push(`💫 Banco de ${o.name} levou 10 cada!`);
-          }
-          if (at.fx === "para") {
-            cn = coin();
-            if (cn) {
-              oc.st.para = true;
-              delete oc.st.sleep;
-              notes.push(`🪙 CARA! ${or.n} ficou paralisado!`);
-            } else notes.push("🪙 COROA, não paralisou.");
-          }
-          if (at.fx === "burn") {
-            oc.st.burn = true;
-            notes.push(`🔥 ${or.n} está queimando!`);
-          }
-          if (at.fx === "poison") {
-            oc.st.poison = true;
-            notes.push(`☠️ ${or.n} foi envenenado!`);
-          }
-          if (at.fx === "heal20" && mc.dmg) {
-            mc.dmg = Math.max(0, mc.dmg - 20);
-            notes.push(`💚 ${r.n} curou 20.`);
-          }
-          if (at.fx === "charge") {
-            mc.en++;
-            notes.push(`🟡 ${r.n} ganhou +1 energia!`);
-          }
-          if (at.fx === "drawcard") {
-            const dc = draw(p);
-            notes.push(dc ? `🃏 ${p.name} comprou uma carta` : "🃏 Mão cheia.");
-          }
-          if (at.fx === "self20") {
-            mc.dmg += 20;
-            notes.push(`😵 ${r.n} levou 20 de tranco.`);
-          }
-          log(`${r.n} usou ${at.n}: ${v} de dano em ${or.n}`);
-          const fx = {
-            seq: ++G.fxSeq,
-            by: G.cur,
-            ae: r.e,
-            te: or.e,
-            an: at.n,
-            v,
-            notes,
-            coin: cn,
-            ko: null,
-          };
-          if (oc.dmg >= or.hp) fx.ko = knock(1 - G.cur);
-          if (mc.dmg >= r.hp) fx.notes.push(knock(G.cur));
-          G.fx = fx;
-          if (!checkWin()) endTurn();
-        } else if (a.t === "end") endTurn();
-      }
-
-      function help() {
-        return `<details><summary>📖 Como jogar</summary><ul>
-<li>Um celular <b>cria a sala</b> e manda o código (ou o link). Até 8 pessoas entram na mesma sala.</li><li>Jogam 2 por vez; os outros <b>assistem e torcem</b>. <b>Quem ganha fica</b>, quem perde vai pro fim da fila.</li>
-<li>Cada jogador escolhe <b>3 de 42 monstrinhos</b> (no máximo 1 ⭐ lendário, os mais fortes). O primeiro escolhido começa lutando.</li>
-<li>No começo do seu turno você <b>compra 1 carta</b>. Use <b>🟡 Energia</b> no seu monstrinho (só 1 por turno).</li>
-<li>Cada ataque precisa de energias (as bolinhas). Atacar <b>termina o turno</b>.</li>
-<li><b>Fraqueza</b>: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮 (dano em dobro).</li>
-<li>Cartas de apoio: 🧪 Poção (cura 30), 💖 Super Poção (cura 60), 🔄 Troca Rápida, 🛡️ Escudo (−20 no próximo golpe), 💣 Bomba (20 de dano), 🧲 Ímã (puxa 1 energia do outro), ⏰ Despertador (tira sono, paralisia, veneno e queimadura).</li><li>Poderes dos ataques: queimar, envenenar, paralisar, fazer dormir, escudo, turbo (+30), roubar energia, dano no banco, tirar carta do outro, curar e mais.</li>
-<li>Quem começa <b>não ataca no primeiro turno</b>. Vence quem fizer os 3 monstrinhos do outro desmaiarem!</li></ul></details>`;
-      }
-      function mon(c, me) {
-        const r = R[c.k],
-          t = T[r.t],
-          pct = (left(c) / r.hp) * 100,
-          cls = pct <= 25 ? "low" : pct <= 50 ? "mid" : "";
-        const st =
-          (c.st.poison ? "<span class=badge>☠️ Envenenado</span>" : "") +
-          (c.st.burn ? "<span class=badge>🔥 Queimando</span>" : "") +
-          (c.st.para ? "<span class=badge>⚡ Paralisado</span>" : "") +
-          (c.st.sleep ? "<span class=badge>💤 Dormindo</span>" : "") +
-          (c.st.shield ? '<span class="badge good">🛡️ Escudo</span>' : "") +
-          (c.st.boost ? '<span class="badge good">💪 +30</span>' : "");
-        return `<div class="mon ${me ? "me" : ""} ${r.lg ? "lg" : ""}" style="--tc:${t[2]}"><div class=em>${r.e}</div><div class=info><div class=top><span>${r.lg ? "⭐ " : ""}${r.n}</span><span>${t[0]}</span></div>
-  <div class=bar><i class="${cls}" style="width:${pct}%"></i></div><div class=small>❤️ ${left(c)}/${r.hp} · ${"🟡".repeat(c.en) || "sem energia"}</div>
-  <div>${st}</div><div class=small>Fraco contra ${T[W[r.t]][0]} · Recuo ${"🟡".repeat(r.r) || "grátis"}</div></div></div>`;
-      }
-      function vJoin() {
-        return `<h2 style="text-align:center;margin-top:20px">Entrar numa sala</h2>
-${!me.name ? `<label>Seu nome<input id=myname maxlength=16 value="" placeholder="Como você quer ser chamado?"></label>` : `<p style="text-align:center">Você é ${me.av} <b>${esc(me.name)}</b></p>`}
-<label>Código da sala<input id=jc inputmode=numeric maxlength=4 value="${esc(L.joinCode)}" placeholder="4 números" style="font-size:32px;text-align:center;letter-spacing:8px"></label>
-${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
-<button class=btn data-a=doJoin>Entrar ▶️</button><button class="btn sec sm" data-a=home>← Voltar</button>`;
-      }
-      function vJoining() {
-        return `<div style="text-align:center;margin-top:60px"><div class="big" style="animation:bob 1s infinite">🔌</div><h2>Conectando na sala ${esc(net.code)}…</h2></div><button class="btn sec sm" data-a=leave>Cancelar</button>`;
-      }
-      function vRank() {
-        const ps = Object.entries(RANK.ps)
-          .map(([n, x]) => ({ n, ...x }))
-          .sort((a, b) => b.w - a.w || a.l - b.l);
-        return `<h2 style="text-align:center;margin-top:10px">🏆 Ranking de vitórias</h2>
-${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] || i + 1 + "º"}</span><span class=av>${x.av}</span><span class=f><b>${esc(x.n)}</b><br><span class=small>${x.w} vitórias · ${x.l} derrotas${x.w + x.l ? " · " + Math.round((x.w / (x.w + x.l)) * 100) + "%" : ""}</span></span><span class=wins>${x.w}</span></div>`).join("") || '<p class=small style="text-align:center">Ninguém jogou ainda.</p>'}
-<p class=small style="text-align:center">O ranking fica salvo neste celular.</p>
-<button class=btn data-a=back>← Voltar</button>${ps.length ? '<button class="btn sec sm" data-a=resetRank>Zerar ranking</button>' : ""}`;
-      }
-
-      // ================= SALA COM VÁRIOS JOGADORES =================
-      // identidade deste aparelho (serve para reconectar no mesmo lugar da fila)
-      if (!me.tok) {
-        me.tok = Math.random().toString(36).slice(2, 10);
-        lsSet("arena-on-me", me);
-      }
-      const MAXP = 8;
-      const REACT = ["👏", "😮", "😂", "🔥", "😱", "💪"];
-      net.conns = new Map(); // só no dono da sala: conexão -> id do membro
-
-      // ---------- regras da sala (rodam no dono) ----------
-      function mkPl(m) {
-        return {
-          mid: m.mid,
-          name: m.name,
-          av: m.av,
-          picks: [],
-          ready: false,
-          cards: [],
-          active: null,
-          hand: [],
-          eUsed: false,
-          ret: false,
-          toast: "",
-        };
-      }
-      function newRoom() {
-        return {
-          members: [{ mid: me.tok, name: me.name, av: me.av, on: true }],
-          order: [me.tok],
-          phase: "lobby",
-          pl: [],
-          cur: 0,
-          first: 0,
-          turn: 1,
-          flip: 0,
-          log: [],
-          msgs: [],
-          fx: null,
-          fxSeq: 0,
-          winner: 0,
-          gid: 0,
-          uid: 1,
-          wo: false,
-          reordered: false,
-        };
-      }
-      const member = (mid) => G.members.find((m) => m.mid === mid);
-      const isOn = (mid) => {
-        const m = member(mid);
-        return !!(m && m.on);
-      };
-      const online = () => G.members.filter((m) => m.on);
-      const nextTwo = () => G.order.filter(isOn).slice(0, 2);
-      const inMatch = () => ["draft", "flip", "battle"].includes(G.phase);
-      function newMatch() {
-        const [a, b] = nextTwo().map(member);
-        G.pl = [mkPl(a), mkPl(b)];
-        Object.assign(G, {
-          phase: "draft",
-          cur: 0,
-          first: 0,
-          turn: 1,
-          log: [],
-          msgs: [],
-          fx: null,
-          winner: 0,
-          gid: 0,
-          wo: false,
-          reordered: false,
-        });
-      }
-      // quem ganha fica, quem perde vai pro fim da fila
-      function afterWin() {
-        if (G.phase !== "win" || G.reordered) return;
-        G.reordered = true;
-        const w = G.pl[G.winner].mid,
-          l = G.pl[1 - G.winner].mid;
-        G.order = [w, ...G.order.filter((x) => x !== w && x !== l), l];
+        }
       }
 
       function apply(a, mid) {
         if (!G || !a) return;
+        const host = mid === me.tok;
+        if (a.t === "mode") {
+          if (host && G.phase === "lobby" && ["ffa", "queue"].includes(a.m))
+            G.mode = a.m;
+          return broadcast();
+        }
         if (a.t === "start") {
-          if (mid === me.tok && G.phase === "lobby" && online().length >= 2)
-            newMatch();
+          if (host && G.phase === "lobby" && online().length >= 2) newMatch();
           return broadcast();
         }
         if (a.t === "next") {
           if (
             G.phase === "win" &&
-            (mid === me.tok || nextTwo().includes(mid)) &&
-            online().length >= 2
+            online().length >= 2 &&
+            (host || G.mode === "ffa" || nextTwo().includes(mid))
           )
             newMatch();
           return broadcast();
         }
-        if (a.t === "wo") {
-          if (mid === me.tok && inMatch()) {
-            const off = G.pl.findIndex((p) => !isOn(p.mid));
-            if (off >= 0) {
-              G.winner = 1 - off;
-              G.wo = true;
-              G.phase = "win";
-              log(`${G.pl[off].name} saiu. Vitória por W.O.`);
+        if (a.t === "kick") {
+          if (host && inMatch()) {
+            const j = +a.j,
+              p = G.pl[j];
+            if (p && p.mid !== me.tok) {
+              if (G.phase === "battle") {
+                p.cards = [];
+                p.act = [null, null];
+                log(`${p.name} saiu da partida`);
+                if (G.pend && (G.pend.tgt === j || G.pend.att === j))
+                  G.pend = null;
+                if (!checkWin() && G.cur === j) {
+                  G.cur = nextAlive(j);
+                  G.turn++;
+                  startTurn();
+                }
+              } else {
+                G.pl.splice(j, 1);
+                if (G.pl.length < 2) G.phase = "lobby";
+              }
             }
+          }
+          return broadcast();
+        }
+        if (a.t === "skip") {
+          if (host && G.phase === "battle") {
+            G.pend = null;
+            endTurn();
           }
           return broadcast();
         }
@@ -2044,50 +2647,42 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           if (a.t === "pick" && !p.ready && R[a.k]) {
             const i = p.picks.indexOf(a.k);
             if (i >= 0) p.picks.splice(i, 1);
-            else if (R[a.k].lg && p.picks.some((k) => R[k].lg))
-              p.toast = "⭐ Só 1 lendário por time!";
-            else if (p.picks.length < 3) p.picks.push(a.k);
+            else if (
+              R[a.k].lg &&
+              p.picks.filter((k) => R[k].lg).length >= MAXLG
+            )
+              p.toast = `⭐ No máximo ${MAXLG} lendários por time!`;
+            else if (p.picks.length < TEAM) p.picks.push(a.k);
           } else if (a.t === "rand" && !p.ready) {
             const sh = [...RK].sort(() => Math.random() - 0.5),
               out = [];
             for (const k of sh) {
-              if (out.length === 3) break;
-              if (R[k].lg && out.some((x) => R[x].lg)) continue;
+              if (out.length === TEAM) break;
+              if (R[k].lg && out.filter((x) => R[x].lg).length >= MAXLG)
+                continue;
               out.push(k);
             }
             p.picks = out;
-          } else if (a.t === "ready" && p.picks.length === 3) {
+          } else if (a.t === "ready" && p.picks.length === TEAM) {
             p.ready = true;
             if (G.pl.every((q) => q.ready)) {
               G.phase = "flip";
-              G.flip = coin() ? 0 : 1;
+              G.first = Math.floor(Math.random() * G.pl.length);
             }
           } else if (a.t === "unready") p.ready = false;
         } else if (G.phase === "flip" && a.t === "begin") {
           G.pl.forEach(build);
-          G.cur = G.first = G.flip;
+          G.cur = G.first;
           G.turn = 1;
           G.log = [];
           G.msgs = [];
           G.fx = null;
+          G.pend = null;
           G.gid = Date.now();
           log(`${G.pl[G.cur].name} começa!`);
           startTurn();
           G.phase = "battle";
-        } else if (G.phase === "battle") {
-          if (a.t === "pickA") {
-            if (need(from) && p.cards.some((c) => c.id === a.id)) {
-              p.active = a.id;
-              log(`${p.name} mandou ${R[act(p).k].n} pra luta`);
-            }
-          } else if (
-            from === G.cur &&
-            !need(0) &&
-            !need(1) &&
-            G.pl.every((q) => isOn(q.mid))
-          )
-            battle(a, p);
-        }
+        } else if (G.phase === "battle" && alive(p)) battle(a, from);
         broadcast();
       }
 
@@ -2095,6 +2690,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       function broadcast() {
         if (net.host && G) {
           afterWin();
+          hostTimers();
           for (const c of net.conns.keys())
             if (c.open) {
               try {
@@ -2150,7 +2746,6 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         net.peer = new Peer(PFX + net.code, { debug: 0 });
         net.peer.on("open", () => render());
         net.peer.on("connection", (c) => {
-          c.on("open", () => {});
           c.on("data", (m) => hostMsg(c, m));
           c.on("close", () => hostClose(c));
           c.on("error", () => {});
@@ -2178,7 +2773,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         if (m.t === "hello") {
           const tok = String(m.tok || "").slice(0, 12),
             av = AV.includes(m.av) ? m.av : "🧒";
-          let nm =
+          const nm =
             String(m.name || "Amigo")
               .trim()
               .slice(0, 16) || "Amigo";
@@ -2227,10 +2822,9 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         if (!mid || !G) return;
         const mb = member(mid);
         if (!mb) return;
-        for (const id of net.conns.values()) if (id === mid) return; // reconectou por outra conexão
+        for (const id of net.conns.values()) if (id === mid) return;
         const playing = inMatch() && G.pl.some((p) => p.mid === mid);
-        if (playing)
-          mb.on = false; // espera voltar
+        if (playing) mb.on = false;
         else {
           G.members = G.members.filter((x) => x.mid !== mid);
           G.order = G.order.filter((x) => x !== mid);
@@ -2322,8 +2916,6 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         render();
       }
       const roomLink = () => location.href.split("#")[0] + "#" + net.code;
-
-      // reações da torcida
       function relayReact(e, by) {
         for (const c of net.conns.keys())
           if (c.open) {
@@ -2346,7 +2938,6 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         if (net.host) relayReact(e, me.av + " " + me.name);
         else if (net.conn && net.conn.open) net.conn.send({ t: "react", e });
       }
-
       function recordWin() {
         if (!G.gid || G.wo || RANK.gids.includes(G.gid)) return;
         RANK.gids.push(G.gid);
@@ -2363,89 +2954,266 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
 
       // ---------- telas ----------
-      const myIdx_ = () =>
-        G && G.pl ? G.pl.findIndex((p) => p.mid === me.tok) : -1;
-
+      const MODES = {
+        ffa: [
+          "🌀 Todos contra todos",
+          "Todo mundo da sala joga junto. O último que sobrar vence.",
+        ],
+        queue: [
+          "⚔️ Um contra um com fila",
+          "Jogam 2 por vez. Quem ganha fica, quem perde vai pro fim da fila.",
+        ],
+      };
+      function help() {
+        return `<details><summary>📖 Como jogar</summary><ul>
+<li>Um celular <b>cria a sala</b> e manda o código ou o link. Até ${MAXP} pessoas na mesma sala.</li>
+<li>Dois modos: <b>todos contra todos</b> ou <b>um contra um com fila</b> (quem ganha fica).</li>
+<li>Cada um monta um time de <b>${TEAM} monstrinhos</b> (no máximo ${MAXLG} ⭐ lendários). <b>2 lutam ao mesmo tempo</b>, os outros ficam no banco.</li>
+<li>Na sua vez: compra 1 carta, liga até <b>2 energias</b> e <b>cada um dos seus 2 monstrinhos pode atacar uma vez</b>.</li>
+<li>Ao atacar, você escolhe <b>qual jogador</b> atacar. Quem é atacado escolhe <b>qual monstrinho defende</b> (tem ${DEF_MS / 1000} segundos).</li>
+<li><b>Fraqueza</b> dá +30 de dano: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮.</li>
+<li>Cartas de apoio: 🧪 Poção, 💖 Super Poção, 🔄 Troca Rápida, 🛡️ Escudo, 💣 Bomba, 🧲 Ímã, ⏰ Despertador.</li>
+<li>Quem começa não ataca no primeiro turno. Quem perde os ${TEAM} monstrinhos sai. O último que sobrar vence!</li></ul></details>`;
+      }
       function vHome() {
         return `<div class=big style="font-size:60px">🐙⚡🦏</div><h1>Arena dos Monstrinhos</h1><p class=sub>Online: cada um no seu celular · até ${MAXP} na sala</p>
 <label>Seu nome<input id=myname maxlength=16 value="${esc(me.name)}" placeholder="Como você quer ser chamado?"></label>
 <div class=lbl>Seu avatar</div><div class=avs>${AV.map((a) => `<button class="avb ${me.av === a ? "on" : ""}" data-a=avSel data-v="${a}">${a}</button>`).join("")}</div>
 ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
-<button class=btn data-a=create>🏠 Criar sala</button>
-<button class="btn sec" data-a=toJoin>🔑 Entrar numa sala</button>
+<button class=btn data-a=create>🏠 Criar sala</button><button class="btn sec" data-a=toJoin>🔑 Entrar numa sala</button>
 <button class="btn sec sm" data-a=rank>🏆 Ranking</button>${help()}`;
       }
-
       function shareBox() {
         return `<div class=sharebox><div class=small>Código da sala</div><div class=code>${esc(net.code)}</div>
 <div class=grid2><button class="btn sec sm" data-a=copy>📋 Copiar link</button><a class="btn sec sm" style="text-align:center;text-decoration:none" href="https://wa.me/?text=${encodeURIComponent("Bora jogar Arena dos Monstrinhos! Entra na sala: " + roomLink())}">💬 WhatsApp</a></div></div>`;
       }
-
       function queueBox() {
         const nx = nextTwo(),
-          playing =
-            inMatch() || G.phase === "win" ? G.pl.map((p) => p.mid) : [];
+          pm = G.pl.map((p) => p.mid);
         return `<div class=lbl>👥 Na sala (${G.members.length}/${MAXP})</div><div class=queue>${G.order
           .map((mid, i) => {
             const m = member(mid);
             if (!m) return "";
-            const tag =
-              playing.includes(mid) && G.phase !== "win"
-                ? "⚔️ jogando"
-                : G.phase === "win" && nx.includes(mid)
-                  ? "⏭️ próxima"
-                  : G.phase === "lobby" && nx.includes(mid)
-                    ? "⏭️ primeira"
-                    : "";
-            return `<div class="qi ${mid === me.tok ? "me" : ""} ${m.on ? "" : "off"}"><span class=qn>${i + 1}</span><span class=av>${m.av}</span><span class=f>${esc(m.name)}${mid === me.tok ? " (você)" : ""}${mid === G.members[0].mid ? " 👑" : ""}</span><span class=small>${m.on ? tag : "📡 caiu"}</span></div>`;
+            const pi = pm.indexOf(mid);
+            let tag = "";
+            if (inMatch()) {
+              tag =
+                pi >= 0
+                  ? G.phase !== "battle" || alive(G.pl[pi])
+                    ? "⚔️ jogando"
+                    : "❌ eliminado"
+                  : "👀 assistindo";
+            } else if (G.mode === "queue" && nx.includes(mid))
+              tag = "⏭️ próxima";
+            return `<div class="qi ${mid === me.tok ? "me" : ""} ${m.on ? "" : "off"}"><span class=qn>${G.mode === "queue" ? i + 1 : ""}</span><span class=av>${m.av}</span><span class=f>${esc(m.name)}${mid === me.tok ? " (você)" : ""}${mid === G.members[0].mid ? " 👑" : ""}</span><span class=small>${m.on ? tag : "📡 caiu"}</span></div>`;
           })
           .join("")}</div>`;
       }
-
       function reactBar() {
         return `<div class=lbl>Torcida</div><div class=reacts>${REACT.map((e) => `<button class=rb data-a=react data-e="${e}">${e}</button>`).join("")}</div>`;
       }
-
       function connBar() {
         if (!L.connected && !net.host)
-          return `<div class=msg style="background:#8e1c1a">📡 Conexão perdida. <button class=mini data-a=reconnect>Reconectar</button></div>`;
+          return `<div class="msg alert">📡 Conexão perdida. <button class=mini data-a=reconnect>Reconectar</button></div>`;
         if (G && inMatch()) {
-          const off = G.pl.find((p) => !isOn(p.mid));
-          if (off)
-            return `<div class=msg style="background:#8e1c1a">⏳ ${esc(off.name)} caiu. Esperando voltar…${net.host ? " <button class=mini data-a=wo>Encerrar (W.O.)</button>" : ""}</div>`;
+          const off = G.pl
+            .map((p, j) => [p, j])
+            .filter(
+              ([p]) => !isOn(p.mid) && (G.phase !== "battle" || alive(p)),
+            );
+          if (off.length)
+            return off
+              .map(
+                ([p, j]) =>
+                  `<div class="msg alert">⏳ ${esc(p.name)} caiu. Esperando voltar…${net.host ? ` <button class=mini data-a=kick data-j=${j}>Tirar da partida</button>` : ""}</div>`,
+              )
+              .join("");
         }
         return "";
       }
-
       function vRoom() {
         const ok = net.host ? net.peer && net.peer.open : true,
-          nx = nextTwo().map(member),
-          host = net.host;
+          host = net.host,
+          n = online().length;
         return `${connBar()}<h2 style="text-align:center;margin-top:14px">🏟️ Sala de batalha</h2>
   ${ok ? shareBox() : '<div class=msg style="text-align:center">Criando a sala…</div>'}
+  <div class=lbl>Modo de jogo</div>
+  ${
+    host
+      ? `<div class=grid2>${Object.keys(MODES)
+          .map(
+            (k) =>
+              `<button class="modeb ${G.mode === k ? "on" : ""}" data-a=mode data-m=${k}><b>${MODES[k][0]}</b><span class=small>${MODES[k][1]}</span></button>`,
+          )
+          .join("")}</div>`
+      : `<div class=msg><b>${MODES[G.mode][0]}</b><br><span class=small>${MODES[G.mode][1]}</span></div>`
+  }
   ${queueBox()}
-  ${nx.length >= 2 ? `<div class=msg style="text-align:center">Primeira partida: <b>${nx[0].av} ${esc(nx[0].name)}</b> x <b>${nx[1].av} ${esc(nx[1].name)}</b><br><span class=small>Quem ganha fica, quem perde vai pro fim da fila.</span></div>` : '<div class=msg style="text-align:center">⏳ Esperando mais gente entrar…</div>'}
-  ${host ? `<button class=btn data-a=start ${nx.length >= 2 ? "" : "disabled"}>⚔️ Começar partida</button>` : `<div class=msg style="text-align:center">Esperando o dono da sala 👑 começar…</div>`}
+  ${n < 2 ? '<div class=msg style="text-align:center">⏳ Esperando mais gente entrar…</div>' : ""}
+  ${host ? `<button class=btn data-a=start ${n >= 2 ? "" : "disabled"}>⚔️ Começar partida</button>` : `<div class=msg style="text-align:center">Esperando o dono da sala 👑 começar…</div>`}
   ${reactBar()}<button class="btn sec sm" data-a=leave>🚪 Sair da sala</button>`;
       }
 
-      function watchBar() {
-        const a = G.pl[0],
-          b = G.pl[1];
-        return `<div class=watch>👀 Assistindo: <b>${a.av} ${esc(a.name)}</b> x <b>${b.av} ${esc(b.name)}</b> · ${(() => {
-          const i = G.order.filter(isOn).indexOf(me.tok);
-          return i >= 2 ? `você é o ${i - 1}º da fila` : "";
-        })()}</div>`;
+      function badges(c) {
+        return (
+          (c.st.poison ? "<span class=badge>☠️</span>" : "") +
+          (c.st.burn ? "<span class=badge>🔥</span>" : "") +
+          (c.st.para ? "<span class=badge>⚡ Paralisado</span>" : "") +
+          (c.st.sleep ? "<span class=badge>💤 Dormindo</span>" : "") +
+          (c.st.shield ? '<span class="badge good">🛡️</span>' : "") +
+          (c.st.boost ? '<span class="badge good">💪+30</span>' : "")
+        );
+      }
+      function monCard(c, big, extra) {
+        if (!c)
+          return `<div class="mc empty ${big ? "big" : ""}">⬜ vazio</div>`;
+        const r = R[c.k],
+          t = T[r.t],
+          pct = (left(c) / r.hp) * 100,
+          cls = pct <= 25 ? "low" : pct <= 50 ? "mid" : "";
+        return `<div class="mc ${big ? "big" : ""} ${r.lg ? "lg" : ""} ${extra || ""}" style="--tc:${t[2]}"><div class=me>${r.e}</div><div class=mi><div class=mt><b>${r.lg ? "⭐" : ""}${r.n}</b><span>${t[0]}</span></div>
+  <div class=bar><i class="${cls}" style="width:${pct}%"></i></div><div class=small>❤️ ${left(c)}/${r.hp} ${c.en ? "🟡".repeat(Math.min(c.en, 6)) : ""}</div><div>${badges(c)}</div>
+  ${big ? `<div class=small>Fraco contra ${T[W[r.t]][0]} · Recuo ${"🟡".repeat(r.r) || "grátis"}</div>` : ""}</div></div>`;
+      }
+      function oppPanel(j) {
+        const o = G.pl[j],
+          pd = G.pend;
+        return `<div class="opp ${alive(o) ? "" : "dead"} ${G.cur === j ? "turnnow" : ""} ${pd && pd.tgt === j ? "target" : ""}">
+  <div class=oh><span>${o.av} <b>${esc(o.name)}</b>${G.cur === j ? " <span class=tag>na vez</span>" : ""}${pd && pd.tgt === j ? ' <span class="tag red">🎯 atacado</span>' : ""}</span><span class=small>${alive(o) ? `🐾 ${o.cards.length} · 🃏 ${o.hand.length}` : "❌ eliminado"}</span></div>
+  ${
+    alive(o)
+      ? `<div class=pair>${actives(o)
+          .map((c) => monCard(c, false))
+          .join("")}</div>${
+          bench(o).length
+            ? `<div class="small benchline">banco: ${bench(o)
+                .map((c) => R[c.k].e)
+                .join(" ")}</div>`
+            : ""
+        }`
+      : ""
+  }</div>`;
+      }
+      const why = {
+        used: "✅ já atacou",
+        para: "⚡ paralisado",
+        sleep: "💤 dormindo",
+        first: "🚫 1º turno",
+        en: "",
+      };
+      function vBattle() {
+        const mi = myIdx_(),
+          spec = mi < 0 || !alive(G.pl[mi]),
+          p = mi >= 0 ? G.pl[mi] : null,
+          my = !spec && G.cur === mi,
+          cp = G.pl[G.cur],
+          pd = G.pend;
+        const waiting = pd || anyNeed(),
+          can =
+            my &&
+            !waiting &&
+            L.connected &&
+            G.pl.every((q) => !alive(q) || isOn(q.mid));
+        const head = my
+          ? `<div class=turn>Sua vez! ${p.av}</div>`
+          : `<div class=turn style="color:#9fb0ff">Vez de ${cp.av} ${esc(cp.name)}</div>`;
+        const pendTxt = pd
+          ? `<div class="msg pendbar">⏳ ${esc(G.pl[pd.tgt].name)} está escolhendo quem defende do ataque de ${esc(R[actives(G.pl[pd.att])[pd.s].k].n)}… <b class=cd></b></div>`
+          : "";
+        const needTxt = G.pl
+          .map((q, j) =>
+            needSlot(j) && j !== mi
+              ? `<div class=msg>⏳ ${esc(q.name)} está escolhendo quem entra na luta…</div>`
+              : "",
+          )
+          .join("");
+        const others = G.pl.map((q, j) => j).filter((j) => j !== mi);
+        let mine = "";
+        if (!spec) {
+          mine = `<div class=lbl>${p.av} Seus monstrinhos em campo</div><div class=mine>${actives(
+            p,
+          )
+            .map(
+              (
+                c,
+                s,
+              ) => `<div class=slot>${monCard(c, true, c && p.used.includes(c.id) ? "done" : "")}
+      ${
+        c
+          ? R[c.k].a
+              .map((a, i) => {
+                const w = canAtk(p, s, i);
+                const ok = can && !w;
+                return `<button class=atk data-a=atk data-s=${s} data-i=${i} ${ok ? "" : "disabled"}><span>${a.n}<br><span class=small>${"🟡".repeat(a.c)}${w === "en" ? " (faltam " + (a.c - c.en) + ")" : ""}${a.fx ? " · " + FX[a.fx] : ""}</span></span><span class=d>${w && why[w] ? `<span class=small>${why[w]}</span>` : a.d}</span></button>`;
+              })
+              .join("")
+          : ""
+      }</div>`,
+            )
+            .join("")}</div>
+      ${my ? `<div class="enbar ${p.eN >= ELIM ? "full" : ""}">${p.eN >= ELIM ? "✅ Energias do turno já usadas" : `🟡 Energias para ligar neste turno: <b>${ELIM - p.eN}</b> de ${ELIM}`} · ⚔️ Ataques: <b>${p.used.length}</b> de ${SLOTS}</div>` : ""}`;
+        }
+        const side = spec
+          ? `${mi >= 0 ? "<div class=msg>❌ Você foi eliminado. Assistindo até o fim!</div>" : ""}${queueBox()}${reactBar()}`
+          : `<div class=lbl>Suas cartas ${my ? "(toque para usar)" : ""}</div>
+    <div class=hand>${
+      p.hand
+        .map((h, i) => {
+          const dis =
+            !can ||
+            (h === "en" && p.eN >= ELIM) ||
+            (h === "sup" && p.eN > 0) ||
+            (h === "swap" && !bench(p).length);
+          return `<button class=hc data-a=use data-i=${i} ${dis ? "disabled" : ""}><b>${H[h][0]}</b>${H[h][1]}</button>`;
+        })
+        .join("") || "<span class=small>sem cartas</span>"
+    }</div>
+    <div class=lbl>Seu banco ${my ? "(toque para trocar)" : ""}</div>
+    <div class=bench>${
+      bench(p)
+        .map(
+          (c) =>
+            `<button class=bc data-a=retreat data-id=${c.id} ${can ? "" : "disabled"}><b>${R[c.k].e}</b>${R[c.k].n}<br>❤️ ${left(c)}</button>`,
+        )
+        .join("") || "<span class=small>vazio</span>"
+    }</div>
+    ${my ? `<button class="btn red" data-a=end ${can ? "" : "disabled"}>Terminar meu turno</button>` : ""}
+    ${net.host && !my ? `<button class="btn sec sm" data-a=skip>⏭️ Pular a vez de ${esc(cp.name)}</button>` : ""}
+    ${queueBox()}${reactBar()}`;
+        return `${connBar()}<div class=hdr><div>${head}<div class=small>Turno ${G.turn} · ${MODES[G.mode][0]}</div></div><button class=mini data-a=menu>☰ Menu</button></div>
+  <div class=bt><div class=field>
+  ${my && p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}${pendTxt}${needTxt}
+  ${G.msgs.map((m) => `<div class="msg small">${esc(m)}</div>`).join("")}
+  ${G.turn === 1 && my ? "<div class=msg>🚫 Quem começa não ataca no 1º turno. Ligue energias e termine o turno.</div>" : ""}
+  <div class="opps ${others.length > 2 ? "many" : ""}">${others.map(oppPanel).join("")}</div>
+  ${mine}
+  </div><div class=side>${side}
+  ${
+    G.log.length
+      ? `<details><summary>📜 O que aconteceu</summary>${G.log
+          .slice(-20)
+          .reverse()
+          .map((l) => `<div class=small>• ${esc(l)}</div>`)
+          .join("")}</details>`
+      : ""
+  }
+  </div></div>`;
       }
 
       function vDraft() {
         const mi = myIdx_();
+        const status = G.pl
+          .map(
+            (q) =>
+              `<div class=qi><span class=av>${q.av}</span><span class=f>${esc(q.name)}${q.mid === me.tok ? " (você)" : ""}</span><span class=small>${q.ready ? "✅ pronto" : `🤔 ${q.picks.length}/${TEAM}`}</span></div>`,
+          )
+          .join("");
         if (mi < 0)
-          return `${connBar()}${watchBar()}<div class=bt><div class=field><h2>Escolhendo monstrinhos…</h2>${G.pl.map((q) => `<div class=rk><span class=av>${q.av}</span><span class=f><b>${esc(q.name)}</b></span><span>${q.ready ? "✅ pronto" : "🤔 escolhendo"}</span></div>`).join("")}</div><div class=side>${queueBox()}${reactBar()}</div></div>`;
-        const p = G.pl[mi],
-          o = G.pl[1 - mi];
-        return `${connBar()}<h2>${p.av} Escolha 3 monstrinhos!</h2>
-${p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}<p class=small>O nº 1 começa lutando. Máximo 1 ⭐ lendário por time. ${o.av} ${esc(o.name)}: ${o.ready ? "✅ pronto" : "escolhendo…"}</p>
+          return `${connBar()}<div class=watch>👀 Assistindo a próxima partida começar</div><h2>Escolhendo os times…</h2><div class=queue>${status}</div>${queueBox()}${reactBar()}`;
+        const p = G.pl[mi];
+        return `${connBar()}<h2>${p.av} Monte seu time: ${TEAM} monstrinhos</h2>
+${p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}<p class=small>Os nº 1 e 2 começam lutando. Máximo ${MAXLG} ⭐ lendários. ${MODES[G.mode][0]} com ${G.pl.length} jogadores.</p>
+<details><summary>Quem já está pronto</summary><div class=queue>${status}</div></details>
 <div class=hand>${["", ...Object.keys(T), "lg"].map((t) => `<button class=bc style="${L.flt === t ? "background:#ffcb05;color:#1a1a40" : ""}" data-a=flt data-t="${t}">${t === "lg" ? "⭐ Lendários" : t ? T[t][0] + " " + T[t][1] : "Todos"}</button>`).join("")}</div>
 <div class="grid2 picks">${RK.filter(
           (k) => !L.flt || (L.flt === "lg" ? R[k].lg : R[k].t === L.flt),
@@ -2456,206 +3224,206 @@ ${p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}<p class=small>O nº 1
             return `<button class="pick ${i >= 0 ? "on" : ""} ${r.lg ? "lg" : ""}" style="--tc:${T[r.t][2]}" data-a=pk data-k=${k} ${p.ready ? "disabled" : ""}>${i >= 0 ? `<span class=num>${i + 1}</span>` : ""}${r.lg ? "<span class=lgtag>⭐ LENDÁRIO</span>" : ""}<div class=e>${r.e}</div><div class=n>${r.n} ${T[r.t][0]}</div><div class=small>❤️ ${r.hp} · ${r.a.map((a) => a.d).join(" / ")} dano</div></button>`;
           })
           .join("")}</div>
-${
-  p.ready
-    ? `<div class=msg style="text-align:center">✅ Pronto! Esperando ${esc(o.name)}…</div><button class="btn sec sm" data-a=unready>Mudar escolha</button>`
-    : `<button class="btn sec sm" data-a=rand>🎲 Escolher aleatório</button><button class=btn data-a=ready ${p.picks.length === 3 ? "" : "disabled"}>Pronto! (${p.picks.length}/3)</button>`
-}`;
+<div class=stickybar>${
+          p.ready
+            ? `<div class=msg style="text-align:center">✅ Pronto! Esperando os outros…</div><button class="btn sec sm" data-a=unready>Mudar escolha</button>`
+            : `<button class="btn sec sm" data-a=rand>🎲 Escolher aleatório</button><button class=btn data-a=ready ${p.picks.length === TEAM ? "" : "disabled"}>Pronto! (${p.picks.length}/${TEAM})</button>`
+        }</div>`;
       }
 
       function vFlip() {
-        const f = G.pl[G.flip],
-          mi = myIdx_(),
-          v = mi < 0 ? 0 : mi;
-        return `${connBar()}${mi < 0 ? watchBar() : ""}<h2 style="text-align:center;margin-top:20px">Quem começa?</h2>
-<p class=small style="text-align:center">CARA = ${esc(G.pl[0].name)} · COROA = ${esc(G.pl[1].name)}</p>
-<div class=coin>${G.flip ? "COROA" : "CARA"}</div><div class="reveal big" style="font-size:30px">${f.av} ${esc(f.name)} começa!</div>
-<div class=reveal style="text-align:center;font-size:20px;margin:8px 0">${G.pl[v].picks.map((k) => R[k].e).join(" ")} <b>VS</b> ${G.pl[1 - v].picks.map((k) => R[k].e).join(" ")}</div>
+        const f = G.pl[G.first],
+          mi = myIdx_();
+        return `${connBar()}<h2 style="text-align:center;margin-top:20px">🎲 Sorteio: quem começa?</h2>
+<div class=spin>${G.pl.map((q, j) => `<span class="sp ${j === G.first ? "win" : ""}">${q.av}</span>`).join("")}</div>
+<div class="reveal big" style="font-size:30px">${f.av} ${esc(f.name)} começa!</div>
+<div class=reveal>${G.pl.map((q) => `<div class=qi><span class=av>${q.av}</span><span class=f>${esc(q.name)}</span><span>${q.picks.map((k) => R[k].e).join(" ")}</span></div>`).join("")}</div>
 ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</button>' : '<div class="msg reveal" style="text-align:center">Esperando os jogadores começarem…</div>'}`;
-      }
-
-      function vBattle() {
-        const mi = myIdx_(),
-          spec = mi < 0,
-          v = spec ? 0 : mi,
-          p = G.pl[v],
-          o = G.pl[1 - v],
-          mc = act(p),
-          oc = act(o),
-          my = !spec && G.cur === mi;
-        const waitPick = need(0) || need(1),
-          cp = G.pl[G.cur];
-        const blocked =
-          !my || !mc || waitPick
-            ? ""
-            : mc.st.para
-              ? "⚡ Paralisado: não pode atacar neste turno."
-              : mc.st.sleep
-                ? "💤 Dormindo: não pode atacar nem recuar. A moeda decide se acorda no fim do turno."
-                : G.turn === 1
-                  ? "🚫 Quem começa não ataca no 1º turno. Ligue uma energia e termine o turno."
-                  : "";
-        const can =
-          my && !waitPick && L.connected && G.pl.every((q) => isOn(q.mid));
-        const head = spec
-          ? `<div class=turn style="color:#9fb0ff">Vez de ${cp.av} ${esc(cp.name)}</div>`
-          : my
-            ? `<div class=turn>Sua vez! ${p.av}</div>`
-            : `<div class=turn style="color:#9fb0ff">Vez de ${o.av} ${esc(o.name)}…</div>`;
-        return `${connBar()}${spec ? watchBar() : ""}<div class=hdr><div>${head}<div class=small>Turno ${G.turn}</div></div><button class=mini data-a=menu>☰ Menu</button></div>
-  <div class=bt><div class=field>
-  ${my && p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}
-  ${G.msgs.map((m) => `<div class="msg small">${esc(m)}</div>`).join("")}
-  ${(waitPick && !need(v)) || (spec && waitPick) ? `<div class=msg>⏳ Escolhendo o próximo monstrinho…</div>` : ""}
-  <div class=lbl>${o.av} ${esc(o.name)} · banco: ${
-    bench(o)
-      .map((c) => R[c.k].e)
-      .join(" ") || "vazio"
-  } · 🃏 ${o.hand.length}</div>
-  ${oc ? mon(oc, false) : "<div class=msg>Esperando…</div>"}
-  <div class=vs>⚔️</div>
-  ${
-    spec
-      ? `<div class=lbl>${p.av} ${esc(p.name)} · banco: ${
-          bench(p)
-            .map((c) => R[c.k].e)
-            .join(" ") || "vazio"
-        } · 🃏 ${p.hand.length}</div>`
-      : ""
-  }
-  ${mc ? mon(mc, true) : ""}
-  ${blocked ? `<div class=msg>${blocked}</div>` : ""}
-  ${
-    mc && !spec
-      ? R[mc.k].a
-          .map((a, i) => {
-            const ok = can && !blocked && oc && mc.en >= a.c;
-            return `<button class=atk data-a=atk data-i=${i} ${ok ? "" : "disabled"}><span>${a.n}<br><span class=small>${"🟡".repeat(a.c)}${mc.en < a.c ? " (faltam " + (a.c - mc.en) + ")" : ""}${a.fx ? " · " + FX[a.fx] : ""}</span></span><span class=d>${a.d}</span></button>`;
-          })
-          .join("")
-      : ""
-  }
-  </div><div class=side>
-  ${
-    spec
-      ? ""
-      : `<div class=lbl>Suas cartas ${my ? "(toque para usar)" : ""}</div>
-  <div class=hand>${
-    p.hand
-      .map((h, i) => {
-        const dis =
-          !can ||
-          ((h === "en" || h === "sup") && p.eUsed) ||
-          (h === "swap" && !bench(p).length) ||
-          (h === "mag" && !(oc && oc.en));
-        return `<button class=hc data-a=use data-i=${i} ${dis ? "disabled" : ""}><b>${H[h][0]}</b>${H[h][1]}</button>`;
-      })
-      .join("") || "<span class=small>sem cartas</span>"
-  }</div>
-  <div class=lbl>Seu banco ${my ? "(toque para recuar)" : ""}</div>
-  <div class=bench>${
-    bench(p)
-      .map(
-        (c) =>
-          `<button class=bc data-a=retreat ${can ? "" : "disabled"}><b>${R[c.k].e}</b>${R[c.k].n}<br>❤️ ${left(c)}</button>`,
-      )
-      .join("") || "<span class=small>vazio</span>"
-  }</div>
-  ${my ? `<button class="btn red" data-a=end ${can ? "" : "disabled"}>Terminar turno sem atacar</button>` : ""}`
-  }
-  ${queueBox()}${reactBar()}
-  ${
-    G.log.length
-      ? `<details><summary>📜 O que aconteceu</summary>${G.log
-          .slice(-15)
-          .reverse()
-          .map((l) => `<div class=small>• ${esc(l)}</div>`)
-          .join("")}</details>`
-      : ""
-  }
-  </div></div>`;
       }
 
       function vWin() {
         const w = G.pl[G.winner],
           mi = myIdx_(),
           iWon = G.winner === mi,
-          nx = nextTwo().map(member),
-          canNext = net.host || nx.some((m) => m.mid === me.tok);
+          ffa = G.mode === "ffa",
+          nx = nextTwo().map(member);
+        const canNext =
+            net.host || ffa || nx.some((m) => m && m.mid === me.tok),
+          n = online().length;
         return `${connBar()}<div style="text-align:center;margin-top:30px"><div class="big pop" style="font-size:96px">${iWon ? "🏆" : mi >= 0 ? "💪" : "🎉"}</div>
-  <h1 class=pop>${iWon ? "Você venceu!" : esc(w.av + " " + w.name) + " venceu!"}</h1>${G.wo ? "<p>Vitória por W.O.</p>" : `<div class="big pop" style="font-size:44px">${w.cards.map((c) => R[c.k].e).join(" ")}</div>`}
-  <p>${mi >= 0 && !iWon ? "Quando não vence, aprende! Vai pro fim da fila e volta mais forte." : ""}</p></div>
+  <h1 class=pop>${iWon ? "Você venceu!" : esc(w.av + " " + w.name) + " venceu!"}</h1><div class="big pop" style="font-size:40px">${w.cards.map((c) => R[c.k].e).join(" ")}</div>
+  <p>${mi >= 0 && !iWon ? "Quando não vence, aprende! Bora de novo?" : ""}</p></div>
   ${
-    nx.length >= 2
-      ? `<div class=msg style="text-align:center;font-size:18px">⏭️ Próxima: <b>${nx[0].av} ${esc(nx[0].name)}</b> x <b>${nx[1].av} ${esc(nx[1].name)}</b></div>
-  ${canNext ? "<button class=btn data-a=next>Começar próxima partida ▶️</button>" : '<div class=msg style="text-align:center">Esperando a próxima dupla começar…</div>'}`
-      : '<div class=msg style="text-align:center">⏳ Esperando mais alguém entrar para a próxima…</div>'
+    n < 2
+      ? '<div class=msg style="text-align:center">⏳ Esperando mais alguém para a próxima…</div>'
+      : ffa
+        ? `<div class=msg style="text-align:center">🌀 Próxima: todo mundo da sala (${n} jogadores)</div>${canNext ? "<button class=btn data-a=next>Nova partida ▶️</button>" : ""}`
+        : `<div class=msg style="text-align:center;font-size:18px">⏭️ Próxima: <b>${nx[0].av} ${esc(nx[0].name)}</b> x <b>${nx[1].av} ${esc(nx[1].name)}</b></div>${canNext ? "<button class=btn data-a=next>Começar próxima partida ▶️</button>" : '<div class=msg style="text-align:center">Esperando a próxima dupla começar…</div>'}`
   }
   ${queueBox()}${reactBar()}
   <div class=grid2><button class="btn sec sm" data-a=rank>🏆 Ranking</button><button class="btn sec sm" data-a=leave>🚪 Sair da sala</button></div>`;
       }
 
       function vModal() {
-        const mi = G ? myIdx_() : -1;
+        const mi = G ? myIdx_() : -1,
+          p = mi >= 0 ? G.pl[mi] : null;
+        // 1) defesa: eu fui atacado e tenho 2 em campo
+        if (G && G.phase === "battle" && G.pend && G.pend.tgt === mi) {
+          const pd = G.pend,
+            ap = G.pl[pd.att],
+            ac = actives(ap)[pd.s],
+            at = R[ac.k].a[pd.i];
+          return `<div class=ov><div class="md defend"><div class=big style="font-size:44px">🛡️</div><h2 style="text-align:center">${ap.av} ${esc(ap.name)} vai te atacar!</h2>
+    <p style="text-align:center">${R[ac.k].e} <b>${R[ac.k].n}</b> usa <b>${at.n}</b> (${at.d} de dano${at.fx ? ", " + FX[at.fx] : ""})</p>
+    <p style="text-align:center"><b>Quem vai defender?</b> <span class=cd></span></p>
+    <div class=mine>${actives(p)
+      .map((c, s) =>
+        c
+          ? `<button class=defb data-a=def data-s=${s}>${monCard(c, true)}<span class=prev>vai levar ~${preview(pd.att, pd.s, pd.i, mi, s)}</span></button>`
+          : "",
+      )
+      .join("")}</div></div></div>`;
+        }
+        // 2) preciso colocar alguém no lugar de quem desmaiou
+        if (G && G.phase === "battle" && mi >= 0 && needSlot(mi)) {
+          const s = p.act.findIndex((x) => x == null);
+          return `<div class=ov><div class=md><h2>Quem entra na luta?</h2><p class=small>Um dos seus monstrinhos desmaiou. Escolha quem entra no lugar. <span class=cd2></span></p>${bench(
+            p,
+          )
+            .map(
+              (c) =>
+                `<button class=atk data-a=pickA data-s=${s} data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n} ${T[R[c.k].t][0]}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
+            )
+            .join("")}</div></div>`;
+        }
+        // 3) animação do ataque
         if (L.fxShow && G) {
           const m = L.fxShow;
           return `<div class=ov><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
-    <div style="text-align:center;font-weight:700;font-size:20px">${esc(G.pl[m.by] ? G.pl[m.by].name : "")}: ${esc(m.an)}!</div>
+    <div style="text-align:center;font-weight:700;font-size:19px">${esc(G.pl[m.by] ? G.pl[m.by].name : "")} ➜ ${esc(G.pl[m.tg] ? G.pl[m.tg].name : "")}: ${esc(m.an)}!</div>
     ${m.coin != null ? `<div class=coin style="width:90px;height:90px;font-size:16px">${m.coin ? "CARA" : "COROA"}</div>` : ""}
     <div class="big dmg">−${m.v}</div>
     <div class=reveal>${m.notes.map((n) => `<div class=msg>${esc(n)}</div>`).join("")}${m.ko ? `<div class=msg style="font-size:18px">${esc(m.ko)}</div>` : ""}</div>
     <button class="btn reveal" data-a=fxClose>Continuar</button></div></div>`;
         }
-        if (G && G.phase === "battle" && mi >= 0 && need(mi)) {
-          const q = G.pl[mi];
-          return `<div class=ov><div class=md><h2>Quem vai lutar agora?</h2>${bench(
-            q,
-          )
-            .map(
-              (c) =>
-                `<button class=atk data-a=pickA data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
-            )
-            .join("")}</div></div>`;
-        }
         const m = L.modal;
         if (!m) return "";
         let h = "";
+        const opps = () =>
+          G.pl.map((q, j) => j).filter((j) => j !== mi && alive(G.pl[j]));
         if (m.k === "card") {
-          const c = mi >= 0 && G.pl[mi].hand[m.i];
+          const c = p && p.hand[m.i];
           if (!c) {
             L.modal = null;
             return "";
           }
-          h = `<div class=big>${H[c][0]}</div><h2 style="text-align:center">${H[c][1]}</h2><p style="text-align:center">${HD[c]}</p><button class=btn data-a=play>Usar</button><button class="btn sec sm" data-a=close>Guardar</button>`;
-        } else if (m.k === "retreat") {
-          const p = mi >= 0 && G.pl[mi],
-            mc = p && act(p);
-          if (!mc) {
+          let opts = "";
+          if (c === "bomb" || c === "mag") {
+            opts =
+              (c === "mag"
+                ? "<p class=small>Escolha de quem puxar a energia (vai para o seu monstrinho escolhido abaixo):</p>"
+                : "<p class=small>Em quem jogar a bomba?</p>") +
+              opps()
+                .map(
+                  (j) =>
+                    `<div class=lbl>${G.pl[j].av} ${esc(G.pl[j].name)}</div>` +
+                    actives(G.pl[j])
+                      .map((oc, ts) =>
+                        oc
+                          ? `<button class=atk data-a=pickT data-tj=${j} data-ts=${ts} ${c === "mag" && !oc.en ? "disabled" : ""}><span>${R[oc.k].e} ${R[oc.k].n}</span><span class=small>❤️ ${left(oc)} · 🟡${oc.en}</span></button>`
+                          : "",
+                      )
+                      .join(""),
+                )
+                .join("");
+          } else if (c === "swap")
+            opts =
+              "<p class=small>Qual dos seus monstrinhos sai da luta?</p>" +
+              actives(p)
+                .map((mc, s) =>
+                  mc
+                    ? `<button class=atk data-a=swapOut data-s=${s}><span>${R[mc.k].e} ${R[mc.k].n}</span><span class=small>❤️ ${left(mc)}</span></button>`
+                    : "",
+                )
+                .join("");
+          else
+            opts =
+              "<p class=small>Em qual monstrinho usar?</p>" +
+              actives(p)
+                .map((mc, s) =>
+                  mc
+                    ? `<button class=atk data-a=playOn data-s=${s}><span>${R[mc.k].e} ${R[mc.k].n}</span><span class=small>❤️ ${left(mc)}/${R[mc.k].hp} · 🟡${mc.en}</span></button>`
+                    : "",
+                )
+                .join("");
+          h = `<div class=big>${H[c][0]}</div><h2 style="text-align:center">${H[c][1]}</h2><p style="text-align:center">${HD[c]}</p>${opts}<button class="btn sec sm" data-a=close>Guardar</button>`;
+        } else if (m.k === "magTo")
+          h =
+            `<h2>🧲 Para qual monstrinho seu?</h2>` +
+            actives(p)
+              .map((mc, s) =>
+                mc
+                  ? `<button class=atk data-a=magTo data-s=${s}><span>${R[mc.k].e} ${R[mc.k].n}</span><span class=small>🟡${mc.en}</span></button>`
+                  : "",
+              )
+              .join("") +
+            '<button class="btn sec sm" data-a=close>Cancelar</button>';
+        else if (m.k === "swapIn")
+          h =
+            `<h2>🔄 Quem entra?</h2>` +
+            bench(p)
+              .map(
+                (c) =>
+                  `<button class=atk data-a=swapIn data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
+              )
+              .join("") +
+            '<button class="btn sec sm" data-a=close>Cancelar</button>';
+        else if (m.k === "retreat") {
+          const c = cardOf(p, m.id);
+          if (!c) {
             L.modal = null;
             return "";
           }
-          const r = R[mc.k];
-          const b = m.free
-            ? ""
-            : mc.st.para || mc.st.sleep
-              ? "Dormindo ou paralisado não pode recuar."
-              : p.ret
-                ? "Você já recuou neste turno."
-                : mc.en < r.r
-                  ? `Precisa de ${r.r} energia(s) para recuar (tem ${mc.en}).`
-                  : "";
-          h = `<h2>${m.free ? "🔄 Troca Rápida" : "Recuar " + r.n}</h2><p class=small>${m.free ? "Troca de graça!" : "Custo: " + r.r + " energia(s). Volta pro banco com a vida que tem."}</p>
-    ${
-      b
-        ? `<div class=msg>${b}</div>`
-        : bench(p)
-            .map(
-              (c) =>
-                `<button class=atk data-a=doRet data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
-            )
-            .join("")
-    }
-    <button class="btn sec sm" data-a=close>Cancelar</button>`;
+          h =
+            `<h2>Colocar ${R[c.k].e} ${R[c.k].n} na luta</h2><p class=small>Quem sai? Recuar custa as energias do recuo e só pode 1 vez por turno.</p>` +
+            actives(p)
+              .map((mc, s) => {
+                if (!mc) return "";
+                const r = R[mc.k];
+                const b =
+                  mc.st.para || mc.st.sleep
+                    ? "dormindo/paralisado"
+                    : p.ret
+                      ? "já recuou neste turno"
+                      : mc.en < r.r
+                        ? `precisa de ${r.r} energia`
+                        : "";
+                return `<button class=atk data-a=doRet data-s=${s} ${b ? "disabled" : ""}><span>${r.e} ${r.n}<br><span class=small>${b || "custo: " + ("🟡".repeat(r.r) || "grátis")}</span></span><span class=small>❤️ ${left(mc)}</span></button>`;
+              })
+              .join("") +
+            '<button class="btn sec sm" data-a=close>Cancelar</button>';
+        } else if (m.k === "target") {
+          const c = actives(p)[m.s],
+            at = R[c.k].a[m.i];
+          h =
+            `<h2>${R[c.k].e} ${at.n}: atacar quem?</h2><p class=small>Quem você escolher decide qual monstrinho defende.</p>` +
+            opps()
+              .map((j) => {
+                const o = G.pl[j];
+                return `<button class=tgtb data-a=atkTo data-j=${j}><div class=oh><span>${o.av} <b>${esc(o.name)}</b></span><span class=small>🐾 ${o.cards.length}</span></div><div class=pair>${actives(
+                  o,
+                )
+                  .map((oc) =>
+                    monCard(
+                      oc,
+                      false,
+                      oc && W[R[oc.k].t] === R[c.k].t ? "weak" : "",
+                    ),
+                  )
+                  .join("")}</div></button>`;
+              })
+              .join("") +
+            '<button class="btn sec sm" data-a=close>Cancelar</button>';
         } else if (m.k === "menu")
           h = `<h2>Menu</h2><p class=small>Sala ${esc(net.code)} · ${L.connected ? "🟢 conectado" : "🔴 sem conexão"}</p>${shareBox()}${help()}<button class="btn sec" data-a=rank>🏆 Ranking</button><button class="btn red" data-a=leave>🚪 Sair da sala</button><button class=btn data-a=close>Voltar pro jogo</button>`;
         else if (m.k === "resetRank")
@@ -2675,11 +3443,21 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
             buzz(150);
             if (G.fx.ko) setTimeout(() => sfx("ko"), 500);
           }
-          const mi = myIdx_(),
-            k =
-              G.phase === "battle" && mi >= 0 && G.cur === mi
-                ? G.gid + "-" + G.turn
-                : null;
+          const mi = myIdx_();
+          if (G.pend && G.pend.seq !== L.pendSeq) {
+            L.pendSeq = G.pend.seq;
+            L.pendUntil = Date.now() + G.pend.ms;
+            if (G.pend.tgt === mi) {
+              L.modal = null;
+              L.fxShow = null;
+              buzz([200, 80, 200]);
+              sfx("ko");
+            }
+          }
+          const k =
+            G.phase === "battle" && mi >= 0 && G.cur === mi
+              ? G.gid + "-" + G.turn
+              : null;
           if (k && k !== L.turnKey) {
             L.turnKey = k;
             buzz([60, 40, 60]);
@@ -2703,7 +3481,19 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         app.innerHTML =
           (wide ? h : `<div class=narrow>${h}</div>`) +
           (inGame || L.modal ? vModal() : "");
+        tick();
       }
+      // contagem regressiva da defesa
+      function tick() {
+        const left = Math.max(
+          0,
+          Math.ceil(((L.pendUntil || 0) - Date.now()) / 1000),
+        );
+        document
+          .querySelectorAll(".cd")
+          .forEach((e) => (e.textContent = G && G.pend ? `(${left}s)` : ""));
+      }
+      setInterval(tick, 500);
 
       // ---------- ações da tela ----------
       function needName() {
@@ -2771,12 +3561,12 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         },
         leave: () => leave(),
         reconnect: () => joinRoom(net.code),
+        mode: (d) => send({ t: "mode", m: d.m }),
         start: () => send({ t: "start" }),
         next: () => send({ t: "next" }),
-        wo: () => send({ t: "wo" }),
-        react: (d) => {
-          sendReact(d.e);
-        },
+        kick: (d) => send({ t: "kick", j: +d.j }),
+        skip: () => send({ t: "skip" }),
+        react: (d) => sendReact(d.e),
         flt: (d) => {
           L.flt = d.t;
           render();
@@ -2796,34 +3586,75 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           L.modal = { k: "card", i: +d.i };
           render();
         },
-        play: () => {
-          const mi = myIdx_(),
-            i = L.modal.i,
-            c = G.pl[mi].hand[i];
-          if (c === "swap") {
-            L.modal = { k: "retreat", free: 1, hi: i };
+        playOn: (d) => {
+          const i = L.modal.i;
+          L.modal = null;
+          sfx("en");
+          send({ t: "play", i, s: +d.s });
+        },
+        pickT: (d) => {
+          const i = L.modal.i,
+            c = G.pl[myIdx_()].hand[i];
+          if (c === "mag") {
+            L.modal = { k: "magTo", i, tj: +d.tj, ts: +d.ts };
             render();
             return;
           }
           L.modal = null;
-          sfx(c === "bomb" ? "hit" : "en");
-          send({ t: "play", i });
+          sfx("hit");
+          send({ t: "play", i, tj: +d.tj, ts: +d.ts });
         },
-        atk: (d) => send({ t: "atk", i: +d.i }),
-        retreat: () => {
-          L.modal = { k: "retreat" };
+        magTo: (d) => {
+          const m = L.modal;
+          L.modal = null;
+          sfx("en");
+          send({ t: "play", i: m.i, tj: m.tj, ts: m.ts, s: +d.s });
+        },
+        swapOut: (d) => {
+          L.modal = { k: "swapIn", i: L.modal.i, s: +d.s };
+          render();
+        },
+        swapIn: (d) => {
+          const m = L.modal;
+          L.modal = null;
+          sfx();
+          send({ t: "ret", s: m.s, id: +d.id, free: true, hi: m.i });
+        },
+        retreat: (d) => {
+          L.modal = { k: "retreat", id: +d.id };
           render();
         },
         doRet: (d) => {
           const m = L.modal;
           L.modal = null;
           sfx();
-          send({ t: "ret", id: +d.id, free: !!m.free, hi: m.hi });
+          send({ t: "ret", s: +d.s, id: m.id });
+        },
+        atk: (d) => {
+          const mi = myIdx_(),
+            opps = G.pl
+              .map((q, j) => j)
+              .filter((j) => j !== mi && alive(G.pl[j]));
+          if (opps.length === 1) {
+            send({ t: "atk", s: +d.s, i: +d.i, tgt: opps[0] });
+            return;
+          }
+          L.modal = { k: "target", s: +d.s, i: +d.i };
+          render();
+        },
+        atkTo: (d) => {
+          const m = L.modal;
+          L.modal = null;
+          send({ t: "atk", s: m.s, i: m.i, tgt: +d.j });
+        },
+        def: (d) => {
+          sfx();
+          send({ t: "def", slot: +d.s });
         },
         end: () => send({ t: "end" }),
         pickA: (d) => {
           sfx();
-          send({ t: "pickA", id: +d.id });
+          send({ t: "pickA", s: +d.s, id: +d.id });
         },
         fxClose: () => {
           L.fxShow = null;
@@ -2858,11 +3689,27 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           render();
         },
       };
+      const NEEDM = [
+        "playOn",
+        "pickT",
+        "magTo",
+        "swapOut",
+        "swapIn",
+        "doRet",
+        "atkTo",
+      ];
       app.addEventListener("click", (e) => {
         const el = e.target.closest("[data-a]");
         if (!el || el.disabled) return;
-        const f = A[el.dataset.a];
-        if (f) f(el.dataset);
+        const k = el.dataset.a,
+          f = A[k];
+        if (!f) return;
+        if (NEEDM.includes(k) && !L.modal) {
+          render();
+          return;
+        } // toque duplo em janela que já fechou
+        f(el.dataset);
+        if (NEEDM.includes(k) && !L.modal) render();
       });
       app.addEventListener("input", (e) => {
         if (e.target.id === "myname") {
