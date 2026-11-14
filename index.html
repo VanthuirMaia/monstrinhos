@@ -1904,8 +1904,8 @@
         );
       const coin = () => Math.random() < 0.5;
       const DECK = [
-        ["en", 36],
-        ["sup", 10],
+        ["en", 42],
+        ["sup", 12],
         ["pot", 12],
         ["swap", 8],
         ["shd", 8],
@@ -2013,6 +2013,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         MAXLG = 2,
         ELIM = 2,
         SLOTS = 2,
+        AUTO_EN = 1,
         DEF_MS = 15000,
         NEED_MS = 15000;
       const REACT = ["👏", "😮", "😂", "🔥", "😱", "💪"];
@@ -2180,10 +2181,13 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         n.eN = 0;
         n.used = [];
         n.ret = false;
+        for (const c of actives(n)) if (c) c.en += AUTO_EN; // recarga automática
         const c = draw(n);
-        n.toast = c
-          ? `Você comprou: ${H[c][0]} ${H[c][1]}`
-          : "Mão cheia, não comprou carta.";
+        n.toast =
+          `⚡ +${AUTO_EN} energia em cada monstrinho em campo! ` +
+          (c
+            ? `Você comprou: ${H[c][0]} ${H[c][1]}`
+            : "Mão cheia, não comprou carta.");
       }
       // condições: aplicadas no fim do turno do dono do monstrinho
       function endTurn() {
@@ -2687,10 +2691,30 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
       }
 
       // ---------- conexão ----------
+      // ---------- conexão (com reconexão automática e retomada após recarregar) ----------
+      const SAVE_MS = 3 * 3600e3;
+      function saveHost() {
+        try {
+          localStorage.setItem(
+            "arena-host",
+            JSON.stringify({ code: net.code, G, ts: Date.now() }),
+          );
+        } catch (e) {}
+      }
+      function saveGuest() {
+        lsSet("arena-guest", { code: net.code, ts: Date.now() });
+      }
+      function clearSaved() {
+        try {
+          localStorage.removeItem("arena-host");
+          localStorage.removeItem("arena-guest");
+        } catch (e) {}
+      }
       function broadcast() {
         if (net.host && G) {
           afterWin();
           hostTimers();
+          saveHost();
           for (const c of net.conns.keys())
             if (c.open) {
               try {
@@ -2704,7 +2728,8 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         if (net.host) apply(a, me.tok);
         else if (net.conn && net.conn.open) net.conn.send({ t: "act", a });
         else {
-          L.err = "Sem conexão com a sala.";
+          L.err = "Sem conexão com a sala. Reconectando…";
+          guestRetry(300);
           render();
         }
       }
@@ -2718,58 +2743,127 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         render();
         return true;
       }
+      const ICE = {
+        config: {
+          iceServers: [
+            { urls: "stun:stun.l.google.com:19302" },
+            { urls: "stun:stun1.l.google.com:19302" },
+            { urls: "stun:stun.cloudflare.com:3478" },
+          ],
+        },
+      };
       function onPeerErr(e) {
         const t = e && e.type;
-        if (t === "unavailable-id" && net.host) {
-          net.peer.destroy();
+        if (net.host && t === "unavailable-id") {
+          // ao recarregar, o código antigo demora alguns segundos para ser liberado
+          if (net.resuming && net.tries < 15) {
+            net.tries++;
+            try {
+              net.peer.destroy();
+            } catch (x) {}
+            setTimeout(startHost, 2500);
+            render();
+            return;
+          }
+          try {
+            net.peer.destroy();
+          } catch (x) {}
           net.code = mkCode();
+          net.resuming = false;
           startHost();
           return;
         }
+        if (!net.host && L.screen === "game") {
+          guestRetry(3000);
+          return;
+        } // sala fora do ar por instantes: tenta de novo
         if (t === "peer-unavailable") {
           L.err =
             "Sala não encontrada. Confira o código e se a sala ainda está aberta.";
           L.screen = "join";
+          clearSaved();
         } else if (
           t === "network" ||
           t === "server-error" ||
           t === "socket-error"
-        )
-          L.err = "Problema de internet. Tente de novo.";
-        else if (t === "browser-incompatible")
+        ) {
+          L.err = "Problema de internet. Tentando de novo…";
+          if (net.host)
+            setTimeout(() => {
+              try {
+                net.peer.reconnect();
+              } catch (x) {}
+            }, 3000);
+        } else if (t === "browser-incompatible")
           L.err = "Este navegador não suporta o modo online. Tente o Chrome.";
         else L.err = "Erro de conexão (" + (t || "?") + ").";
         render();
       }
       function startHost() {
         if (noPeer()) return;
-        net.peer = new Peer(PFX + net.code, { debug: 0 });
-        net.peer.on("open", () => render());
+        net.peer = new Peer(PFX + net.code, { debug: 0, ...ICE });
+        net.peer.on("open", () => {
+          net.resuming = false;
+          net.tries = 0;
+          L.err = "";
+          render();
+        });
         net.peer.on("connection", (c) => {
-          c.on("data", (m) => hostMsg(c, m));
+          net.seen.set(c, Date.now());
+          c.on("data", (m) => {
+            net.seen.set(c, Date.now());
+            hostMsg(c, m);
+          });
           c.on("close", () => hostClose(c));
           c.on("error", () => {});
         });
         net.peer.on("error", onPeerErr);
         net.peer.on("disconnected", () => {
-          try {
-            net.peer.reconnect();
-          } catch (e) {}
+          setTimeout(() => {
+            try {
+              if (net.peer && !net.peer.destroyed && net.peer.disconnected)
+                net.peer.reconnect();
+            } catch (e) {}
+          }, 1000);
         });
       }
+      net.seen = new Map();
       function createRoom() {
         net.host = true;
         net.code = mkCode();
+        net.resuming = false;
         G = newRoom();
         L.seenFx = 0;
         L.err = "";
         L.connected = true;
         L.screen = "game";
+        saveHost();
+        render();
+        startHost();
+      }
+      function resumeHost(sv) {
+        net.host = true;
+        net.code = sv.code;
+        net.resuming = true;
+        net.tries = 0;
+        G = sv.G;
+        G.members.forEach((m) => {
+          m.on = m.mid === me.tok;
+        });
+        const mm = member(me.tok);
+        if (mm) {
+          mm.name = me.name || mm.name;
+        }
+        L.seenFx = G.fx ? G.fx.seq : 0;
+        L.connected = true;
+        L.screen = "game";
+        log("🔄 A sala foi reaberta");
         render();
         startHost();
       }
       function hostMsg(c, m) {
         if (!m || typeof m !== "object" || !G) return;
+        if (m.t === "pong") return;
         if (m.t === "hello") {
           const tok = String(m.tok || "").slice(0, 12),
             av = AV.includes(m.av) ? m.av : "🧒";
@@ -2795,6 +2889,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
             G.order.push(tok);
             log(`${mb.av} ${mb.name} entrou na sala`);
           } else {
+            if (!mb.on) log(`${mb.name} voltou`);
             mb.on = true;
             mb.av = av;
           }
@@ -2816,59 +2911,84 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
           if (mb && REACT.includes(m.e)) relayReact(m.e, mb.av + " " + mb.name);
         }
       }
+      // quem cai continua na sala (marcado como "caiu") e volta para o mesmo lugar ao reconectar
       function hostClose(c) {
         const mid = net.conns.get(c);
         net.conns.delete(c);
+        net.seen.delete(c);
         if (!mid || !G) return;
         const mb = member(mid);
         if (!mb) return;
         for (const id of net.conns.values()) if (id === mid) return;
-        const playing = inMatch() && G.pl.some((p) => p.mid === mid);
-        if (playing) mb.on = false;
-        else {
-          G.members = G.members.filter((x) => x.mid !== mid);
-          G.order = G.order.filter((x) => x !== mid);
+        if (mb.on) {
+          mb.on = false;
+          log(`📡 ${mb.name} caiu`);
         }
-        log(`${mb.name} saiu da sala`);
         broadcast();
       }
-      function joinRoom(code) {
+      function joinRoom(code, quiet) {
         net.host = false;
         net.code = code;
         L.err = "";
-        L.screen = "joining";
-        render();
+        if (!quiet) {
+          L.screen = "joining";
+          render();
+        }
         if (noPeer()) return;
         if (!net.peer || net.peer.destroyed) {
-          net.peer = new Peer({ debug: 0 });
+          net.peer = new Peer({ debug: 0, ...ICE });
           net.peer.on("open", connectTo);
           net.peer.on("error", onPeerErr);
           net.peer.on("disconnected", () => {
-            try {
-              net.peer.reconnect();
-            } catch (e) {}
+            setTimeout(() => {
+              try {
+                if (net.peer && !net.peer.destroyed && net.peer.disconnected)
+                  net.peer.reconnect();
+              } catch (e) {}
+            }, 1000);
           });
+        } else if (net.peer.disconnected) {
+          try {
+            net.peer.reconnect();
+          } catch (e) {}
+          setTimeout(connectTo, 1200);
         } else connectTo();
       }
       function connectTo() {
+        if (!net.peer || net.peer.destroyed || net.leaving) return;
+        try {
+          if (net.conn) net.conn.close();
+        } catch (e) {}
         const c = net.peer.connect(PFX + net.code, { reliable: true });
         net.conn = c;
         c.on("open", () => {
           L.connected = true;
+          L.err = "";
+          net.lastMsg = Date.now();
+          net.retries = 0;
           c.send({ t: "hello", name: me.name, av: me.av, tok: me.tok });
           render();
         });
         c.on("data", (m) => {
+          net.lastMsg = Date.now();
           if (!m || typeof m !== "object") return;
+          if (m.t === "ping") {
+            try {
+              c.send({ t: "pong" });
+            } catch (e) {}
+            return;
+          }
           if (m.t === "state") {
             G = m.G;
             if (L.seenFx === null) L.seenFx = G.fx ? G.fx.seq : 0;
             L.screen = "game";
+            saveGuest();
             render();
           } else if (m.t === "react") showReact(m.e, m.by);
           else if (m.t === "full") {
             L.err = `Essa sala está cheia (máximo ${MAXP}).`;
             L.screen = "join";
+            clearSaved();
             render();
           }
         });
@@ -2877,19 +2997,36 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
             L.connected = false;
             net.conn = null;
             render();
+            guestRetry(1500);
           }
         });
         c.on("error", () => {});
         setTimeout(() => {
-          if (!L.connected && L.screen === "joining") {
-            L.err =
-              "Não consegui conectar. Confira o código e tente de novo. Se estiverem no 4G, tentem no Wi-Fi.";
-            L.screen = "join";
-            render();
+          if (net.conn === c && !c.open) {
+            if (L.screen === "joining" && !G) {
+              L.err =
+                "Não consegui conectar. Confira o código e tente de novo. Se estiverem no 4G, tentem no Wi-Fi.";
+              L.screen = "join";
+              render();
+            } else guestRetry(2000);
           }
-        }, 15000);
+        }, 12000);
+      }
+      // reconexão automática do convidado, com espera crescente
+      function guestRetry(ms) {
+        if (net.host || net.leaving || !net.code || net.retryT) return;
+        net.retries = (net.retries || 0) + 1;
+        const wait = Math.min(ms * Math.max(1, net.retries / 2), 8000);
+        net.retryT = setTimeout(() => {
+          net.retryT = null;
+          if (!L.connected && !net.leaving) joinRoom(net.code, true);
+        }, wait);
       }
       function leave() {
+        net.leaving = true;
+        clearSaved();
+        clearTimeout(net.retryT);
+        net.retryT = null;
         try {
           net.conn && net.conn.close();
         } catch (e) {}
@@ -2913,8 +3050,75 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
         try {
           history.replaceState(null, "", location.pathname + location.search);
         } catch (e) {}
+        setTimeout(() => {
+          net.leaving = false;
+        }, 500);
         render();
       }
+      // batimento: descobre conexões mortas sem esperar o navegador avisar
+      setInterval(() => {
+        const now = Date.now();
+        if (net.host && G) {
+          for (const c of [...net.conns.keys()]) {
+            if (c.open) {
+              try {
+                c.send({ t: "ping" });
+              } catch (e) {}
+            }
+            if (now - (net.seen.get(c) || now) > 15000) {
+              try {
+                c.close();
+              } catch (e) {}
+              hostClose(c);
+            }
+          }
+        } else if (
+          !net.host &&
+          L.connected &&
+          net.conn &&
+          now - (net.lastMsg || now) > 12000
+        ) {
+          L.connected = false;
+          try {
+            net.conn.close();
+          } catch (e) {}
+          net.conn = null;
+          render();
+          guestRetry(500);
+        }
+      }, 4000);
+      // tela ligada durante a partida e reconexão ao voltar para o app
+      let wakeLock = null;
+      async function keepAwake() {
+        try {
+          if ("wakeLock" in navigator && G && !wakeLock) {
+            wakeLock = await navigator.wakeLock.request("screen");
+            wakeLock.addEventListener("release", () => {
+              wakeLock = null;
+            });
+          }
+        } catch (e) {}
+      }
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState !== "visible") return;
+        keepAwake();
+        if (
+          net.host &&
+          net.peer &&
+          !net.peer.destroyed &&
+          net.peer.disconnected
+        ) {
+          try {
+            net.peer.reconnect();
+          } catch (e) {}
+        }
+        if (!net.host && net.code && G && !L.connected) {
+          clearTimeout(net.retryT);
+          net.retryT = null;
+          joinRoom(net.code, true);
+        }
+      });
+      document.addEventListener("click", keepAwake);
       const roomLink = () => location.href.split("#")[0] + "#" + net.code;
       function relayReact(e, by) {
         for (const c of net.conns.keys())
@@ -2969,7 +3173,7 @@ ${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] 
 <li>Um celular <b>cria a sala</b> e manda o código ou o link. Até ${MAXP} pessoas na mesma sala.</li>
 <li>Dois modos: <b>todos contra todos</b> ou <b>um contra um com fila</b> (quem ganha fica).</li>
 <li>Cada um monta um time de <b>${TEAM} monstrinhos</b> (no máximo ${MAXLG} ⭐ lendários). <b>2 lutam ao mesmo tempo</b>, os outros ficam no banco.</li>
-<li>Na sua vez: compra 1 carta, liga até <b>2 energias</b> e <b>cada um dos seus 2 monstrinhos pode atacar uma vez</b>.</li>
+<li>Na sua vez: cada monstrinho em campo <b>ganha 1 energia sozinho</b>, você compra 1 carta e ainda pode ligar até <b>2 energias</b> das suas cartas e <b>cada um dos seus 2 monstrinhos pode atacar uma vez</b>.</li>
 <li>Ao atacar, você escolhe <b>qual jogador</b> atacar. Quem é atacado escolhe <b>qual monstrinho defende</b> (tem ${DEF_MS / 1000} segundos).</li>
 <li><b>Fraqueza</b> dá +30 de dano: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮.</li>
 <li>Cartas de apoio: 🧪 Poção, 💖 Super Poção, 🔄 Troca Rápida, 🛡️ Escudo, 💣 Bomba, 🧲 Ímã, ⏰ Despertador.</li>
@@ -3014,7 +3218,9 @@ ${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
       }
       function connBar() {
         if (!L.connected && !net.host)
-          return `<div class="msg alert">📡 Conexão perdida. <button class=mini data-a=reconnect>Reconectar</button></div>`;
+          return `<div class="msg alert">📡 Conexão caiu. Reconectando sozinho… <button class=mini data-a=reconnect>Tentar agora</button></div>`;
+        if (net.host && !(net.peer && net.peer.open))
+          return `<div class="msg alert">📡 ${net.resuming ? "Reabrindo a sala" : "Reconectando a sala"}… não feche esta página</div>`;
         if (G && inMatch()) {
           const off = G.pl
             .map((p, j) => [p, j])
@@ -3560,7 +3766,11 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           } catch (e) {}
         },
         leave: () => leave(),
-        reconnect: () => joinRoom(net.code),
+        reconnect: () => {
+          clearTimeout(net.retryT);
+          net.retryT = null;
+          joinRoom(net.code, true);
+        },
         mode: (d) => send({ t: "mode", m: d.m }),
         start: () => send({ t: "start" }),
         next: () => send({ t: "next" }),
@@ -3717,7 +3927,31 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
           lsSet("arena-on-me", me);
         }
       });
-      render();
+      // voltou depois de atualizar a página? retoma a sala
+      (function resume() {
+        const hs = ls("arena-host", null),
+          gs = ls("arena-guest", null),
+          now = Date.now();
+        if (
+          hs &&
+          hs.G &&
+          now - hs.ts < SAVE_MS &&
+          !(L.joinCode && L.joinCode !== hs.code)
+        ) {
+          resumeHost(hs);
+          return;
+        }
+        if (
+          me.name &&
+          gs &&
+          now - gs.ts < SAVE_MS &&
+          (!L.joinCode || L.joinCode === gs.code)
+        ) {
+          joinRoom(gs.code);
+          return;
+        }
+        render();
+      })();
     </script>
   </body>
 </html>
