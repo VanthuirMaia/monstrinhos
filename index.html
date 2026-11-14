@@ -1118,6 +1118,42 @@
         align-items: center;
         text-align: center;
       }
+      #tickbox {
+        position: fixed;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(94vw, 520px);
+        z-index: 15;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        pointer-events: none;
+      }
+      .ticker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(20, 27, 69, 0.95);
+        border: 2px solid #ff5252;
+        border-radius: 14px;
+        padding: 6px 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        animation: pop 0.4s both;
+        font-size: 14px;
+      }
+      .ticker .te {
+        font-size: 30px;
+      }
+      .ticker .tt {
+        flex: 1;
+      }
+      .ticker .tv {
+        color: #ff5252;
+      }
+      #fxl .ov {
+        z-index: 12;
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   </head>
@@ -3965,6 +4001,14 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
   <div class=grid2><button class="btn sec sm" data-a=rank>🏆 Ranking</button><button class="btn sec sm" data-a=leave>🚪 Sair da sala</button></div>`;
       }
 
+      function fxHtml(m) {
+        return `<div class=ov><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
+    <div style="text-align:center;font-weight:700;font-size:19px">${esc(G.pl[m.by] ? G.pl[m.by].name : "")} ➜ ${esc(G.pl[m.tg] ? G.pl[m.tg].name : "")}: ${esc(m.an)}!</div>
+    ${m.coin != null ? `<div class=coin style="width:90px;height:90px;font-size:16px">${m.coin ? "CARA" : "COROA"}</div>` : ""}
+    <div class="big dmg">−${m.v}</div>
+    <div class=reveal>${m.notes.map((n) => `<div class=msg>${esc(n)}</div>`).join("")}${m.ko ? `<div class=msg style="font-size:18px">${esc(m.ko)}</div>` : ""}</div>
+    <button class="btn reveal" data-a=fxClose>Continuar</button></div></div>`;
+      }
       function vModal() {
         const mi = G ? myIdx_() : -1,
           p = mi >= 0 ? G.pl[mi] : null;
@@ -3996,16 +4040,6 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
                 `<button class=atk data-a=pickA data-s=${s} data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n} ${T[R[c.k].t][0]}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
             )
             .join("")}</div></div>`;
-        }
-        // 3) animação do ataque
-        if (L.fxShow && G) {
-          const m = L.fxShow;
-          return `<div class=ov><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
-    <div style="text-align:center;font-weight:700;font-size:19px">${esc(G.pl[m.by] ? G.pl[m.by].name : "")} ➜ ${esc(G.pl[m.tg] ? G.pl[m.tg].name : "")}: ${esc(m.an)}!</div>
-    ${m.coin != null ? `<div class=coin style="width:90px;height:90px;font-size:16px">${m.coin ? "CARA" : "COROA"}</div>` : ""}
-    <div class="big dmg">−${m.v}</div>
-    <div class=reveal>${m.notes.map((n) => `<div class=msg>${esc(n)}</div>`).join("")}${m.ko ? `<div class=msg style="font-size:18px">${esc(m.ko)}</div>` : ""}</div>
-    <button class="btn reveal" data-a=fxClose>Continuar</button></div></div>`;
         }
         const m = L.modal;
         if (!m) return "";
@@ -4148,15 +4182,22 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         const inGame = L.screen === "game" && G;
         if (inGame) {
           if (G.phase === "win") recordWin();
+          const mi = myIdx_();
           if (G.fx && L.seenFx !== null && G.fx.seq > L.seenFx) {
             L.seenFx = G.fx.seq;
-            L.fxShow = G.fx;
-            L.modal = null;
-            sfx("hit");
-            buzz(150);
-            if (G.fx.ko) setTimeout(() => sfx("ko"), 500);
+            const f = G.fx,
+              meIn = mi >= 0 && (f.by === mi || f.tg === mi);
+            if (meIn && !G.pend) {
+              L.fxShow = f;
+              L.modal = null;
+              sfx("hit");
+              buzz(150);
+              if (f.ko) setTimeout(() => sfx("ko"), 500);
+            } else {
+              showTicker(f);
+              tone(220, 0.12, "triangle");
+            }
           }
-          const mi = myIdx_();
           if (G.pend && G.pend.seq !== L.pendSeq) {
             L.pendSeq = G.pend.seq;
             L.pendUntil = Date.now() + G.pend.ms;
@@ -4194,7 +4235,31 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         app.innerHTML =
           (wide ? h : `<div class=narrow>${h}</div>`) +
           (inGame || L.modal ? vModal() : "");
+        const want = L.fxShow && inGame ? String(L.fxShow.seq) : "";
+        if (fxl.dataset.seq !== want) {
+          fxl.dataset.seq = want;
+          fxl.innerHTML = want ? fxHtml(L.fxShow) : "";
+        }
         tick();
+      }
+      // camada fixa da animação de ataque (não é redesenhada a cada atualização)
+      const fxl = document.createElement("div");
+      fxl.id = "fxl";
+      fxl.dataset.seq = "";
+      document.body.appendChild(fxl);
+      const tickBox = document.createElement("div");
+      tickBox.id = "tickbox";
+      document.body.appendChild(tickBox);
+      function showTicker(f) {
+        if (!G) return;
+        const a = G.pl[f.by],
+          t = G.pl[f.tg];
+        const d = document.createElement("div");
+        d.className = "ticker";
+        d.innerHTML = `<span class=te>${f.ae}</span><span class=tt><b>${esc(a ? a.name : "")}</b> ➜ <b>${esc(t ? t.name : "")}</b>: ${esc(f.an)} <b class=tv>−${f.v}</b>${f.ko ? "<br>💥 " + esc(f.ko.replace(/^💥 /, "")) : ""}</span><span class=te>${f.te}</span>`;
+        tickBox.appendChild(d);
+        while (tickBox.children.length > 3) tickBox.firstChild.remove();
+        setTimeout(() => d.remove(), f.ko ? 4500 : 3000);
       }
       // contagem regressiva da defesa
       function tick() {
@@ -4456,7 +4521,7 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         "doRet",
         "atkTo",
       ];
-      app.addEventListener("click", (e) => {
+      function onTap(e) {
         const el = e.target.closest("[data-a]");
         if (!el || el.disabled) return;
         const k = el.dataset.a,
@@ -4468,7 +4533,9 @@ ${mi >= 0 ? '<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</
         } // toque duplo em janela que já fechou
         f(el.dataset);
         if (NEEDM.includes(k) && !L.modal) render();
-      });
+      }
+      app.addEventListener("click", onTap);
+      fxl.addEventListener("click", onTap);
       app.addEventListener("input", (e) => {
         if (e.target.id === "myname") {
           me.name = e.target.value.trim().slice(0, 16);
