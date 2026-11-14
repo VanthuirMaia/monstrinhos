@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0e1330" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Arena dos Monstrinhos Online</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐙</text></svg>"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        margin: 0;
+        font-family: Fredoka, system-ui, sans-serif;
+        background: radial-gradient(circle at 50% 0, #2b3a8c, #0e1330 70%) fixed;
+        color: #fff;
+        min-height: 100vh;
+      }
+      #app {
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 12px 12px 50px;
+      }
+      h1 {
+        font-size: 34px;
+        text-align: center;
+        margin: 14px 0 2px;
+      }
+      h2 {
+        margin: 6px 0;
+      }
+      .sub {
+        text-align: center;
+        opacity: 0.85;
+        margin: 0 0 16px;
+      }
+      label {
+        display: block;
+        margin: 10px 0;
+        font-weight: 600;
+      }
+      input {
+        width: 100%;
+        font: inherit;
+        font-size: 17px;
+        padding: 10px;
+        border-radius: 12px;
+        border: 2px solid #3d4aa0;
+        background: #141b45;
+        color: #fff;
+        margin-top: 4px;
+      }
+      .btn {
+        display: block;
+        width: 100%;
+        font: inherit;
+        font-weight: 700;
+        font-size: 19px;
+        padding: 14px;
+        border: 0;
+        border-radius: 16px;
+        background: #ffcb05;
+        color: #1a1a40;
+        margin: 10px 0;
+        box-shadow: 0 4px 0 #b8920a;
+      }
+      .btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 #b8920a;
+      }
+      .btn:disabled {
+        opacity: 0.4;
+      }
+      .btn.sec {
+        background: #3d4aa0;
+        color: #fff;
+        box-shadow: 0 4px 0 #232c6b;
+      }
+      .btn.red {
+        background: #e53935;
+        color: #fff;
+        box-shadow: 0 4px 0 #8e1c1a;
+      }
+      .btn.sm {
+        font-size: 15px;
+        padding: 11px;
+        margin: 6px 0;
+      }
+      .small {
+        font-size: 13px;
+        opacity: 0.85;
+      }
+      .mini {
+        font: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 7px 10px;
+        border-radius: 10px;
+        border: 0;
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+      }
+      .hdr {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .turn {
+        font-size: 23px;
+        font-weight: 700;
+        color: #ffcb05;
+      }
+      .mon {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: linear-gradient(135deg, var(--tc), #1b2150 80%);
+        border-radius: 20px;
+        padding: 10px 12px;
+        border: 3px solid rgba(255, 255, 255, 0.25);
+        margin: 6px 0;
+      }
+      .em {
+        width: 92px;
+        height: 92px;
+        flex: 0 0 92px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 40% 35%,
+          rgba(255, 255, 255, 0.55),
+          rgba(255, 255, 255, 0.08)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 58px;
+        animation: bob 2.4s ease-in-out infinite;
+      }
+      .mon.me .em {
+        width: 110px;
+        height: 110px;
+        flex-basis: 110px;
+        font-size: 72px;
+      }
+      @keyframes bob {
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      .info {
+        flex: 1;
+        min-width: 0;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .bar {
+        height: 13px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 6px 0;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: #4cdd6a;
+        transition: width 0.8s;
+      }
+      .bar i.mid {
+        background: #ffcb05;
+      }
+      .bar i.low {
+        background: #ff4d4d;
+      }
+      .badge {
+        display: inline-block;
+        background: #fff;
+        color: #1a1a40;
+        border-radius: 8px;
+        padding: 1px 7px;
+        font-size: 13px;
+        font-weight: 700;
+        margin: 3px 3px 0 0;
+      }
+      .vs {
+        text-align: center;
+        font-weight: 700;
+        opacity: 0.6;
+        margin: 0;
+      }
+      .atk {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        font: inherit;
+        text-align: left;
+        padding: 10px 14px;
+        margin: 7px 0;
+        border-radius: 14px;
+        border: 0;
+        background: #fff;
+        color: #1a1a40;
+        font-size: 17px;
+        font-weight: 700;
+        box-shadow: 0 4px 0 #8890b0;
+      }
+      .atk:disabled {
+        opacity: 0.45;
+      }
+      .atk .d {
+        font-size: 26px;
+      }
+      .atk .small {
+        opacity: 0.75;
+        font-weight: 600;
+      }
+      .lbl {
+        font-size: 13px;
+        opacity: 0.75;
+        margin: 10px 0 2px;
+        font-weight: 600;
+      }
+      .hand,
+      .bench {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 4px 0 6px;
+      }
+      .hc {
+        flex: 0 0 78px;
+        font: inherit;
+        padding: 8px 4px;
+        border-radius: 14px;
+        border: 0;
+        background: linear-gradient(180deg, #fff, #dfe4ff);
+        color: #1a1a40;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 3px 0 #8890b0;
+      }
+      .hc b {
+        display: block;
+        font-size: 30px;
+      }
+      .hc:disabled {
+        opacity: 0.4;
+      }
+      .bc {
+        flex: 0 0 auto;
+        font: inherit;
+        padding: 6px 10px;
+        border-radius: 14px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        background: #141b45;
+        color: #fff;
+        font-size: 13px;
+        text-align: center;
+      }
+      .bc b {
+        display: block;
+        font-size: 30px;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .pick {
+        position: relative;
+        font: inherit;
+        color: #fff;
+        text-align: left;
+        border: 3px solid transparent;
+        border-radius: 16px;
+        padding: 8px;
+        background: linear-gradient(160deg, var(--tc), #1b2150 90%);
+      }
+      .pick.on {
+        border-color: #ffcb05;
+        box-shadow: 0 0 0 3px rgba(255, 203, 5, 0.35);
+      }
+      .pick .e {
+        font-size: 44px;
+        text-align: center;
+      }
+      .pick .n {
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .pick .num {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background: #ffcb05;
+        color: #1a1a40;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+      }
+      .ov {
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 8, 25, 0.85);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 9;
+      }
+      .md {
+        background: #1b2150;
+        width: 100%;
+        max-width: 480px;
+        max-height: 92vh;
+        overflow: auto;
+        border-radius: 22px 22px 0 0;
+        padding: 18px 16px 28px;
+      }
+      .big {
+        font-size: 60px;
+        text-align: center;
+        font-weight: 700;
+      }
+      .coin {
+        width: 140px;
+        height: 140px;
+        margin: 16px auto;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #ffe680, #d4a000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: #5a4300;
+        animation: flip 1s ease-out;
+        box-shadow: 0 6px 0 #8a6800;
+      }
+      @keyframes flip {
+        0% {
+          transform: rotateY(0) scale(0.6);
+        }
+        100% {
+          transform: rotateY(1800deg) scale(1);
+        }
+      }
+      .reveal {
+        animation: fade 0.4s 1s both;
+      }
+      .reveal2 {
+        animation: fade 0.4s 1.3s both;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: scale(0.7);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .pop {
+        animation: pop 0.6s both;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(0.3);
+          opacity: 0;
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .fight {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 76px;
+        padding: 10px 20px;
+        height: 120px;
+      }
+      .lunge {
+        animation: lunge 0.7s ease-in-out;
+      }
+      @keyframes lunge {
+        40% {
+          transform: translateX(90px) scale(1.15);
+        }
+        100% {
+          transform: none;
+        }
+      }
+      .hit {
+        animation: hit 0.5s 0.3s;
+      }
+      @keyframes hit {
+        0%,
+        100% {
+          transform: none;
+          filter: none;
+        }
+        25% {
+          transform: translateX(-10px) rotate(-8deg);
+          filter: brightness(2);
+        }
+        75% {
+          transform: translateX(10px) rotate(8deg);
+        }
+      }
+      .ko {
+        animation: ko 0.8s 0.6s forwards;
+      }
+      @keyframes ko {
+        to {
+          transform: rotate(90deg) translateY(30px);
+          opacity: 0.2;
+        }
+      }
+      .dmg {
+        color: #ff5252;
+        animation: pop 0.5s 0.5s both;
+      }
+      .msg {
+        background: #141b45;
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin: 6px 0;
+      }
+      .toast {
+        background: #ffcb05;
+        color: #1a1a40;
+        font-weight: 700;
+        border-radius: 12px;
+        padding: 8px 12px;
+        margin: 6px 0;
+        animation: pop 0.4s;
+      }
+      details {
+        background: #141b45;
+        border-radius: 14px;
+        padding: 10px 14px;
+        margin-top: 14px;
+      }
+      summary {
+        font-weight: 700;
+      }
+      details li {
+        margin: 6px 0;
+      }
+      .it {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin: 6px 0;
+      }
+      .pl {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font: inherit;
+        color: #fff;
+        text-align: left;
+        background: #141b45;
+        border: 3px solid transparent;
+        border-radius: 14px;
+        padding: 8px 12px;
+      }
+      .pl.on {
+        border-color: #ffcb05;
+        box-shadow: 0 0 0 3px rgba(255, 203, 5, 0.3);
+      }
+      .av {
+        font-size: 34px;
+      }
+      .f {
+        flex: 1;
+        min-width: 0;
+      }
+      .num2 {
+        background: #ffcb05;
+        color: #1a1a40;
+        border-radius: 10px;
+        padding: 2px 8px;
+        font-weight: 700;
+      }
+      .rk {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #141b45;
+        border-radius: 14px;
+        padding: 10px 12px;
+        margin: 6px 0;
+      }
+      .rk:first-of-type {
+        background: linear-gradient(90deg, #6b5200, #141b45);
+      }
+      .pos {
+        font-size: 28px;
+        width: 40px;
+        text-align: center;
+        font-weight: 700;
+      }
+      .wins {
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffcb05;
+      }
+      .avs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .avb {
+        font-size: 30px;
+        background: #141b45;
+        border: 3px solid transparent;
+        border-radius: 12px;
+        padding: 4px 6px;
+      }
+      .avb.on {
+        border-color: #ffcb05;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      // tipos: emoji, nome, cor
+      const T = {
+        fogo: ["🔥", "Fogo", "#d9441b"],
+        agua: ["💧", "Água", "#1e7fd6"],
+        planta: ["🌿", "Planta", "#2e9e44"],
+        eletrico: ["⚡", "Elétrico", "#c9a400"],
+        pedra: ["🪨", "Pedra", "#8a6a44"],
+        mistico: ["🔮", "Místico", "#8e3fb8"],
+      };
+      // quem é forte contra cada tipo (fraqueza = dano x2)
+      const W = {
+        fogo: "agua",
+        agua: "eletrico",
+        eletrico: "pedra",
+        pedra: "planta",
+        planta: "fogo",
+        mistico: "mistico",
+      };
+      const FX = {
+        burn: "Queima o alvo",
+        poison: "Envenena o alvo",
+        para: "Moeda: cara paralisa",
+        coin2x: "Moeda: cara dano x2",
+        heal20: "Cura 20 de quem ataca",
+        self20: "Causa 20 em si mesmo",
+        charge: "Liga +1 energia em si",
+        drawcard: "Compra 1 carta",
+      };
+      // monstrinhos originais
+      const R = {
+        vulcabra: {
+          n: "Vulcabra",
+          e: "🐐",
+          t: "fogo",
+          hp: 80,
+          r: 1,
+          a: [
+            { n: "Cabeçada Quente", c: 1, d: 20 },
+            { n: "Erupção", c: 3, d: 60, fx: "burn" },
+          ],
+        },
+        fogareu: {
+          n: "Fogaréu",
+          e: "🦉",
+          t: "fogo",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Faísca", c: 1, d: 20 },
+            { n: "Redemoinho de Fogo", c: 2, d: 40, fx: "coin2x" },
+          ],
+        },
+        bolhudo: {
+          n: "Bolhudo",
+          e: "🐙",
+          t: "agua",
+          hp: 80,
+          r: 2,
+          a: [
+            { n: "Jato d'Água", c: 1, d: 20 },
+            { n: "Tinta Grudenta", c: 2, d: 40, fx: "para" },
+          ],
+        },
+        ondinha: {
+          n: "Ondinha",
+          e: "🐬",
+          t: "agua",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Splash", c: 1, d: 10, fx: "heal20" },
+            { n: "Tsunami", c: 3, d: 80 },
+          ],
+        },
+        preguicarva: {
+          n: "Preguiçarva",
+          e: "🦥",
+          t: "planta",
+          hp: 100,
+          r: 2,
+          a: [
+            { n: "Abraço de Musgo", c: 1, d: 10, fx: "heal20" },
+            { n: "Cipó Gigante", c: 3, d: 70 },
+          ],
+        },
+        cogumilo: {
+          n: "Cogumilo",
+          e: "🍄",
+          t: "planta",
+          hp: 60,
+          r: 1,
+          a: [
+            { n: "Esporos", c: 1, d: 10, fx: "poison" },
+            { n: "Cogumelada", c: 2, d: 50 },
+          ],
+        },
+        zumbizz: {
+          n: "Zumbizz",
+          e: "🐝",
+          t: "eletrico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Ferrãozinho", c: 1, d: 20 },
+            { n: "Choque Zumbido", c: 2, d: 40, fx: "para" },
+          ],
+        },
+        lesmagneto: {
+          n: "Lesmagneto",
+          e: "🐌",
+          t: "eletrico",
+          hp: 90,
+          r: 2,
+          a: [
+            { n: "Gosma Elétrica", c: 1, d: 20 },
+            { n: "Megaraio", c: 3, d: 90, fx: "self20" },
+          ],
+        },
+        rinocerocha: {
+          n: "Rinocerocha",
+          e: "🦏",
+          t: "pedra",
+          hp: 110,
+          r: 3,
+          a: [
+            { n: "Chifrada", c: 2, d: 40 },
+            { n: "Avalanche", c: 3, d: 80 },
+          ],
+        },
+        pedrico: {
+          n: "Pedriço",
+          e: "🦔",
+          t: "pedra",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Rolamento", c: 1, d: 20, fx: "coin2x" },
+            { n: "Espinhos de Pedra", c: 2, d: 50 },
+          ],
+        },
+        fantasmolho: {
+          n: "Fantasmolho",
+          e: "👻",
+          t: "mistico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Susto", c: 1, d: 10, fx: "para" },
+            { n: "Assombração", c: 2, d: 50 },
+          ],
+        },
+        unilua: {
+          n: "Unilua",
+          e: "🦄",
+          t: "mistico",
+          hp: 80,
+          r: 1,
+          a: [
+            { n: "Brilho Lunar", c: 1, d: 20, fx: "heal20" },
+            { n: "Chifre Cósmico", c: 3, d: 60, fx: "coin2x" },
+          ],
+        },
+        lavacaranga: {
+          n: "Lavacaranga",
+          e: "🦀",
+          t: "fogo",
+          hp: 90,
+          r: 2,
+          a: [
+            { n: "Pinça Fervente", c: 1, d: 20, fx: "burn" },
+            { n: "Garra de Magma", c: 3, d: 70 },
+          ],
+        },
+        pimentoso: {
+          n: "Pimentoso",
+          e: "🌶️",
+          t: "fogo",
+          hp: 50,
+          r: 0,
+          a: [
+            { n: "Ardidinha", c: 1, d: 30 },
+            { n: "Explosão Picante", c: 2, d: 60, fx: "self20" },
+          ],
+        },
+        tubarito: {
+          n: "Tubarito",
+          e: "🦈",
+          t: "agua",
+          hp: 90,
+          r: 1,
+          a: [
+            { n: "Mordida", c: 1, d: 30 },
+            { n: "Torpedo", c: 3, d: 70, fx: "coin2x" },
+          ],
+        },
+        baleiao: {
+          n: "Baleião",
+          e: "🐳",
+          t: "agua",
+          hp: 130,
+          r: 3,
+          a: [
+            { n: "Esguicho", c: 2, d: 30, fx: "heal20" },
+            { n: "Barrigada Oceânica", c: 4, d: 100 },
+          ],
+        },
+        cactudo: {
+          n: "Cactudo",
+          e: "🌵",
+          t: "planta",
+          hp: 80,
+          r: 1,
+          a: [
+            { n: "Espetada", c: 1, d: 20, fx: "poison" },
+            { n: "Chuva de Espinhos", c: 3, d: 60 },
+          ],
+        },
+        folhagarta: {
+          n: "Folhagarta",
+          e: "🐛",
+          t: "planta",
+          hp: 50,
+          r: 0,
+          a: [
+            { n: "Mastigar Folha", c: 1, d: 10, fx: "charge" },
+            { n: "Teia Verde", c: 2, d: 30, fx: "para" },
+          ],
+        },
+        robozap: {
+          n: "Robozap",
+          e: "🤖",
+          t: "eletrico",
+          hp: 100,
+          r: 2,
+          a: [
+            { n: "Recarregar", c: 1, d: 10, fx: "charge" },
+            { n: "Laser Turbo", c: 3, d: 80 },
+          ],
+        },
+        joaninhaio: {
+          n: "Joaninhaio",
+          e: "🐞",
+          t: "eletrico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Pisca-Pisca", c: 1, d: 20, fx: "drawcard" },
+            { n: "Trovãozinho", c: 2, d: 50 },
+          ],
+        },
+        tartaroca: {
+          n: "Tartaroca",
+          e: "🐢",
+          t: "pedra",
+          hp: 120,
+          r: 3,
+          a: [
+            { n: "Casco Duro", c: 1, d: 10, fx: "heal20" },
+            { n: "Terremoto", c: 3, d: 70 },
+          ],
+        },
+        montanhudo: {
+          n: "Montanhudo",
+          e: "🗿",
+          t: "pedra",
+          hp: 100,
+          r: 2,
+          a: [
+            { n: "Olhar de Pedra", c: 1, d: 20, fx: "para" },
+            { n: "Desmoronar", c: 4, d: 110, fx: "self20" },
+          ],
+        },
+        borbolumen: {
+          n: "Borbolúmen",
+          e: "🦋",
+          t: "mistico",
+          hp: 60,
+          r: 0,
+          a: [
+            { n: "Pó Mágico", c: 1, d: 10, fx: "drawcard" },
+            { n: "Asas Hipnóticas", c: 2, d: 40, fx: "para" },
+          ],
+        },
+        gatonoite: {
+          n: "Gatonoite",
+          e: "🐈‍⬛",
+          t: "mistico",
+          hp: 70,
+          r: 1,
+          a: [
+            { n: "Arranhão Sombrio", c: 1, d: 20, fx: "coin2x" },
+            { n: "Sete Vidas", c: 2, d: 40, fx: "heal20" },
+          ],
+        },
+      };
+      const RK = Object.keys(R);
+      // cartas de mão
+      const H = {
+        en: ["🟡", "Energia"],
+        sup: ["⭐", "Super Energia"],
+        pot: ["🧪", "Poção"],
+        swap: ["🔄", "Troca Rápida"],
+      };
+      const HD = {
+        en: "Liga 1 energia no seu monstrinho (1 energia por turno).",
+        sup: "Liga 2 energias de uma vez (conta como a energia do turno).",
+        pot: "Cura 30 de vida do seu monstrinho.",
+        swap: "Troca seu monstrinho pelo do banco, de graça.",
+      };
+
+      // sons simples
+      let AC = null;
+      function tone(f, d, type) {
+        try {
+          AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+          const o = AC.createOscillator(),
+            g = AC.createGain();
+          o.type = type || "square";
+          o.frequency.value = f;
+          g.gain.setValueAtTime(0.08, AC.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, AC.currentTime + d);
+          o.connect(g);
+          g.connect(AC.destination);
+          o.start();
+          o.stop(AC.currentTime + d);
+        } catch (e) {}
+      }
+      function sfx(k) {
+        if (k === "hit") {
+          tone(180, 0.25, "sawtooth");
+          setTimeout(() => tone(90, 0.3, "sawtooth"), 120);
+        } else if (k === "en") {
+          tone(660, 0.1, "sine");
+          setTimeout(() => tone(990, 0.15, "sine"), 80);
+        } else if (k === "win") {
+          [523, 659, 784, 1046].forEach((f, i) =>
+            setTimeout(() => tone(f, 0.25, "triangle"), i * 150),
+          );
+        } else if (k === "ko") {
+          tone(400, 0.2);
+          setTimeout(() => tone(250, 0.2), 150);
+          setTimeout(() => tone(120, 0.4), 300);
+        } else tone(520, 0.08, "sine");
+      }
+      function buzz(ms) {
+        try {
+          navigator.vibrate && navigator.vibrate(ms);
+        } catch (e) {}
+      }
+
+      const app = document.getElementById("app");
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) =>
+        String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      const coin = () => Math.random() < 0.5;
+      function randCard() {
+        const x = Math.random();
+        return x < 0.5 ? "en" : x < 0.65 ? "sup" : x < 0.85 ? "pot" : "swap";
+      }
+
+      // perfil e ranking ficam salvos neste celular
+      const AV = [
+        "👨",
+        "👩",
+        "🧒",
+        "👦",
+        "👧",
+        "👴",
+        "👵",
+        "🦸",
+        "🧙",
+        "🥷",
+        "🐱",
+        "🐶",
+        "🦊",
+        "🐼",
+        "🦁",
+        "🐯",
+        "🐸",
+        "🤖",
+        "👽",
+        "🎃",
+      ];
+      function ls(k, d) {
+        try {
+          const x = JSON.parse(localStorage.getItem(k));
+          return x == null ? d : x;
+        } catch (e) {
+          return d;
+        }
+      }
+      function lsSet(k, v) {
+        try {
+          localStorage.setItem(k, JSON.stringify(v));
+        } catch (e) {}
+      }
+      let me = ls("arena-on-me", { name: "", av: "🧒" });
+      let RANK = ls("arena-on-rank", { ps: {}, gids: [] });
+
+      // rede
+      const PFX = "arenamonstrinhos-v1-";
+      const net = { peer: null, conn: null, host: false, code: "" };
+      let G = null,
+        myIdx = 0;
+      const L = {
+        screen: "home",
+        modal: null,
+        err: "",
+        connected: false,
+        seenFx: null,
+        fxShow: null,
+        flt: "",
+        joinCode: "",
+        turnKey: null,
+      };
+      const hc = location.hash.replace("#", "");
+      if (/^\d{4}$/.test(hc)) {
+        L.joinCode = hc;
+        L.screen = "join";
+      }
+
+      // ---------- regras do jogo (rodam no celular que criou a sala) ----------
+      const act = (p) => p.cards.find((c) => c.id === p.active);
+      const bench = (p) => p.cards.filter((c) => c.id !== p.active);
+      const left = (c) => Math.max(0, R[c.k].hp - c.dmg);
+      const need = (j) => {
+        const p = G.pl[j];
+        return !act(p) && p.cards.length > 0;
+      };
+      function mkPl(name, av) {
+        return {
+          name,
+          av,
+          picks: [],
+          ready: false,
+          cards: [],
+          active: null,
+          hand: [],
+          eUsed: false,
+          ret: false,
+          toast: "",
+        };
+      }
+      function newGame(n0, a0, n1, a1) {
+        return {
+          phase: "draft",
+          pl: [mkPl(n0, a0), mkPl(n1, a1)],
+          cur: 0,
+          first: 0,
+          turn: 1,
+          flip: 0,
+          log: [],
+          msgs: [],
+          fx: null,
+          fxSeq: 0,
+          winner: 0,
+          gid: 0,
+          uid: 1,
+        };
+      }
+      function log(t) {
+        G.log.push(t);
+        if (G.log.length > 40) G.log.shift();
+      }
+      function draw(p) {
+        if (p.hand.length >= 6) return null;
+        const c = randCard();
+        p.hand.push(c);
+        return c;
+      }
+      function build(p) {
+        p.cards = p.picks.map((k) => ({
+          id: G.uid++,
+          k,
+          dmg: 0,
+          en: 0,
+          st: {},
+        }));
+        p.active = p.cards[0].id;
+        p.hand = ["en", randCard(), randCard()];
+        p.eUsed = false;
+        p.ret = false;
+        p.toast = "";
+      }
+      function knock(vi) {
+        const v = G.pl[vi],
+          c = act(v),
+          r = R[c.k];
+        v.cards = v.cards.filter((x) => x !== c);
+        v.active = null;
+        const t = `💥 ${r.n} desmaiou! Ponto para ${G.pl[1 - vi].name}.`;
+        log(t);
+        return t;
+      }
+      function checkWin() {
+        for (const i of [0, 1])
+          if (!G.pl[i].cards.length) {
+            G.winner = 1 - i;
+            G.phase = "win";
+            return true;
+          }
+        return false;
+      }
+      function startTurn() {
+        const n = G.pl[G.cur];
+        n.eUsed = false;
+        n.ret = false;
+        const c = draw(n);
+        n.toast = c
+          ? `Você comprou: ${H[c][0]} ${H[c][1]}`
+          : "Mão cheia, não comprou carta.";
+      }
+      function endTurn() {
+        const msgs = [];
+        for (const j of [0, 1]) {
+          const c = act(G.pl[j]);
+          if (!c) continue;
+          const n = R[c.k].n;
+          if (c.st.poison) {
+            c.dmg += 10;
+            msgs.push(`☠️ ${n} perdeu 10 de vida pelo veneno.`);
+          }
+          if (c.st.burn) {
+            c.dmg += 20;
+            const h = coin();
+            msgs.push(
+              `🔥 ${n} perdeu 20 queimando. Moeda: ${h ? "CARA, o fogo apagou!" : "COROA, continua queimando."}`,
+            );
+            if (h) c.st.burn = false;
+          }
+          if (c.st.para && j === G.cur) {
+            c.st.para = false;
+            msgs.push(`⚡ ${n} não está mais paralisado.`);
+          }
+          if (c.dmg >= R[c.k].hp) msgs.push(knock(j));
+        }
+        msgs.forEach((m) => {
+          if (!m.startsWith("💥")) log(m);
+        });
+        G.msgs = msgs;
+        if (checkWin()) return;
+        G.cur = 1 - G.cur;
+        G.turn++;
+        startTurn();
+      }
+
+      function battle(a, p) {
+        const mc = act(p);
+        if (!mc) return;
+        const r = R[mc.k];
+        if (a.t === "play") {
+          const c = p.hand[a.i];
+          if (!c) return;
+          if (c === "en" || c === "sup") {
+            if (p.eUsed) {
+              p.toast = "Já ligou energia neste turno.";
+              return;
+            }
+            mc.en += c === "sup" ? 2 : 1;
+            p.eUsed = true;
+            log(
+              `${p.name} ligou ${c === "sup" ? "2 energias" : "1 energia"} em ${r.n}`,
+            );
+          } else if (c === "pot") {
+            if (!mc.dmg) {
+              p.toast = `${r.n} já está com a vida cheia!`;
+              return;
+            }
+            mc.dmg = Math.max(0, mc.dmg - 30);
+            log(`${p.name} usou Poção em ${r.n}`);
+          } else return;
+          p.hand.splice(a.i, 1);
+        } else if (a.t === "ret") {
+          const tgt = p.cards.find((c) => c.id === a.id);
+          if (!tgt || tgt === mc) return;
+          if (a.free) {
+            if (p.hand[a.hi] !== "swap") return;
+            p.hand.splice(a.hi, 1);
+          } else {
+            if (mc.st.para || p.ret || mc.en < r.r) return;
+            mc.en -= r.r;
+            p.ret = true;
+          }
+          mc.st = {};
+          p.active = tgt.id;
+          log(`${p.name} trocou ${r.n} por ${R[tgt.k].n}`);
+        } else if (a.t === "atk") {
+          const o = G.pl[1 - G.cur],
+            oc = act(o),
+            at = r.a[a.i];
+          if (!oc || !at || mc.en < at.c || mc.st.para || G.turn === 1) return;
+          const or = R[oc.k];
+          let v = at.d,
+            notes = [],
+            cn = null;
+          if (W[or.t] === r.t) {
+            v *= 2;
+            notes.push("💥 Super efetivo! Dano em dobro (fraqueza)");
+          }
+          if (at.fx === "coin2x") {
+            cn = coin();
+            if (cn) {
+              v *= 2;
+              notes.push("🪙 CARA! Dano em dobro!");
+            } else notes.push("🪙 COROA, dano normal.");
+          }
+          oc.dmg += v;
+          if (at.fx === "para") {
+            cn = coin();
+            if (cn) {
+              oc.st.para = true;
+              notes.push(`🪙 CARA! ${or.n} ficou paralisado!`);
+            } else notes.push("🪙 COROA, não paralisou.");
+          }
+          if (at.fx === "burn") {
+            oc.st.burn = true;
+            notes.push(`🔥 ${or.n} está queimando!`);
+          }
+          if (at.fx === "poison") {
+            oc.st.poison = true;
+            notes.push(`☠️ ${or.n} foi envenenado!`);
+          }
+          if (at.fx === "heal20" && mc.dmg) {
+            mc.dmg = Math.max(0, mc.dmg - 20);
+            notes.push(`💚 ${r.n} curou 20.`);
+          }
+          if (at.fx === "charge") {
+            mc.en++;
+            notes.push(`🟡 ${r.n} ganhou +1 energia!`);
+          }
+          if (at.fx === "drawcard") {
+            const dc = draw(p);
+            notes.push(dc ? `🃏 ${p.name} comprou uma carta` : "🃏 Mão cheia.");
+          }
+          if (at.fx === "self20") {
+            mc.dmg += 20;
+            notes.push(`😵 ${r.n} levou 20 de tranco.`);
+          }
+          log(`${r.n} usou ${at.n}: ${v} de dano em ${or.n}`);
+          const fx = {
+            seq: ++G.fxSeq,
+            by: G.cur,
+            ae: r.e,
+            te: or.e,
+            an: at.n,
+            v,
+            notes,
+            coin: cn,
+            ko: null,
+          };
+          if (oc.dmg >= or.hp) fx.ko = knock(1 - G.cur);
+          if (mc.dmg >= r.hp) fx.notes.push(knock(G.cur));
+          G.fx = fx;
+          if (!checkWin()) endTurn();
+        } else if (a.t === "end") endTurn();
+      }
+
+      function apply(a, from) {
+        if (!G) return;
+        const p = G.pl[from];
+        p.toast = "";
+        if (G.phase === "draft") {
+          if (a.t === "pick" && !p.ready && R[a.k]) {
+            const i = p.picks.indexOf(a.k);
+            if (i >= 0) p.picks.splice(i, 1);
+            else if (p.picks.length < 3) p.picks.push(a.k);
+          } else if (a.t === "rand" && !p.ready)
+            p.picks = [...RK].sort(() => Math.random() - 0.5).slice(0, 3);
+          else if (a.t === "ready" && p.picks.length === 3) {
+            p.ready = true;
+            if (G.pl.every((q) => q.ready)) {
+              G.phase = "flip";
+              G.flip = coin() ? 0 : 1;
+            }
+          } else if (a.t === "unready") p.ready = false;
+        } else if (G.phase === "flip" && a.t === "begin") {
+          G.pl.forEach(build);
+          G.cur = G.first = G.flip;
+          G.turn = 1;
+          G.log = [];
+          G.msgs = [];
+          G.fx = null;
+          G.gid = Date.now();
+          log(`${G.pl[G.cur].name} começa!`);
+          startTurn();
+          G.phase = "battle";
+        } else if (G.phase === "battle") {
+          if (a.t === "pickA") {
+            if (need(from) && p.cards.some((c) => c.id === a.id)) {
+              p.active = a.id;
+              log(`${p.name} mandou ${R[act(p).k].n} pra luta`);
+            }
+          } else if (from === G.cur && !need(0) && !need(1)) battle(a, p);
+        } else if (G.phase === "win") {
+          if (a.t === "rematch") {
+            G.pl.forEach((q) => (q.ready = true));
+            G.phase = "flip";
+            G.flip = coin() ? 0 : 1;
+          } else if (a.t === "newteams") {
+            G.pl.forEach((q) => {
+              q.ready = false;
+              q.picks = [];
+            });
+            G.phase = "draft";
+          }
+        }
+        broadcast();
+      }
+
+      // ---------- conexão ----------
+      function broadcast() {
+        if (net.host && net.conn && net.conn.open) {
+          try {
+            net.conn.send({ t: "state", G });
+          } catch (e) {}
+        }
+        render();
+      }
+      function send(a) {
+        if (net.host) apply(a, 0);
+        else if (net.conn && net.conn.open) net.conn.send({ t: "act", a });
+        else {
+          L.err = "Sem conexão com o outro celular.";
+          render();
+        }
+      }
+      function mkCode() {
+        return String(Math.floor(1000 + Math.random() * 9000));
+      }
+      function noPeer() {
+        if (window.Peer) return false;
+        L.err =
+          "Não consegui carregar a parte online. Confira a internet e recarregue a página.";
+        render();
+        return true;
+      }
+      function onPeerErr(e) {
+        const t = e && e.type;
+        if (t === "unavailable-id" && net.host) {
+          net.peer.destroy();
+          net.code = mkCode();
+          startHost();
+          return;
+        }
+        if (t === "peer-unavailable") {
+          L.err =
+            "Sala não encontrada. Confira o código e se o outro celular está com a sala aberta.";
+          L.screen = "join";
+        } else if (
+          t === "network" ||
+          t === "server-error" ||
+          t === "socket-error"
+        )
+          L.err = "Problema de internet. Tente de novo.";
+        else if (t === "browser-incompatible")
+          L.err = "Este navegador não suporta o modo online. Tente o Chrome.";
+        else L.err = "Erro de conexão (" + (t || "?") + ").";
+        render();
+      }
+      function startHost() {
+        if (noPeer()) return;
+        net.peer = new Peer(PFX + net.code, { debug: 0 });
+        net.peer.on("open", () => render());
+        net.peer.on("connection", (c) => {
+          if (net.conn && net.conn.open) {
+            c.on("open", () => {
+              try {
+                c.send({ t: "full" });
+              } catch (e) {}
+              setTimeout(() => c.close(), 500);
+            });
+            return;
+          }
+          setupConn(c);
+        });
+        net.peer.on("error", onPeerErr);
+        net.peer.on("disconnected", () => {
+          try {
+            net.peer.reconnect();
+          } catch (e) {}
+        });
+      }
+      function createRoom() {
+        net.host = true;
+        myIdx = 0;
+        net.code = mkCode();
+        G = null;
+        L.seenFx = 0;
+        L.err = "";
+        L.screen = "lobby";
+        render();
+        startHost();
+      }
+      function joinRoom(code) {
+        net.host = false;
+        myIdx = 1;
+        net.code = code;
+        L.err = "";
+        L.screen = "joining";
+        render();
+        if (noPeer()) return;
+        if (!net.peer || net.peer.destroyed) {
+          net.peer = new Peer({ debug: 0 });
+          net.peer.on("open", connectTo);
+          net.peer.on("error", onPeerErr);
+          net.peer.on("disconnected", () => {
+            try {
+              net.peer.reconnect();
+            } catch (e) {}
+          });
+        } else connectTo();
+      }
+      function connectTo() {
+        setupConn(net.peer.connect(PFX + net.code, { reliable: true }));
+        setTimeout(() => {
+          if (!L.connected && L.screen === "joining") {
+            L.err =
+              "Não consegui conectar. Confira o código e tente de novo. Se estiverem no 4G, tentem os dois no mesmo Wi-Fi.";
+            L.screen = "join";
+            render();
+          }
+        }, 15000);
+      }
+      function setupConn(c) {
+        net.conn = c;
+        c.on("open", () => {
+          L.connected = true;
+          if (!net.host) c.send({ t: "hello", name: me.name, av: me.av });
+          render();
+        });
+        c.on("data", onMsg);
+        c.on("close", () => {
+          if (net.conn === c) {
+            L.connected = false;
+            net.conn = null;
+            render();
+          }
+        });
+        c.on("error", () => {});
+      }
+      function onMsg(m) {
+        if (!m || typeof m !== "object") return;
+        if (net.host) {
+          if (m.t === "hello") {
+            const nm = String(m.name || "Amigo").slice(0, 16),
+              av = AV.includes(m.av) ? m.av : "🧒";
+            if (!G) G = newGame(me.name, me.av, nm, av);
+            else {
+              G.pl[1].name = nm;
+              G.pl[1].av = av;
+            }
+            L.screen = "game";
+            broadcast();
+          } else if (m.t === "act" && m.a) apply(m.a, 1);
+        } else {
+          if (m.t === "state") {
+            G = m.G;
+            if (L.seenFx === null) L.seenFx = G.fx ? G.fx.seq : 0;
+            L.screen = "game";
+            render();
+          } else if (m.t === "full") {
+            L.err = "Essa sala já tem 2 jogadores.";
+            L.screen = "join";
+            render();
+          }
+        }
+      }
+      function leave() {
+        try {
+          net.conn && net.conn.close();
+        } catch (e) {}
+        try {
+          net.peer && net.peer.destroy();
+        } catch (e) {}
+        net.peer = null;
+        net.conn = null;
+        G = null;
+        L.connected = false;
+        L.modal = null;
+        L.fxShow = null;
+        L.seenFx = null;
+        L.screen = "home";
+        try {
+          history.replaceState(null, "", location.pathname + location.search);
+        } catch (e) {}
+        render();
+      }
+      const roomLink = () => location.href.split("#")[0] + "#" + net.code;
+
+      function recordWin() {
+        if (!G.gid || RANK.gids.includes(G.gid)) return;
+        RANK.gids.push(G.gid);
+        if (RANK.gids.length > 60) RANK.gids.shift();
+        G.pl.forEach((q, i) => {
+          const e =
+            RANK.ps[q.name] || (RANK.ps[q.name] = { av: q.av, w: 0, l: 0 });
+          e.av = q.av;
+          if (i === G.winner) e.w++;
+          else e.l++;
+        });
+        lsSet("arena-on-rank", RANK);
+        sfx("win");
+      }
+
+      // ---------- telas ----------
+      function help() {
+        return `<details><summary>📖 Como jogar</summary><ul>
+<li>Um celular <b>cria a sala</b> e manda o código (ou o link) para o outro, que <b>entra na sala</b>.</li>
+<li>Cada jogador escolhe <b>3 de 24 monstrinhos</b>. O primeiro escolhido começa lutando.</li>
+<li>No começo do seu turno você <b>compra 1 carta</b>. Use <b>🟡 Energia</b> no seu monstrinho (só 1 por turno).</li>
+<li>Cada ataque precisa de energias (as bolinhas). Atacar <b>termina o turno</b>.</li>
+<li><b>Fraqueza</b>: 💧 vence 🔥, ⚡ vence 💧, 🪨 vence ⚡, 🌿 vence 🪨, 🔥 vence 🌿, 🔮 vence 🔮 (dano em dobro).</li>
+<li>🧪 Poção cura 30, 🔄 Troca Rápida troca de graça. Recuar normal custa energias.</li>
+<li>Quem começa <b>não ataca no primeiro turno</b>. Vence quem fizer os 3 monstrinhos do outro desmaiarem!</li></ul></details>`;
+      }
+
+      function vHome() {
+        return `<div class=big style="font-size:60px">🐙⚡🦏</div><h1>Arena dos Monstrinhos</h1><p class=sub>Online: cada um no seu celular</p>
+<label>Seu nome<input id=myname maxlength=16 value="${esc(me.name)}" placeholder="Como você quer ser chamado?"></label>
+<div class=lbl>Seu avatar</div><div class=avs>${AV.map((a) => `<button class="avb ${me.av === a ? "on" : ""}" data-a=avSel data-v="${a}">${a}</button>`).join("")}</div>
+${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
+<button class=btn data-a=create>🏠 Criar sala</button>
+<button class="btn sec" data-a=toJoin>🔑 Entrar numa sala</button>
+<button class="btn sec sm" data-a=rank>🏆 Ranking</button>${help()}`;
+      }
+
+      function vLobby() {
+        const ok = net.peer && net.peer.open;
+        return `<h2 style="text-align:center;margin-top:20px">Sua sala</h2>
+${
+  ok
+    ? `<p style="text-align:center">Passe este código para o outro jogador:</p><div class="big pop" style="font-size:72px;letter-spacing:8px;color:#ffcb05">${net.code}</div>
+<button class="btn sec sm" data-a=copy>📋 Copiar link da sala</button>
+<a class="btn sec sm" style="text-align:center;text-decoration:none" href="https://wa.me/?text=${encodeURIComponent("Bora jogar Arena dos Monstrinhos! Entra na minha sala: " + roomLink())}">💬 Mandar pelo WhatsApp</a>
+<div class=msg style="text-align:center">⏳ Esperando o amigo entrar…</div>`
+    : `<div class=msg style="text-align:center">Criando a sala…</div>`
+}
+${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
+<p class=small style="text-align:center">Deixe esta tela aberta. Seu celular é o "dono" da partida.</p>
+<button class="btn sec sm" data-a=leave>Cancelar</button>`;
+      }
+
+      function vJoin() {
+        return `<h2 style="text-align:center;margin-top:20px">Entrar numa sala</h2>
+${!me.name ? `<label>Seu nome<input id=myname maxlength=16 value="" placeholder="Como você quer ser chamado?"></label>` : `<p style="text-align:center">Você é ${me.av} <b>${esc(me.name)}</b></p>`}
+<label>Código da sala<input id=jc inputmode=numeric maxlength=4 value="${esc(L.joinCode)}" placeholder="4 números" style="font-size:32px;text-align:center;letter-spacing:8px"></label>
+${L.err ? `<div class=msg style="color:#ff8a80">${esc(L.err)}</div>` : ""}
+<button class=btn data-a=doJoin>Entrar ▶️</button><button class="btn sec sm" data-a=home>← Voltar</button>`;
+      }
+
+      function vJoining() {
+        return `<div style="text-align:center;margin-top:60px"><div class="big" style="animation:bob 1s infinite">🔌</div><h2>Conectando na sala ${esc(net.code)}…</h2></div><button class="btn sec sm" data-a=leave>Cancelar</button>`;
+      }
+
+      function vRank() {
+        const ps = Object.entries(RANK.ps)
+          .map(([n, x]) => ({ n, ...x }))
+          .sort((a, b) => b.w - a.w || a.l - b.l);
+        return `<h2 style="text-align:center;margin-top:10px">🏆 Ranking de vitórias</h2>
+${ps.map((x, i) => `<div class=rk><span class=pos>${["🥇", "🥈", "🥉"][i] || i + 1 + "º"}</span><span class=av>${x.av}</span><span class=f><b>${esc(x.n)}</b><br><span class=small>${x.w} vitórias · ${x.l} derrotas${x.w + x.l ? " · " + Math.round((x.w / (x.w + x.l)) * 100) + "%" : ""}</span></span><span class=wins>${x.w}</span></div>`).join("") || '<p class=small style="text-align:center">Ninguém jogou ainda.</p>'}
+<p class=small style="text-align:center">O ranking fica salvo neste celular.</p>
+<button class=btn data-a=back>← Voltar</button>${ps.length ? '<button class="btn sec sm" data-a=resetRank>Zerar ranking</button>' : ""}`;
+      }
+
+      function connBar() {
+        if (L.connected) return "";
+        const o = G ? G.pl[1 - myIdx].name : "o amigo";
+        return net.host
+          ? `<div class=msg style="background:#8e1c1a">⏳ ${esc(o)} desconectou. Esperando voltar… (não feche esta página)</div>`
+          : `<div class=msg style="background:#8e1c1a">📡 Conexão perdida. <button class=mini data-a=reconnect>Reconectar</button></div>`;
+      }
+
+      function vDraft() {
+        const p = G.pl[myIdx],
+          o = G.pl[1 - myIdx];
+        return `${connBar()}<h2>${p.av} Escolha 3 monstrinhos!</h2>
+<p class=small>O nº 1 começa lutando. ${o.av} ${esc(o.name)}: ${o.ready ? "✅ pronto" : "escolhendo…"}</p>
+<div class=hand>${["", ...Object.keys(T)].map((t) => `<button class=bc style="${L.flt === t ? "background:#ffcb05;color:#1a1a40" : ""}" data-a=flt data-t="${t}">${t ? T[t][0] + " " + T[t][1] : "Todos"}</button>`).join("")}</div>
+<div class=grid2>${RK.filter((k) => !L.flt || R[k].t === L.flt)
+          .map((k) => {
+            const r = R[k],
+              i = p.picks.indexOf(k);
+            return `<button class="pick ${i >= 0 ? "on" : ""}" style="--tc:${T[r.t][2]}" data-a=pk data-k=${k} ${p.ready ? "disabled" : ""}>${i >= 0 ? `<span class=num>${i + 1}</span>` : ""}<div class=e>${r.e}</div><div class=n>${r.n} ${T[r.t][0]}</div><div class=small>❤️ ${r.hp} · ${r.a.map((a) => a.d).join(" / ")} dano</div></button>`;
+          })
+          .join("")}</div>
+${
+  p.ready
+    ? `<div class=msg style="text-align:center">✅ Pronto! Esperando ${esc(o.name)}…</div><button class="btn sec sm" data-a=unready>Mudar escolha</button>`
+    : `<button class="btn sec sm" data-a=rand>🎲 Escolher aleatório</button><button class=btn data-a=ready ${p.picks.length === 3 ? "" : "disabled"}>Pronto! (${p.picks.length}/3)</button>`
+}`;
+      }
+
+      function vFlip() {
+        const f = G.pl[G.flip];
+        return `${connBar()}<h2 style="text-align:center;margin-top:20px">Quem começa?</h2>
+<p class=small style="text-align:center">CARA = ${esc(G.pl[0].name)} · COROA = ${esc(G.pl[1].name)}</p>
+<div class=coin>${G.flip ? "COROA" : "CARA"}</div><div class="reveal big" style="font-size:30px">${f.av} ${esc(f.name)} começa!</div>
+<div class=reveal style="text-align:center;font-size:20px;margin:8px 0">${G.pl[myIdx].picks.map((k) => R[k].e).join(" ")} <b>VS</b> ${G.pl[1 - myIdx].picks.map((k) => R[k].e).join(" ")}</div>
+<button class="btn reveal" data-a=begin>Começar a batalha ⚔️</button>`;
+      }
+
+      function mon(c, me) {
+        const r = R[c.k],
+          t = T[r.t],
+          pct = (left(c) / r.hp) * 100,
+          cls = pct <= 25 ? "low" : pct <= 50 ? "mid" : "";
+        const st =
+          (c.st.poison ? "<span class=badge>☠️ Envenenado</span>" : "") +
+          (c.st.burn ? "<span class=badge>🔥 Queimando</span>" : "") +
+          (c.st.para ? "<span class=badge>⚡ Paralisado</span>" : "");
+        return `<div class="mon ${me ? "me" : ""}" style="--tc:${t[2]}"><div class=em>${r.e}</div><div class=info><div class=top><span>${r.n}</span><span>${t[0]}</span></div>
+  <div class=bar><i class="${cls}" style="width:${pct}%"></i></div><div class=small>❤️ ${left(c)}/${r.hp} · ${"🟡".repeat(c.en) || "sem energia"}</div>
+  <div>${st}</div><div class=small>Fraco contra ${T[W[r.t]][0]} · Recuo ${"🟡".repeat(r.r) || "grátis"}</div></div></div>`;
+      }
+
+      function vBattle() {
+        const p = G.pl[myIdx],
+          o = G.pl[1 - myIdx],
+          mc = act(p),
+          oc = act(o),
+          my = G.cur === myIdx;
+        const waitPick = need(0) || need(1);
+        const blocked = !my
+          ? ""
+          : !mc
+            ? ""
+            : waitPick
+              ? ""
+              : mc.st.para
+                ? "⚡ Paralisado: não pode atacar neste turno."
+                : G.turn === 1
+                  ? "🚫 Quem começa não ataca no 1º turno. Ligue uma energia e termine o turno."
+                  : "";
+        const can = my && !waitPick && L.connected;
+        return `${connBar()}<div class=hdr><div>${my ? `<div class=turn>Sua vez! ${p.av}</div>` : `<div class=turn style="color:#9fb0ff">Vez de ${o.av} ${esc(o.name)}…</div>`}<div class=small>Turno ${G.turn}</div></div><button class=mini data-a=menu>☰</button></div>
+  ${my && p.toast ? `<div class=toast>${esc(p.toast)}</div>` : ""}
+  ${G.msgs.length ? G.msgs.map((m) => `<div class="msg small">${esc(m)}</div>`).join("") : ""}
+  ${waitPick && !need(myIdx) ? `<div class=msg>⏳ ${esc(o.name)} está escolhendo o próximo monstrinho…</div>` : ""}
+  <div class=lbl>${o.av} ${esc(o.name)} · banco: ${
+    bench(o)
+      .map((c) => R[c.k].e)
+      .join(" ") || "vazio"
+  } · 🃏 ${o.hand.length}</div>
+  ${oc ? mon(oc, false) : "<div class=msg>Esperando…</div>"}
+  <div class=vs>⚔️</div>
+  ${mc ? mon(mc, true) : ""}
+  ${blocked ? `<div class=msg>${blocked}</div>` : ""}
+  ${
+    mc
+      ? R[mc.k].a
+          .map((a, i) => {
+            const ok = can && !blocked && oc && mc.en >= a.c;
+            return `<button class=atk data-a=atk data-i=${i} ${ok ? "" : "disabled"}><span>${a.n}<br><span class=small>${"🟡".repeat(a.c)}${mc.en < a.c ? " (faltam " + (a.c - mc.en) + ")" : ""}${a.fx ? " · " + FX[a.fx] : ""}</span></span><span class=d>${a.d}</span></button>`;
+          })
+          .join("")
+      : ""
+  }
+  <div class=lbl>Suas cartas ${my ? "(toque para usar)" : ""}</div>
+  <div class=hand>${
+    p.hand
+      .map((h, i) => {
+        const dis =
+          !can ||
+          ((h === "en" || h === "sup") && p.eUsed) ||
+          (h === "swap" && !bench(p).length);
+        return `<button class=hc data-a=use data-i=${i} ${dis ? "disabled" : ""}><b>${H[h][0]}</b>${H[h][1]}</button>`;
+      })
+      .join("") || "<span class=small>sem cartas</span>"
+  }</div>
+  <div class=lbl>Seu banco ${my ? "(toque para recuar)" : ""}</div>
+  <div class=bench>${
+    bench(p)
+      .map(
+        (c) =>
+          `<button class=bc data-a=retreat ${can ? "" : "disabled"}><b>${R[c.k].e}</b>${R[c.k].n}<br>❤️ ${left(c)}</button>`,
+      )
+      .join("") || "<span class=small>vazio</span>"
+  }</div>
+  ${my ? `<button class="btn red" data-a=end ${can ? "" : "disabled"}>Terminar turno sem atacar</button>` : ""}
+  ${
+    G.log.length
+      ? `<details><summary>📜 O que aconteceu</summary>${G.log
+          .slice(-15)
+          .reverse()
+          .map((l) => `<div class=small>• ${esc(l)}</div>`)
+          .join("")}</details>`
+      : ""
+  }`;
+      }
+
+      function vWin() {
+        const w = G.pl[G.winner],
+          iWon = G.winner === myIdx;
+        return `${connBar()}<div style="text-align:center;margin-top:40px"><div class="big pop" style="font-size:100px">${iWon ? "🏆" : "💪"}</div>
+  <h1 class=pop>${iWon ? "Você venceu!" : esc(w.name) + " venceu!"}</h1><div class="big pop" style="font-size:44px">${w.cards.map((c) => R[c.k].e).join(" ")}</div>
+  <p>${iWon ? "🎉🎉🎉" : "Quando não vence, aprende! Bora revanche?"}</p></div>
+  <div class=lbl style="text-align:center">Placar geral</div>${G.pl
+    .map((q) => {
+      const x = RANK.ps[q.name] || { w: 0 };
+      return `<div class=rk><span class=av>${q.av}</span><span class=f><b>${esc(q.name)}</b></span><span class=wins>${x.w}</span></div>`;
+    })
+    .join("")}
+  <button class=btn data-a=rematch ${L.connected ? "" : "disabled"}>🔁 Revanche com os mesmos times</button><button class="btn sec" data-a=newteams ${L.connected ? "" : "disabled"}>Escolher novos monstrinhos</button>
+  <div class=grid2><button class="btn sec sm" data-a=rank>🏆 Ranking</button><button class="btn sec sm" data-a=leave>🚪 Sair da sala</button></div>`;
+      }
+
+      function vModal() {
+        if (L.fxShow) {
+          const m = L.fxShow;
+          return `<div class=ov><div class=md><div class=fight><span class=lunge>${m.ae}</span><span class="${m.ko ? "hit ko" : "hit"}">${m.te}</span></div>
+    <div style="text-align:center;font-weight:700;font-size:20px">${esc(G.pl[m.by].name)}: ${esc(m.an)}!</div>
+    ${m.coin != null ? `<div class=coin style="width:90px;height:90px;font-size:16px">${m.coin ? "CARA" : "COROA"}</div>` : ""}
+    <div class="big dmg">−${m.v}</div>
+    <div class=reveal>${m.notes.map((n) => `<div class=msg>${esc(n)}</div>`).join("")}${m.ko ? `<div class=msg style="font-size:18px">${esc(m.ko)}</div>` : ""}</div>
+    <button class="btn reveal" data-a=fxClose>Continuar</button></div></div>`;
+        }
+        if (G && G.phase === "battle" && need(myIdx)) {
+          const q = G.pl[myIdx];
+          return `<div class=ov><div class=md><h2>Quem vai lutar agora?</h2>${bench(
+            q,
+          )
+            .map(
+              (c) =>
+                `<button class=atk data-a=pickA data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
+            )
+            .join("")}</div></div>`;
+        }
+        const m = L.modal;
+        if (!m) return "";
+        let h = "";
+        if (m.k === "card") {
+          const c = G.pl[myIdx].hand[m.i];
+          if (!c) {
+            L.modal = null;
+            return "";
+          }
+          h = `<div class=big>${H[c][0]}</div><h2 style="text-align:center">${H[c][1]}</h2><p style="text-align:center">${HD[c]}</p><button class=btn data-a=play>Usar</button><button class="btn sec sm" data-a=close>Guardar</button>`;
+        } else if (m.k === "retreat") {
+          const p = G.pl[myIdx],
+            mc = act(p);
+          if (!mc) {
+            L.modal = null;
+            return "";
+          }
+          const r = R[mc.k];
+          const b = m.free
+            ? ""
+            : mc.st.para
+              ? "Paralisado não pode recuar."
+              : p.ret
+                ? "Você já recuou neste turno."
+                : mc.en < r.r
+                  ? `Precisa de ${r.r} energia(s) para recuar (tem ${mc.en}).`
+                  : "";
+          h = `<h2>${m.free ? "🔄 Troca Rápida" : "Recuar " + r.n}</h2><p class=small>${m.free ? "Troca de graça!" : "Custo: " + r.r + " energia(s). Volta pro banco com a vida que tem."}</p>
+    ${
+      b
+        ? `<div class=msg>${b}</div>`
+        : bench(p)
+            .map(
+              (c) =>
+                `<button class=atk data-a=doRet data-id=${c.id}><span>${R[c.k].e} ${R[c.k].n}</span><span class=small>❤️ ${left(c)}/${R[c.k].hp}</span></button>`,
+            )
+            .join("")
+    }
+    <button class="btn sec sm" data-a=close>Cancelar</button>`;
+        } else if (m.k === "menu")
+          h = `<h2>Menu</h2><p class=small>Sala ${esc(net.code)} · ${L.connected ? "🟢 conectado" : "🔴 sem conexão"}</p>${help()}<button class="btn sec" data-a=rank>🏆 Ranking</button><button class="btn red" data-a=leave>🚪 Sair da sala</button><button class=btn data-a=close>Voltar pro jogo</button>`;
+        else if (m.k === "resetRank")
+          h = `<h2>Zerar o ranking?</h2><p>Todas as vitórias e derrotas deste celular voltam para zero.</p><button class="btn red" data-a=doReset>Zerar</button><button class="btn sec sm" data-a=close>Cancelar</button>`;
+        return `<div class=ov><div class=md>${h}</div></div>`;
+      }
+
+      function render() {
+        if (L.screen === "game" && G) {
+          if (G.phase === "win") recordWin();
+          if (G.fx && L.seenFx !== null && G.fx.seq > L.seenFx) {
+            L.seenFx = G.fx.seq;
+            L.fxShow = G.fx;
+            L.modal = null;
+            sfx("hit");
+            buzz(200);
+            if (G.fx.ko) setTimeout(() => sfx("ko"), 500);
+          }
+          const k =
+            G.phase === "battle" && G.cur === myIdx
+              ? G.gid + "-" + G.turn
+              : null;
+          if (k && k !== L.turnKey) {
+            L.turnKey = k;
+            if (G.turn > 1 || G.cur === myIdx) {
+              buzz([60, 40, 60]);
+              setTimeout(() => sfx("en"), L.fxShow ? 900 : 0);
+            }
+          }
+        }
+        let h = "";
+        if (L.screen === "game" && G)
+          h = { draft: vDraft, flip: vFlip, battle: vBattle, win: vWin }[
+            G.phase
+          ]();
+        else
+          h = {
+            home: vHome,
+            lobby: vLobby,
+            join: vJoin,
+            joining: vJoining,
+            rank: vRank,
+          }[L.screen === "game" ? "home" : L.screen]();
+        app.innerHTML =
+          h + ((L.screen === "game" && G) || L.modal ? vModal() : "");
+      }
+
+      // ---------- ações da tela ----------
+      function needName() {
+        const el = $("myname");
+        if (el) {
+          me.name = el.value.trim().slice(0, 16);
+          lsSet("arena-on-me", me);
+        }
+        if (!me.name) {
+          L.err = "Escreva seu nome primeiro.";
+          render();
+          return true;
+        }
+        return false;
+      }
+      const A = {
+        avSel: (d) => {
+          me.av = d.v;
+          lsSet("arena-on-me", me);
+          document
+            .querySelectorAll(".avb")
+            .forEach((b) => b.classList.toggle("on", b.dataset.v === d.v));
+        },
+        create: () => {
+          if (needName()) return;
+          createRoom();
+        },
+        toJoin: () => {
+          const el = $("myname");
+          if (el) {
+            me.name = el.value.trim().slice(0, 16);
+            lsSet("arena-on-me", me);
+          }
+          L.err = "";
+          L.screen = "join";
+          render();
+        },
+        doJoin: () => {
+          const code = ($("jc") || {}).value || "";
+          L.joinCode = code.trim();
+          if (needName()) return;
+          if (!/^\d{4}$/.test(L.joinCode)) {
+            L.err = "O código tem 4 números.";
+            render();
+            return;
+          }
+          joinRoom(L.joinCode);
+        },
+        home: () => {
+          L.err = "";
+          L.screen = "home";
+          render();
+        },
+        copy: () => {
+          try {
+            navigator.clipboard
+              .writeText(roomLink())
+              .then(() => {
+                L.err = "";
+                const b = document.querySelector("[data-a=copy]");
+                if (b) b.textContent = "✅ Link copiado!";
+              })
+              .catch(() => {});
+          } catch (e) {}
+        },
+        leave: () => leave(),
+        reconnect: () => {
+          L.screen = "joining";
+          joinRoom(net.code);
+        },
+        flt: (d) => {
+          L.flt = d.t;
+          render();
+        },
+        pk: (d) => {
+          sfx();
+          send({ t: "pick", k: d.k });
+        },
+        rand: () => {
+          sfx();
+          send({ t: "rand" });
+        },
+        ready: () => send({ t: "ready" }),
+        unready: () => send({ t: "unready" }),
+        begin: () => send({ t: "begin" }),
+        use: (d) => {
+          L.modal = { k: "card", i: +d.i };
+          render();
+        },
+        play: () => {
+          const i = L.modal.i,
+            c = G.pl[myIdx].hand[i];
+          if (c === "swap") {
+            L.modal = { k: "retreat", free: 1, hi: i };
+            render();
+            return;
+          }
+          L.modal = null;
+          if (c === "en" || c === "sup" || c === "pot") sfx("en");
+          send({ t: "play", i });
+        },
+        atk: (d) => send({ t: "atk", i: +d.i }),
+        retreat: () => {
+          L.modal = { k: "retreat" };
+          render();
+        },
+        doRet: (d) => {
+          const m = L.modal;
+          L.modal = null;
+          sfx();
+          send({ t: "ret", id: +d.id, free: !!m.free, hi: m.hi });
+        },
+        end: () => send({ t: "end" }),
+        pickA: (d) => {
+          sfx();
+          send({ t: "pickA", id: +d.id });
+        },
+        fxClose: () => {
+          L.fxShow = null;
+          render();
+        },
+        menu: () => {
+          L.modal = { k: "menu" };
+          render();
+        },
+        close: () => {
+          L.modal = null;
+          render();
+        },
+        rank: () => {
+          L.modal = null;
+          L.prev = L.screen;
+          L.screen = "rank";
+          render();
+        },
+        back: () => {
+          L.screen = L.prev && L.prev !== "rank" ? L.prev : "home";
+          render();
+        },
+        resetRank: () => {
+          L.modal = { k: "resetRank" };
+          render();
+        },
+        doReset: () => {
+          RANK = { ps: {}, gids: RANK.gids };
+          lsSet("arena-on-rank", RANK);
+          L.modal = null;
+          render();
+        },
+        rematch: () => send({ t: "rematch" }),
+        newteams: () => send({ t: "newteams" }),
+      };
+      app.addEventListener("click", (e) => {
+        const el = e.target.closest("[data-a]");
+        if (!el || el.disabled) return;
+        const f = A[el.dataset.a];
+        if (f) f(el.dataset);
+      });
+      app.addEventListener("input", (e) => {
+        if (e.target.id === "myname") {
+          me.name = e.target.value.trim().slice(0, 16);
+          lsSet("arena-on-me", me);
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>
